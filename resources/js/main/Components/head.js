@@ -14,7 +14,7 @@ import {
     Popover,
     Dropdown
 } from "antd";
-import { BrowserRouter, Route, Redirect, NavLink } from "react-router-dom";
+import { BrowserRouter, Route, Redirect, NavLink, Link } from "react-router-dom";
 import SearchResults from "./Search";
 import logo from "../Images/logo.png";
 import axios from "axios";
@@ -88,10 +88,17 @@ class Head extends Component {
                                     <a href="/messages">Messages</a>
                                 </Menu.Item>
                             )}
-                            <Menu.Item key="1">Store owner?</Menu.Item>
+                            <Menu.Item key="1">
+                                <NavLink to="/myshop.pulsespace.test">
+                                    Store owner?
+                                </NavLink>
+                            </Menu.Item>
                             {this.state.logged.id && (
                                 <Menu.Item key="2">
-                                    <NavLink to="" onClick={this.doLogout}>
+                                    <NavLink
+                                        to="/logout"
+                                        onClick={this.doLogout}
+                                    >
                                         Logout
                                     </NavLink>
                                 </Menu.Item>
@@ -143,7 +150,7 @@ class Head extends Component {
                                                 type="primary"
                                                 size="large"
                                                 icon="search"
-                                                rounded
+                                                rounded="true"
                                             >
                                                 Search
                                             </Button>
@@ -161,18 +168,18 @@ class Head extends Component {
                     </Row>{" "}
                     <div style={{ padding: "2%", textAlign: "center" }}>
                         <Dropdown overlay={menu}>
-                            <a href="/categories">
-                                <Button icon="appstore" rounded>
+                            <NavLink to="/categories">
+                                <Button icon="appstore" rounded="true">
                                     Categories
                                 </Button>
-                            </a>
+                            </NavLink>
                         </Dropdown>
 
-                        <Button icon="shop" rounded>
+                        <Button icon="shop" rounded="true">
                             Stores
                         </Button>
 
-                        <Button icon="database" rounded>
+                        <Button icon="database" rounded="true">
                             Products
                         </Button>
                     </div>

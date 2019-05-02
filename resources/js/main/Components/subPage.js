@@ -21,9 +21,9 @@ class SubPage extends Component {
                         path="/product/:id"
                         component={ProductDetails}
                     />
-                    <Route path="/search/:value" component={SearchComponent} />
-                    <Route path="/categories" component={Categories} />
-                    <Route path="/mylist" component={MyList} />
+                    <Route exact path="/search/:value" component={SearchComponent} />
+                    <Route exact path="/categories" component={Categories} />
+                    <Route exact path="/mylist" component={MyList} />
                 </Switch>
             </BrowserRouter>
         );

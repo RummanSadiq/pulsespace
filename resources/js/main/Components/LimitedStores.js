@@ -23,8 +23,7 @@ class Stores extends Component {
         this.state.size = this.props.size;
     }
     state = {
-        shops: [],
-        followed: []
+        shops: []
     };
 
     componentDidMount() {
@@ -59,17 +58,24 @@ class Stores extends Component {
                     "Error occured, cannot make api call to follow store",
                     err
                 );
+                message.error('please login');
             });
     }
 
     checkFollow(id) {
-        const result = this.state.followed.find(
-            element => element.store_id === id
-        );
-        if (result) {
-            console.log("result is", result);
-            return true;
-        } else return false;
+        if (this.state.followed) {
+            console.log("followed found");
+            const result = this.state.followed.find(
+                element => element.store_id === id
+            );
+            if (result) {
+                console.log("result is", result);
+                return true;
+            } else return false;
+        }
+        // else {
+        //     message.error('please login');
+        // }
     }
     render() {
         return (
@@ -116,10 +122,6 @@ class Stores extends Component {
                                     description={element.contact}
                                 />
                                 <List.Item.Meta
-                                    // avatar={
-                                    //     <Avatar src={element.store_picture} />
-                                    // }
-                                    // title={<a href="">{element.store_type_id}</a>}
                                     description={
                                         <div>
                                             <Button

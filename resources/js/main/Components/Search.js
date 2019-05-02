@@ -7,15 +7,15 @@ import Products from "./LimitedProducts";
 class SearchComponent extends Component {
     constructor(props) {
         super(props);
-        this.state.vlaue = this.props.match.params.value;
+        this.state.value = this.props.match.params.value;
     }
 
     componentDidMount() {
         console.log(
-            "Lets see if props got here",
+            "Lets see if props got here for search value",
             this.props.match.params.value
         );
-        // this.getProducts();
+        this.getProducts();
         // this.getStores();
     }
 
@@ -33,9 +33,9 @@ class SearchComponent extends Component {
         }
 
             console.log('Search is', search);
-        Axios.get("/api/products").then(res => {
+        Axios.post("/api/products",search).then(res => {
             const products = res.data;
-            console.log("products data is", products);
+            console.log("filtered products data is", products);
             this.setState({ products: products });
         });
     };
