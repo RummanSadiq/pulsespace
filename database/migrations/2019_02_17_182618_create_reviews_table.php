@@ -20,12 +20,13 @@ class CreateReviewsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->integer('store_id')->unsigned();
-            $table->foreign('store_id')->references('id')->on('stores');
+            $table->integer('parent_id')->unsigned();
+            // $table->foreign('parent_id')->references('id')->on('stores');
+
 
             $table->float('rating');
             $table->string('description')->nullable();
-            
+
             $table->timestamps();
         });
     }

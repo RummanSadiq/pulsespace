@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('gender')->default('Not mentioned');
             $table->string('phone_no')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });

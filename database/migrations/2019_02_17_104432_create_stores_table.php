@@ -28,7 +28,7 @@ class CreateStoresTable extends Migration
 
             $table->string('name');
             $table->string('contact')->nullable();
-            $table->string('display_picture')->nullable();
+            // $table->string('display_picture')->nullable();
             $table->boolean('wifi')->nullable();
             $table->boolean('try_room')->nullable();
             $table->boolean('card_payment')->nullable();
@@ -40,7 +40,7 @@ class CreateStoresTable extends Migration
 
             $table->time('open_time')->nullable();
             $table->time('close_time')->nullable();
-            
+
             $table->timestamps();
         });
     }
