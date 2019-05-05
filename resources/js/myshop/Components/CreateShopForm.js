@@ -36,6 +36,7 @@ class CreateShopForm extends Component {
             const storedata = res.data;
             this.setState({ store_types: storedata });
         });
+        this.getLocation();
     }
     handleUpload = event => {
         if (event.file.status !== "uploading") {
@@ -43,6 +44,23 @@ class CreateShopForm extends Component {
         }
     };
 
+    getLocation =()=> {
+        const location = window.navigator && window.navigator.geolocation
+        
+        if (location) {
+          location.getCurrentPosition((position) => {
+              console.log('Latitude is '+position.coords.latitude+'    Longitude is '+position.coords.longitude);
+            this.setState({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            })
+          }, (error) => {
+            // this.setState({ latitude: 'err-latitude', longitude: 'err-longitude' })
+            console.log('Error getting lat long inside search', error);
+          })
+        }
+    
+      }
     handleSubmit = e => {
         e.preventDefault();
 
@@ -61,6 +79,9 @@ class CreateShopForm extends Component {
                 values.close_time = moment
                     .utc(values.close_time)
                     .format("HH:mm:ss");
+
+                    values.latitude=this.state.latitude;
+                    values.longitude=this.state.longitude
 
                 axios
                     .post("/api/shop", values)
@@ -201,18 +222,19 @@ class CreateShopForm extends Component {
                         </Col>
                     </Row>
                     
-                    <Row>
+                    {/* <Row>
                         <Col span={12}>
                             <Form.Item label="Lat:">
                                 {getFieldDecorator("Latitude", {
                                     rules: [
                                         {
+                                            initialValue: this.state.latitude,
                                             required: true,
                                             message: "latitude required, please enable location"
                                         }
                                     ]
                                 })(
-                                    <Input type='number'/>
+                                    <Input />
                                 )}
                             </Form.Item>
                         </Col>
@@ -221,17 +243,18 @@ class CreateShopForm extends Component {
                                 {getFieldDecorator("longitude", {
                                     rules: [
                                         {
+                                            initialValue: this.state.longitude,
                                             required: true,
                                             message: "longitude required, please enable location"
                                         }
                                     ]
                                 })(
-                                    <Input type='number'/>
+                                    <Input/>
 
                                 )}
                             </Form.Item>
                         </Col>
-                    </Row>
+                    </Row> */}
                     <Form.Item label="Contact#">
                         {getFieldDecorator("contact", {
                             rules: [
