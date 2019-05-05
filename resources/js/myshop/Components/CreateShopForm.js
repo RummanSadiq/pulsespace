@@ -200,6 +200,38 @@ class CreateShopForm extends Component {
                             </Form.Item>
                         </Col>
                     </Row>
+                    
+                    <Row>
+                        <Col span={12}>
+                            <Form.Item label="Lat:">
+                                {getFieldDecorator("Latitude", {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: "latitude required, please enable location"
+                                        }
+                                    ]
+                                })(
+                                    <Input type='number'/>
+                                )}
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item label="Longitude:">
+                                {getFieldDecorator("longitude", {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: "longitude required, please enable location"
+                                        }
+                                    ]
+                                })(
+                                    <Input type='number'/>
+
+                                )}
+                            </Form.Item>
+                        </Col>
+                    </Row>
                     <Form.Item label="Contact#">
                         {getFieldDecorator("contact", {
                             rules: [

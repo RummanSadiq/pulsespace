@@ -18,6 +18,7 @@ import {
 } from "antd";
 import axios from "axios";
 import SHForm from "./ShopForm";
+// import '../Myshop.css';
 
 const cardStyle = `
         .ant-card-head {
@@ -107,6 +108,7 @@ class Shop extends Component {
                                                         <img
                                                             src={element.url}
                                                             alt="Store Image"
+                                                            height={350}
                                                         />
                                                     </div>
                                                 )

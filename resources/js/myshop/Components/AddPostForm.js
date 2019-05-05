@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Card, Form, Input, Button, Upload, message } from "antd";
 import axios from "axios";
+import FormItem from "antd/lib/form/FormItem";
 const { TextArea } = Input;
 
 function hasErrors(fieldsError) {
@@ -45,13 +46,13 @@ class AddPostForm extends Component {
 
                     this.props.newPosts();
                     this.setState({ posted: !this.state.posted });
+                    this.props.form.resetFields();
                     message.success("Post Added");
                 });
             } else {
-                message.error("Couldnt upload to database", err);
+                message.error("Input fields cannot be empty");
                 console.log("Error received is ", err);
             }
-            this.props.form.resetFields();
         });
     };
 
@@ -85,7 +86,8 @@ class AddPostForm extends Component {
                             rules: [
                                 {
                                     required: true,
-                                    message: "Please input your username!"
+                                    message:
+                                        "Please input your Post description!"
                                 }
                             ]
                         })(
@@ -109,7 +111,7 @@ class AddPostForm extends Component {
                                 rules: [
                                     {
                                         required: false,
-                                        message: "Please input picture"
+                                        message: "Please upload picture"
                                     }
                                 ]
                             })(
@@ -127,16 +129,18 @@ class AddPostForm extends Component {
                             )}
                         </Form.Item>
                     </div>
-                    <Button
-                        type="primary"
-                        shape="round"
-                        icon="check"
-                        // size={"medium"}
-                        htmlType="submit"
-                        disabled={hasErrors(getFieldsError())}
-                    >
-                        Post
-                    </Button>
+                    <Form.Item>
+                        <Button
+                            type="primary"
+                            shape="round"
+                            icon="check"
+                            // size={"medium"}
+                            htmlType="submit"
+                            disabled={hasErrors(getFieldsError())}
+                        >
+                            Post
+                        </Button>
+                    </Form.Item>
                 </Form>
             </Card>
         );

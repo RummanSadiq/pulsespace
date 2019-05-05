@@ -10,18 +10,19 @@ import {
     Avatar,
     Rate,
     Icon,
-    message
+    message,
+    Skeleton,
+    Tabs
 } from "antd";
 import Products from "./LimitedProducts";
 import axios from "axios";
 import FAQs from "./LimitedFaqs";
-import StorePosts from "./StorePosts";
+import AllPosts from "./AllPosts";
 import Reviews from "./Reviews";
-import StoreDetails from "./storeDetails";
 
 import "../css/sbar.css";
-import MenuItem from "antd/lib/menu/MenuItem";
-const { Meta } = Card;
+
+const { TabPane } = Tabs;
 class Store extends Component {
     constructor(props) {
         super(props);
@@ -104,6 +105,14 @@ class Store extends Component {
             this.setState({ Reviews: reviewsData });
         });
     }
+    getPosts() {
+        axios.get("/api/posts/shop/" + this.state.id).then(res => {
+            const postsData = res.data;
+            console.log("Posts of this store are", postsData);
+            this.setState({ posts: postsData });
+        });
+    }
+
     render() {
         return (
             <div>
@@ -349,40 +358,62 @@ class Store extends Component {
                     <StoreDetails details={this.state.store} />
                     } */}
                 </Row>
-                <Row>
-                    <Col lg={14} offset={6}>
-                        <Products
-                            products={this.state.products}
-                            size={6}
-                            title="Store's Products"
-                            all={true}
-                        />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg={14} offset={6}>
-                        <FAQs id={this.props.match.params.id} />
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col lg={14} offset={6}>
-                        <StorePosts id={this.props.match.params.id} />
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col lg={14} offset={6}>
-                        {this.state.Reviews && (
-                            <Reviews
-                                id={this.props.match.params.id}
-                                Reviews={this.state.Reviews}
-                                size={3}
-                                title="Store Reviews"
-                            />
-                        )}
-                    </Col>
-                </Row>
+                <Tabs
+                    defaultActiveKey="1"
+                    size={"large"}
+                    style={{ textAlign: "center" }}
+                >
+                    <TabPane tab="Products" key="1">
+                        <Row>
+                            <Col lg={16} offset={4}>
+                                {!this.state.products && <Skeleton active />}
+                                {this.state.products && (
+                                    <Products
+                                        products={this.state.products}
+                                        size={6}
+                                        title="Store's Products"
+                                        all={true}
+                                    />
+                                )}
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tab="Reviews" key="2">
+                        <Row>
+                            <Col lg={16} offset={4}>
+                                {!this.state.Reviews && <Skeleton active />}
+                                {this.state.Reviews && (
+                                    <Reviews
+                                        id={this.props.match.params.id}
+                                        Reviews={this.state.Reviews}
+                                        size={3}
+                                        title="Store Reviews"
+                                    />
+                                )}
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tab="Store Activity" key="3">
+                        <Row>
+                            <Col lg={16} offset={4}>
+                                {!this.state.posts && <Skeleton active />}
+                                {this.state.posts && (
+                                    <AllPosts
+                                        posts={this.state.posts}
+                                        title="Store Activity"
+                                    />
+                                )}
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tab="FAQS" key="4">
+                        <Row>
+                            <Col lg={16} offset={4}>
+                                <FAQs id={this.props.match.params.id} />
+                            </Col>
+                        </Row>
+                    </TabPane>
+                </Tabs>
             </div>
         );
     }

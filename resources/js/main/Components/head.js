@@ -3,18 +3,22 @@ import {
     Col,
     Card,
     Row,
-    Carousel,
     Button,
-    Layout,
     Menu,
-    AutoComplete,
+    List,
     Input,
     Icon,
-    Cascader,
-    Popover,
-    Dropdown
+    Dropdown,
+    Divider,
+    Badge
 } from "antd";
-import { BrowserRouter, Route, Redirect, NavLink, Link } from "react-router-dom";
+import {
+    BrowserRouter,
+    Route,
+    Redirect,
+    NavLink,
+    Link
+} from "react-router-dom";
 import SearchResults from "./Search";
 import logo from "../Images/logo.png";
 import axios from "axios";
@@ -22,7 +26,7 @@ import axios from "axios";
 import "../css/sbar.css";
 import MenuItem from "antd/lib/menu/MenuItem";
 
-const menu = (
+const category = (
     <Menu>
         <MenuItem>Women's Fashion</MenuItem>
         <MenuItem>Men's Fashion</MenuItem>
@@ -47,14 +51,37 @@ class Head extends Component {
         redirect: false,
         r: false,
         logged: "",
-        value: ""
+        value: "",
+        notifications: [],
+        unread: true
     };
 
     componentDidMount() {
         axios.get("/api/user").then(res => {
             const user = res.data;
             console.log("user is ", user);
-            this.setState({ logged: user });
+            this.setState({ logged: user }, () => {
+                if (this.state.logged.id) {
+                    //function call to get notifications
+                    var notify = [
+                        {
+                            title: "Title of notification",
+                            message:
+                                "You have received a particular type of notiification that will be showed up here",
+                            link: "/product/2",
+                            read: true
+                        },
+                        {
+                            title: "Title of notification",
+                            message:
+                                "You have received a particular type of notiification that will be showed up here",
+                            link: "/product/2",
+                            read: false
+                        }
+                    ];
+                    this.setState({ notifications: notify });
+                }
+            });
         });
     }
     handleSearch = e => {
@@ -70,6 +97,59 @@ class Head extends Component {
     };
 
     render() {
+        var menu = (
+            <List
+                itemLayout="horizontal"
+                dataSource={this.state.notifications}
+                renderItem={item => (
+                    <List.Item>
+                        {item.read && (
+                            <Card
+                                hoverable
+                                title={
+                                    <div>
+                                        <span>
+                                            <Icon type="bell" />
+                                        </span>{" "}
+                                        {item.title}
+                                    </div>
+                                }
+                                style={{ backgroundColor: "#E0D7D7" }}
+                            >
+                                <a href={item.link}>
+                                    <List.Item.Meta
+                                        description={item.message}
+                                    />
+                                </a>
+                            </Card>
+                        )}
+                        {!item.read && (
+                            <Card
+                                hoverable
+                                title={
+                                    <div>
+                                        <span>
+                                            <Icon type="bell" />
+                                        </span>{" "}
+                                        {item.title}
+                                    </div>
+                                }
+                                // style={{backgroundColor:'green'}}
+                            >
+                                <a href={item.link}>
+                                    <List.Item.Meta
+                                        // avatar={<Icon type="bell" />}
+                                        // title={item.title}
+                                        description={item.message}
+                                    />
+                                </a>
+                            </Card>
+                        )}
+                    </List.Item>
+                )}
+            />
+        );
+
         return (
             <BrowserRouter>
                 <div>
@@ -84,17 +164,17 @@ class Head extends Component {
                             }}
                         >
                             {this.state.logged.id && (
-                                <Menu.Item key="2">
+                                <Menu.Item key="1">
                                     <a href="/messages">Messages</a>
                                 </Menu.Item>
                             )}
-                            <Menu.Item key="1">
+                            <Menu.Item key="2">
                                 <NavLink to="/myshop.pulsespace.test">
                                     Store owner?
                                 </NavLink>
                             </Menu.Item>
                             {this.state.logged.id && (
-                                <Menu.Item key="2">
+                                <Menu.Item key="3">
                                     <NavLink
                                         to="/logout"
                                         onClick={this.doLogout}
@@ -105,16 +185,36 @@ class Head extends Component {
                             )}
 
                             {!this.state.logged.id && (
-                                <Menu.Item key="2">
+                                <Menu.Item key="4">
                                     <a href="/login">Login</a>
                                 </Menu.Item>
                             )}
                             {this.state.logged.id && (
-                                <Menu.Item key="3">Profile</Menu.Item>
+                                <Menu.Item key="5">
+                                    <a href="/profile">Profile</a>
+                                </Menu.Item>
                             )}
                             {!this.state.logged.id && (
-                                <Menu.Item key="3">
+                                <Menu.Item key="6">
                                     <a href="/register">Signup</a>
+                                </Menu.Item>
+                            )}
+                            {this.state.logged.id && (
+                                <Menu.Item key="7">
+                                   
+                                        <Dropdown overlay={menu}>
+                                            <div>
+                                                {this.state.unread && (
+                                                    <Badge count={1} >
+                                                        <Icon type="bell"/>
+                                                    </Badge>
+                                                )}
+                                                {!this.state.unread && (
+                                                    <Icon type="bell" />
+                                                )}
+                                            </div>
+                                        </Dropdown>
+                                    
                                 </Menu.Item>
                             )}
                         </Menu>
@@ -167,7 +267,7 @@ class Head extends Component {
                         </Col>
                     </Row>{" "}
                     <div style={{ padding: "2%", textAlign: "center" }}>
-                        <Dropdown overlay={menu}>
+                        <Dropdown overlay={category}>
                             <NavLink to="/categories">
                                 <Button icon="appstore" rounded="true">
                                     Categories

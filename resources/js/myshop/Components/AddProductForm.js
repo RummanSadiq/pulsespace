@@ -29,11 +29,23 @@ class AddProductForm extends React.Component {
     };
 
     componentDidMount() {
-        axios.get("/api/categories").then(res => {
-            const data = res.data;
-            console.log(data);
-            this.setState({ categories: data });
-        });
+        axios
+            .get("/api/categories")
+            .then(res => {
+                const data = res.data;
+                console.log(
+                    "categories data received from api call inside addproductform is",
+                    data
+                );
+                this.setState({ categories: data });
+            })
+            .catch(err => {
+                console.log(
+                    "Error occurred while making api call for getting categories",
+                    err
+                );
+                throw err;
+            });
     }
 
     handleUpload = event => {
@@ -80,17 +92,6 @@ class AddProductForm extends React.Component {
             isFieldTouched
         } = this.props.form;
 
-        // Only show error after a field is touched.
-        const productNameError =
-            isFieldTouched("name") && getFieldError("name");
-        const descriptionError =
-            isFieldTouched("description") && getFieldError("description");
-        const pictureError =
-            isFieldTouched("display_picture") &&
-            getFieldError("display_picture");
-        const categoryError =
-            isFieldTouched("category_id") && getFieldError("category_id");
-        const priceError = isFieldTouched("price") && getFieldError("price");
         return (
             <Col span={12} offset={6}>
                 <Card
@@ -102,10 +103,7 @@ class AddProductForm extends React.Component {
                         <div style={{ margin: "0%" }}>
                             <h3>Title:</h3>
                         </div>
-                        <Form.Item
-                        // validateStatus={productNameError ? "error" : ""}
-                        // help={productNameError || ""}
-                        >
+                        <Form.Item>
                             {getFieldDecorator("name", {
                                 rules: [
                                     {
@@ -121,10 +119,7 @@ class AddProductForm extends React.Component {
                             <h3>Price:</h3>
                         </div>
 
-                        <Form.Item
-                        // validateStatus={priceError ? "error" : ""}
-                        // help={descriptionError || ""}
-                        >
+                        <Form.Item>
                             {getFieldDecorator("price", {
                                 rules: [
                                     {
@@ -145,10 +140,7 @@ class AddProductForm extends React.Component {
                         <div style={{ margin: "0%" }}>
                             <h3>Description:</h3>
                         </div>
-                        <Form.Item
-                        // validateStatus={descriptionError ? "error" : ""}
-                        // help={descriptionError || ""}
-                        >
+                        <Form.Item>
                             {getFieldDecorator("description", {
                                 rules: [
                                     {
@@ -157,21 +149,13 @@ class AddProductForm extends React.Component {
                                             "Please input your Product Description!"
                                     }
                                 ]
-                            })(
-                                <TextArea
-                                // placeholder="Write complete product Description"
-                                // autosize={{ minRows: 3, maxRows: 6 }}
-                                />
-                            )}
+                            })(<TextArea />)}
                         </Form.Item>
 
                         <div style={{ margin: "0%" }}>
                             <h3>Upload Pictures</h3>
                         </div>
-                        <Form.Item
-                        // validateStatus={pictureError ? "error" : ""}
-                        // help={pictureError || ""}
-                        >
+                        <Form.Item>
                             {getFieldDecorator("display_picture", {
                                 rules: [
                                     {
@@ -193,10 +177,7 @@ class AddProductForm extends React.Component {
                             )}
                         </Form.Item>
 
-                        <Form.Item
-                        // validateStatus={categoryError ? "Please select Category" : ""}
-                        // help={categoryError || ""}
-                        >
+                        <Form.Item>
                             <h2>Select category</h2>
 
                             {getFieldDecorator("category_id", {
@@ -204,14 +185,13 @@ class AddProductForm extends React.Component {
                                     {
                                         required: true,
                                         message:
-                                            "Please input your Product Description!"
+                                            "Please input your Product Category!"
                                     }
                                 ]
                             })(
                                 <Select
                                     placeholder="Select Category"
                                     style={{ width: 320 }}
-                                    // onChange={handleChangeCategory}
                                 >
                                     {this.state.categories.map(element => (
                                         <Option value={element.id}>

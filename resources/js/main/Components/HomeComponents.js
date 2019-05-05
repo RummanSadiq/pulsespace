@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Row, Col, Card, Button, Carousel, List, Tabs, Icon } from "antd";
+import {
+    Row,
+    Col,
+    Card,
+    Button,
+    Carousel,
+    List,
+    Tabs,
+    Icon,
+    Skeleton
+} from "antd";
 import Products from "./LimitedProducts";
 import AllPosts from "./AllPosts";
 import Stores from "./LimitedStores";
@@ -22,6 +32,7 @@ class HomeComponents extends Component {
     componentDidMount() {
         this.getProducts();
         this.getStores();
+        this.getallPosts();
     }
     getProducts() {
         Axios.get("/api/products").then(res => {
@@ -40,6 +51,13 @@ class HomeComponents extends Component {
             const shops = res.data;
             console.log("Shops are", shops);
             this.setState({ shops: shops });
+        });
+    }
+    getallPosts() {
+        Axios.get("/api/posts").then(res => {
+            const postsData = res.data;
+            console.log("Posts of stores are", postsData);
+            this.setState({ posts: postsData });
         });
     }
     render() {
@@ -109,6 +127,9 @@ class HomeComponents extends Component {
                                             getShops={this.getStores}
                                         />
                                     )}
+                                    {!this.state.shops && <Skeleton />}
+
+                                    {!this.state.products && <Skeleton />}
                                     {this.state.products && (
                                         <Products
                                             products={this.state.products}
@@ -123,7 +144,13 @@ class HomeComponents extends Component {
                         <TabPane tab="Explore" key="2">
                             <Row>
                                 <Col lg={16} offset={4}>
-                                    <AllPosts />
+                                    {this.state.posts && (
+                                        <AllPosts
+                                            posts={this.state.posts}
+                                            title="Explore activities from Different Stores"
+                                        />
+                                    )}
+                                    {!this.state.posts && <Skeleton />}
                                 </Col>
                             </Row>
                         </TabPane>

@@ -107,7 +107,7 @@ class ViewProducts extends Component {
             },
             {
                 title: "Category",
-                dataIndex: "category",
+                dataIndex: "category_name",
                 key: "category"
             },
             {
@@ -128,6 +128,11 @@ class ViewProducts extends Component {
                         />
                     </div>
                 )
+            },
+            {
+                title: "Rating/Reviews",
+                dataIndex: "category",
+                key: "rating"
             }
         ];
         return (

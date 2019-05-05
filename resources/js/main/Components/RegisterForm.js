@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Checkbox } from "antd";
 
-class LoginForm extends React.Component {
+class RegisterForm extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -28,14 +28,37 @@ class LoginForm extends React.Component {
                         <Input
                             prefix={
                                 <Icon
+                                    type="mail"
+                                    style={{ color: "rgba(0,0,0,.25)" }}
+                                />
+                            }
+                            placeholder="Email"
+                        />
+                    )}
+                </Form.Item>
+
+                <Form.Item>
+                    {getFieldDecorator("name", {
+                        rules: [
+                            {
+                                required: true,
+                                message: "Please input your name!"
+                            }
+                        ]
+                    })(
+                        <Input
+                            prefix={
+                                <Icon
                                     type="user"
                                     style={{ color: "rgba(0,0,0,.25)" }}
                                 />
                             }
-                            placeholder="email"
+                            placeholder="Username"
                         />
                     )}
                 </Form.Item>
+
+
                 <Form.Item>
                     {getFieldDecorator("password", {
                         rules: [
@@ -58,11 +81,6 @@ class LoginForm extends React.Component {
                     )}
                 </Form.Item>
                 <Form.Item>
-                    <a className="login-form-forgot" href="">
-                        Forgot password?
-                    </a>
-                    <br/>
-
                     <Button
                         type="primary"
                         htmlType="submit"
@@ -71,12 +89,12 @@ class LoginForm extends React.Component {
                         Log in
                     </Button>
                     <br/>
-                    Or <a href="">register now!</a>
+                    Or <a href="/login">Login</a>
                 </Form.Item>
             </Form>
         );
     }
 }
 
-const Login_Form = Form.create({ name: "normal_login" })(LoginForm);
-export default Login_Form;
+const Register_Form = Form.create({ name: "normal_login" })(RegisterForm);
+export default Register_Form;
