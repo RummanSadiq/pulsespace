@@ -81,7 +81,7 @@ class CreateShopForm extends Component {
                     .format("HH:mm:ss");
 
                     values.latitude=this.state.latitude;
-                    values.longitude=this.state.longitude
+                    values.longitude=this.state.longitude;
 
                 axios
                     .post("/api/shop", values)
