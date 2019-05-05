@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Select, Button, Dropdown, Icon, Menu } from "antd";
+import { Row, Col, Select, Button, Dropdown, Icon, Menu, Skeleton } from "antd";
 import Axios from "axios";
 import Stores from "./LimitedStores";
 import Products from "./LimitedProducts";
@@ -7,39 +7,58 @@ import Products from "./LimitedProducts";
 class SearchComponent extends Component {
     constructor(props) {
         super(props);
-        this.state.vlaue = this.props.match.params.value;
+        this.state.value = this.props.match.params.value;
     }
 
     componentDidMount() {
         console.log(
-            "Lets see if props got here",
+            "Lets see if props got here for search value",
             this.props.match.params.value
         );
-        // this.getProducts();
+        this.getProducts();
         // this.getStores();
     }
+    getLocation =()=> {
+        const location = window.navigator && window.navigator.geolocation
+        
+        if (location) {
+          location.getCurrentPosition((position) => {
+              console.log('Latitude is'+position.coords.latitude+'Longitude is'+position.coords.longitude);
+            this.setState({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            })
+          }, (error) => {
+            // this.setState({ latitude: 'err-latitude', longitude: 'err-longitude' })
+            console.log('Error getting lat long inside search', error);
+          })
+        }
+    
+      }
+    
 
     getProducts = input => {
-        var search={
+        var search = {
             search: this.state.value
-        }
-        console.log('Input is', input);
+        };
 
-        if (input === 'High') {
-            search.high_price='High';
+        this.getLocation();
+        console.log("Input is", input);
+
+        if (input === "High") {
+            search.high_price = "High";
         }
-        if (input === 'Low') {
-            search.low_price='Low';
+        if (input === "Low") {
+            search.low_price = "Low";
         }
 
-            console.log('Search is', search);
+        console.log("Search is", search);
         Axios.get("/api/products").then(res => {
             const products = res.data;
             console.log("products data is", products);
             this.setState({ products: products });
         });
     };
-
     getStores() {
         Axios.get("/api/shops").then(res => {
             const shops = res.data;
@@ -135,6 +154,9 @@ class SearchComponent extends Component {
                                 getShops={this.getStores}
                             />
                         )}
+                        {!this.state.shops && <Skeleton />}
+                        {!this.state.products && <Skeleton />}
+
                         {this.state.products && (
                             <Products
                                 products={this.state.products}

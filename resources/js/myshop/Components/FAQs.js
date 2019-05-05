@@ -44,10 +44,10 @@ class Faqs extends Component {
     };
     handleOk = e => {
         console.log(e);
-        this.setState({
+        if (this.state.newquestion || this.state.newanswer){
+            this.setState({
             visible: false
         });
-        let id = this.state.faqs.length - 1;
         var str = {
             question: this.state.newquestion,
             answer: this.state.newanswer
@@ -62,6 +62,10 @@ class Faqs extends Component {
         this.state.faqs.push(str);
         this.setState({ faqs: this.state.faqs });
         e.preventDefault();
+        }else{
+            message.error('All inputs are required');
+        }
+        
     };
 
     handleCancel = e => {
@@ -112,6 +116,9 @@ class Faqs extends Component {
             const faqsdata = res.data;
             // this.setState({ faqs: faqsdata });
             message.success("FAQ Updated");
+        }).catch((err)=>{
+            console.log('Error occured while updating new faq');
+            throw(err);
         });
 
         this.setState({ faqs: faq });
@@ -156,12 +163,14 @@ class Faqs extends Component {
                             <Input
                                 placeholder="Question"
                                 allowClear
+                                required
                                 onChange={this.onChangeQuestion}
                                 style={{ marginBottom: 20 }}
                             />
                             <Input
                                 placeholder="Answer"
                                 allowClear
+                                required
                                 onChange={this.onChangeAnswer}
                             />
                         </Modal>
@@ -209,8 +218,6 @@ class Faqs extends Component {
                             onOk={event => this.m2handleOk(event)}
                             onCancel={this.m2handleCancel}
                             destroyOnClose={true}
-                            // mquestion={this.state.newfaq.question}
-                            // manswer={this.state.newfaq.answer}
                         >
                             <Input
                                 placeholder="Question"

@@ -30,16 +30,16 @@
         transform: rotate(360deg);
     }
 }
-.ant-carousel .slick-slide {
+/* .ant-carousel .slick-slide {
     text-align: center;
-    /* height: 160px;
-  line-height: 160px; */
+    height: 250px;
+    line-height: 250px;
     overflow: hidden;
 }
 
-.ant-carousel .slick-slide h3 {
+.ant-carousel .slick-slide {
     color: #0d1016;
-}
+} */
 .editable-row .ant-form-explain {
     position: absolute;
     font-size: 12px;
