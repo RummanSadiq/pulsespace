@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Row, Col, Button, Card, Modal, message, Input } from "antd";
+import {
+    Row,
+    Col,
+    Button,
+    Card,
+    Modal,
+    message,
+    Input,
+    Popconfirm,
+    Icon
+} from "antd";
 import axios from "axios";
 
 class Faqs extends Component {
@@ -10,7 +20,7 @@ class Faqs extends Component {
         this.showModalm2 = this.showModalm2.bind(this);
     }
     state = {
-        faqs: [],
+        // faqs: [],
         visible: false,
         m2visible: false,
         newquestion: "",
@@ -33,7 +43,11 @@ class Faqs extends Component {
         this.setState({ faqs: counters });
         axios.delete("/api/faqs/" + id).then(res => {
             const faqsdata = res.data;
-            this.setState({ faqs: faqsdata });
+            this.setState({ faqs: faqsdata }
+            //     ,()=>{
+            //     message.success('FAQ deleted successfully');
+            // }
+            );
         });
     }
 
@@ -44,28 +58,27 @@ class Faqs extends Component {
     };
     handleOk = e => {
         console.log(e);
-        if (this.state.newquestion || this.state.newanswer){
+        if (this.state.newquestion || this.state.newanswer) {
             this.setState({
-            visible: false
-        });
-        var str = {
-            question: this.state.newquestion,
-            answer: this.state.newanswer
-        };
+                visible: false
+            });
+            var str = {
+                question: this.state.newquestion,
+                answer: this.state.newanswer
+            };
 
-        axios.post("/api/faqs", str).then(res => {
-            console.log(res);
-            console.log(res.data);
-            message.success("FAQ Added");
-        });
+            axios.post("/api/faqs", str).then(res => {
+                console.log(res);
+                console.log(res.data);
+                message.success("FAQ Added");
+            });
 
-        this.state.faqs.push(str);
-        this.setState({ faqs: this.state.faqs });
-        e.preventDefault();
-        }else{
-            message.error('All inputs are required');
+            this.state.faqs.push(str);
+            this.setState({ faqs: this.state.faqs });
+            e.preventDefault();
+        } else {
+            message.error("All inputs are required");
         }
-        
     };
 
     handleCancel = e => {
@@ -112,14 +125,17 @@ class Faqs extends Component {
         faq[index].answer = this.state.newanswer;
 
         let updatedfaq = faq[index];
-        axios.post("/api/faqs/" + updatedfaq.id, updatedfaq).then(res => {
-            const faqsdata = res.data;
-            // this.setState({ faqs: faqsdata });
-            message.success("FAQ Updated");
-        }).catch((err)=>{
-            console.log('Error occured while updating new faq');
-            throw(err);
-        });
+        axios
+            .post("/api/faqs/" + updatedfaq.id, updatedfaq)
+            .then(res => {
+                const faqsdata = res.data;
+                // this.setState({ faqs: faqsdata });
+                message.success("FAQ Updated");
+            })
+            .catch(err => {
+                console.log("Error occured while updating new faq");
+                throw err;
+            });
 
         this.setState({ faqs: faq });
         this.setState({
@@ -137,6 +153,9 @@ class Faqs extends Component {
         });
     };
 
+    popCancel = () => {
+        console.log('Canceled');
+    };
     render() {
         return (
             <div>
@@ -174,7 +193,11 @@ class Faqs extends Component {
                                 onChange={this.onChangeAnswer}
                             />
                         </Modal>
-                        {this.state.faqs.map(element => (
+                       {!this.state.faqs && <Icon type="loading" />}
+                        { this.state.faqs &&
+                            
+                            
+                            this.state.faqs.map(element => (
                             <div style={{ paddingTop: "10px" }}>
                                 <Card
                                     title={element.question}
@@ -186,24 +209,38 @@ class Faqs extends Component {
                                     extra={
                                         <div>
                                             <Button
-                                                // type="primary"
+                                                type="primary"
                                                 size={"large"}
                                                 icon="edit"
                                                 onClick={() =>
                                                     this.showModalm2(element)
                                                 }
-                                            />{" "}
-                                            <Button
-                                                type="danger"
-                                                size={"large"}
-                                                icon="delete"
-                                                onClick={event =>
+                                            />
+                                            <Popconfirm
+                                                title="Are you sure delete this question?"
+                                                onConfirm={event =>
                                                     this.handleDelete(
                                                         event,
                                                         element.id
                                                     )
                                                 }
-                                            />{" "}
+                                                onCancel={this.popCancel}
+                                                okText="Yes"
+                                                cancelText="No"
+                                            >
+                                                {/* <Icon type="delete" stye={{color:'#FF7678'}}/> */}
+                                                <Button
+                                                type="danger"
+                                                size={"large"}
+                                                icon="delete"
+                                                // onClick={event =>
+                                                //     this.handleDelete(
+                                                //         event,
+                                                //         element.id
+                                                //     )
+                                                // }
+                                            />
+                                            </Popconfirm>{" "}
                                         </div>
                                     }
                                 >

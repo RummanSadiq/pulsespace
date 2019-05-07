@@ -13,11 +13,13 @@ import {
     Input,
     Upload,
     Select,
-    Modal
+    Modal,
+    Popconfirm
 } from "antd";
 import EPForm from "./EditProduct";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { element } from "prop-types";
 
 const { TextArea } = Input;
 const Option = Select.Option;
@@ -27,7 +29,10 @@ class ViewProducts extends Component {
         products: [],
         visible: false,
         erecord: {},
-        show: false
+        show: false,
+        categories: [],
+        selectedRowKeys: [],
+        discount: 0
     };
 
     componentDidMount() {
@@ -73,14 +78,29 @@ class ViewProducts extends Component {
         console.log("handeling ok!");
         this.getProducts();
     };
+    onSelectChange = selectedRowKeys => {
+        console.log("selectedRowKeys changed: ", selectedRowKeys);
+        this.setState({ selectedRowKeys });
+    };
 
+    discountChange = event => {
+        console.log("event target value is", event.target.value);
+        this.setState({ discount: event.target.value });
+    };
+    handleDiscount = () => {
+        var disc = {
+            products: this.state.selectedRowKeys,
+            percent: this.state.discount
+        };
+        console.log("Discount data to be sent to api will be: ", disc);
+    };
     render() {
         const columns = [
-            {
-                title: "ID",
-                dataIndex: "id",
-                key: "id"
-            },
+            // {
+            //     title: "ID",
+            //     dataIndex: "id",
+            //     key: "id"
+            // },
             {
                 title: "Name",
                 dataIndex: "name",
@@ -103,12 +123,30 @@ class ViewProducts extends Component {
             {
                 title: "Price",
                 dataIndex: "price",
-                key: "price"
+                key: "price",
+                defaultSortOrder: "descend",
+                sorter: (a, b) => a.price - b.price
             },
             {
                 title: "Category",
                 dataIndex: "category_name",
-                key: "category"
+                key: "category",
+                filters: [
+                    { text: "category one", value: "category one" },
+                    {
+                        text: "category two",
+                        value: "category two"
+                    }
+                    // this.state.categories.map(element=>{
+                    //     text=element.name,
+                    //     value=element.name
+
+                    // })
+                ],
+                filterMultiple: true,
+                onFilter: (value, record) => record.address.indexOf(value) === 0
+                // sorter: (a, b) => a.address.length - b.address.length
+                // sortDirections: ["descend", "ascend"]
             },
             {
                 title: "Action",
@@ -116,12 +154,21 @@ class ViewProducts extends Component {
                 key: "actions",
                 render: (text, record) => (
                     <div>
-                        <Button
-                            type="danger"
-                            icon="delete"
-                            onClick={event => this.handleDelete(event, record)}
-                            style={{ margin: 10 }}
-                        />
+                        <Popconfirm
+                            title="Are you sure delete this product?"
+                            onConfirm={event =>
+                                this.handleDelete(event, record)
+                            }
+                            onCancel={this.popCancel}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button
+                                type="danger"
+                                icon="delete"
+                                style={{ margin: 10 }}
+                            />
+                        </Popconfirm>
                         <Button
                             icon="edit"
                             onClick={event => this.handleEdit(event, record)}
@@ -135,18 +182,57 @@ class ViewProducts extends Component {
                 key: "rating"
             }
         ];
+        const { selectedRowKeys } = this.state;
+        const rowSelection = {
+            selectedRowKeys,
+            onChange: this.onSelectChange
+        };
+        const hasSelected = selectedRowKeys.length > 0;
+        const isdiscount = this.state.discount > 0;
         return (
-            <div>
+            <div style={{backgroundColor:'#FFFFFF'}}>
                 <Col span={14} offset={6}>
                     <div>
                         <h1 style={{ textAlign: "center" }}>
                             These are all the products you have listed.
                         </h1>
                     </div>
-                    <Table columns={columns} dataSource={this.state.products} />
+                    <div>
+                        <Input
+                            type="number"
+                            placeholder="%"
+                            onChange={this.discountChange}
+                            disabled={!hasSelected}
+                            style={{ width: 200 }}
+                        />
+                        <span style={{ marginLeft: 8 }}>
+                            <Button
+                                type="primary"
+                                onClick={this.handleDiscount}
+                                disabled={!isdiscount}
+                                // loading={loading}
+                            >
+                                Create Discount
+                            </Button>{" "}
+                        </span>
+
+                        <span style={{ marginLeft: 8 }}>
+                            {hasSelected
+                                ? `Selected ${selectedRowKeys.length} items`
+                                : ""}
+                        </span>
+                    </div>
+                    <Table
+                        bordered={true}
+                        rowSelection={rowSelection}
+                        columns={columns}
+                        dataSource={this.state.products}
+                        style={{ backgroundColor: "white" }}
+                        rowKey={record => record.id}
+                    />
 
                     <Modal
-                        title="Edit a Question"
+                        title="Edit Product"
                         visible={this.state.show}
                         onOk={event => this.handleOk(event)}
                         onCancel={this.handleCancel}

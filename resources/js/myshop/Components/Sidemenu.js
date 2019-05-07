@@ -144,6 +144,17 @@ class Sidemenu extends Component {
                                 </Menu.Item>
                                 <Divider />
                                 <Menu.Item key="8" style={{ fontSize: "22px" }}>
+                                    <NavLink to="/Promote">
+                                        <Icon
+                                            type="caret-up"
+                                            theme="filled"
+                                            style={{ fontSize: "100%" }}
+                                        />
+                                        <span>Promote</span>
+                                    </NavLink>
+                                </Menu.Item>
+                                <Divider />
+                                <Menu.Item key="9" style={{ fontSize: "22px" }}>
                                     <NavLink to="" onClick={this.doLogout}>
                                         <Icon
                                             type="logout"
