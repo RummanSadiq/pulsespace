@@ -236,7 +236,7 @@ class EditProduct extends Component {
 
                 <Form.Item>
                     {" "}
-                    <div style={{ marginLeft: "60%", marginTop: "2%" }}>
+                    <div style={{ marginLeft: "60%" }}>
                         <Button
                             type={"primary"}
                             htmlType="submit"

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Row, Col, Card, Avatar, Rate } from "antd";
+import { Row, Col, Card, Avatar, Rate, Layout } from "antd";
 import axios from "axios";
+
+const { Header, Content } = Layout;
 
 class UserReviews extends Component {
     state = {
@@ -17,11 +19,20 @@ class UserReviews extends Component {
 
     render() {
         return (
-            <div style={{ maxWidth: "80%" }}>
-                <Col span={16} offset={6}>
-                    <h1 style={{ textAlign: "center" }}>
-                        What Users think about your store
-                    </h1>
+            <div >
+                <Col
+                    xs={{ offset: 6, span: 18 }}
+                    sm={{ offset: 6, span: 18 }}
+                    md={{ offset: 6, span: 18 }}
+                    lg={{ offset: 6, span: 18 }}
+                    xl={{ offset: 3, span: 20 }}
+                >
+                    <Header style={{ backgroundColor: "#f5f5f5" }}>
+                        <div style={{ textAlign: "center" }}>
+                            <h1>What Users think about your store</h1>
+                        </div>
+                    </Header>
+
                     {this.state.reviews.map(element => (
                         <div key={element.key} style={{ padding: "3%" }}>
                             <Card

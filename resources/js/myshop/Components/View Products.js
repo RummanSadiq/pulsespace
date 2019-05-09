@@ -190,8 +190,11 @@ class ViewProducts extends Component {
         const hasSelected = selectedRowKeys.length > 0;
         const isdiscount = this.state.discount > 0;
         return (
-            <div style={{backgroundColor:'#FFFFFF'}}>
-                <Col span={14} offset={6}>
+                <Col   xs={{ offset: 6, span: 18 }}
+                sm={{ offset: 6, span: 18 }}
+                md={{ offset: 6, span: 18 }}
+                lg={{ offset: 6, span: 18 }}
+                xl={{ offset: 3, span: 20 }} style={{backgroundColor:'#FFFFFF'}}>
                     <div>
                         <h1 style={{ textAlign: "center" }}>
                             These are all the products you have listed.
@@ -238,6 +241,7 @@ class ViewProducts extends Component {
                         onCancel={this.handleCancel}
                         destroyOnClose={true}
                         footer={null}
+                        style={{overflow:'auto'}}
                     >
                         <EPForm
                             record={this.state.erecord}
@@ -245,7 +249,6 @@ class ViewProducts extends Component {
                         />
                     </Modal>
                 </Col>
-            </div>
         );
     }
 }

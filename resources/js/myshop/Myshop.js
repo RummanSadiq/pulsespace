@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Myshop.css";
 import Dashboard from "./Components/Dashboard";
+import Sidemenu from './Components/Sidemenu';
 import ShopCreate from "./Components/ShopCreate";
 import ReactDOM from "react-dom";
 import "antd/dist/antd.css";

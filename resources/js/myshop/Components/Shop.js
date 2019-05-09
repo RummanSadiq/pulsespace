@@ -72,7 +72,14 @@ class Shop extends Component {
     render() {
         return (
             <div>
-                <Col span={13} offset={6} style={{ marginTop: "2em" }}>
+                <Col
+                    xs={{ offset: 6, span: 18 }}
+                    sm={{ offset: 6, span: 18 }}
+                    md={{ offset: 6, span: 18 }}
+                    lg={{ offset: 6, span: 18 }}
+                    xl={{ offset: 3, span: 20 }}
+                    style={{ marginTop: "2em" }}
+                >
                     <style>{cardStyle}</style>
                     <Card
                         title={

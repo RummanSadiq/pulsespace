@@ -94,14 +94,21 @@ class Chat extends Component {
 
     render() {
         return (
-            <div>
+            
+                <Col
+                xs={{ offset: 6, span: 18 }}
+                sm={{ offset: 6, span: 18 }}
+                md={{ offset: 6, span: 18 }}
+                lg={{ offset: 6, span: 18 }}
+                xl={{ offset: 3, span: 20 }}
+                 style={{ marginTop: "2em" }}>
                 <Header style={{ backgroundColor: "#f5f5f5" }}>
                     <div style={{ textAlign: "center" }}>
                         <h1>Customer Queries</h1>
                     </div>
                 </Header>
                 <Row style={{ position: "inherit" }}>
-                    <Col span={4} offset={4}>
+                    <Col span={8} style={{overflow:"auto"}}>
                         <Card title="Messages" bordered={false}>
                             <List
                                 itemLayout="horizontal"
@@ -133,13 +140,14 @@ class Chat extends Component {
                             />
                         </Card>
                     </Col>
-                    <Col span={12}>
+                    <Col span={16} >
                         <Card
                             title={this.state.title}
                             bordered={true}
                             style={{
                                 marginLeft: "10dp",
-                                width: "100%"
+                                width: "100%",
+                                overflow:'auto'
                             }}
                         >
                             <div
@@ -237,7 +245,7 @@ class Chat extends Component {
                         </div>
                     </Col>
                 </Row>
-            </div>
+                </Col>
         );
     }
 }

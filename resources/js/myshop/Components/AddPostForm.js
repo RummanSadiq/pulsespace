@@ -77,7 +77,6 @@ class AddPostForm extends Component {
                 type="inner"
                 hoverable="true"
                 bordered={false}
-                style={{ width: 1000 }}
                 headStyle={{ textAlign: "center" }}
             >
                 <Form onSubmit={this.handleSubmit}>
