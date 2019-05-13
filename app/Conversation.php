@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Conversation extends Model
 {
     protected $fillable = [
-        "first_participant_id", "second_participant_id", "first_participant_type", "second_participant_type", "last_sender_id",  "last_message", "msg_read"
+        "user_id", "shop_owner_id", "last_sender_id",  "last_message", "is_read", "is_active"
     ];
 
-    public function messages() 
+    public function messages()
     {
         return $this->hasMany('App\Message');
     }
@@ -19,5 +19,4 @@ class Conversation extends Model
     {
         return $this->belongsTo('App\User');
     }
-
 }

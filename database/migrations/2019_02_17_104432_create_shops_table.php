@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStoresTable extends Migration
+class CreateShopsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateStoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('stores', function (Blueprint $table) {
+        Schema::create('shops', function (Blueprint $table) {
             $table->increments('id');
 
             // Store Owner
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->integer('store_type_id')->unsigned();
-            $table->foreign('store_type_id')->references('id')->on('store_types');
+            $table->integer('shop_type_id')->unsigned();
+            $table->foreign('shop_type_id')->references('id')->on('shop_types');
 
             $table->integer('address_id')->unsigned()->nullable();
             $table->foreign('address_id')->references('id')->on('addresses');
@@ -36,10 +36,17 @@ class CreateStoresTable extends Migration
             $table->boolean('wash_room')->nullable();
             $table->boolean('delivery')->nullable();
 
-            $table->string('return_policy')->nullable();
+            $table->text('return_policy')->nullable();
 
-            $table->time('open_time')->nullable();
-            $table->time('close_time')->nullable();
+            $table->time('open_at')->nullable();
+            $table->time('close_at')->nullable();
+
+
+            $table->time('approved_at')->nullable();
+
+
+            $table->boolean('is_active')->default(1);
+
 
             $table->timestamps();
         });
@@ -52,6 +59,6 @@ class CreateStoresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stores');
+        Schema::dropIfExists('shops');
     }
 }

@@ -16,16 +16,25 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('store_id')->unsigned();
-            $table->foreign('store_id')->references('id')->on('stores');
+            $table->integer('shop_id')->unsigned();
+            $table->foreign('shop_id')->references('id')->on('shops');
 
             $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('display_picture')->nullable();
+            $table->text('description')->nullable();
+            // $table->string('display_picture')->nullable();
             $table->integer('price');
+
+            $table->integer('sale_price')->nullable();
+
+            $table->time('sale_starts_at');
+            $table->time('sale_ends_at')->nullable();
+
+
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
 
+
+            $table->boolean('is_active')->default(1);
 
             $table->timestamps();
         });

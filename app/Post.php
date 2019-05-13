@@ -12,16 +12,11 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'store_id', 'description', 'image_path'
+        'shop_id', 'description', "is_active"
     ];
 
-    public function store()
+    public function shop()
     {
-        return $this->belongsTo('App\Store');
-    }
-
-    public function attachments()
-    {
-        return $this->hasMany('App\PostAttachment');
+        return $this->belongsTo('App\Shop');
     }
 }

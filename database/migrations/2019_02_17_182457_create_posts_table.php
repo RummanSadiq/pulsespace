@@ -16,11 +16,13 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('store_id')->unsigned();
-            $table->foreign('store_id')->references('id')->on('stores');
+            $table->integer('shop_id')->unsigned();
+            $table->foreign('shop_id')->references('id')->on('shops');
 
-            $table->string('description');
-            $table->string('image_path')->nullable();
+            $table->text('description');
+            // $table->string('image_path')->nullable();
+
+            $table->boolean('is_active')->default(1);
 
             $table->timestamps();
         });

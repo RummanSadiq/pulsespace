@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateShopAttachmentsTable extends Migration
+class CreateReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,17 @@ class CreateShopAttachmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('shop_attachments', function (Blueprint $table) {
+        Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('name');
-            $table->string('url');
-            $table->integer('shop_id')->unsigned();
-            $table->foreign('shop_id')->references('id')->on('stores');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->integer('parent_id')->unsigned();
+
+            $table->string('type');
+
+            $table->boolean('is_active')->default(1);
 
             $table->timestamps();
         });
@@ -32,6 +36,6 @@ class CreateShopAttachmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shop_attachments');
+        Schema::dropIfExists('reports');
     }
 }

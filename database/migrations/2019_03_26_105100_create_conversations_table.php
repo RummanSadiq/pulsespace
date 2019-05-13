@@ -16,20 +16,18 @@ class CreateConversationsTable extends Migration
         Schema::create('conversations', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('first_participant_id')->unsigned();
-            $table->foreign('first_participant_id')->references('id')->on('users');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
 
-            $table->integer('second_participant_id')->unsigned();
-            $table->foreign('second_participant_id')->references('id')->on('users');
-
-            $table->boolean('first_participant_type');
-            $table->boolean('second_participant_type');
+            $table->integer('shop_owner_id')->unsigned();
+            $table->foreign('shop_owner_id')->references('id')->on('users');
 
             $table->integer('last_sender_id')->unsigned()->nullable();
-            $table->foreign('last_sender_id')->references('id')->on('users');
 
             $table->text('last_message')->nullable();
-            $table->boolean('msg_read')->nullable();
+            $table->boolean('is_read')->nullable();
+
+            $table->boolean('is_active')->default(1);
 
             $table->timestamps();
         });

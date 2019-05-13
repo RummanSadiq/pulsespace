@@ -16,11 +16,14 @@ class CreatePromotionsTable extends Migration
         Schema::create('promotions', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('product_id')->unsigned()->unique();
-            $table->float('discount');
-            $table->date('end')->nullable();
+            $table->integer('shop_id')->unsigned();
+            $table->foreign('shop_id')->references('id')->on('shops');
 
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->string('package_name');
+
+            $table->time('ends_at');
+
+            $table->boolean('is_active')->default(1);
 
             $table->timestamps();
         });

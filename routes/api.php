@@ -22,7 +22,6 @@ Route::get('/users/shop', 'Api\UserController@hasShop');
 Route::get('/user', 'Api\UserController@index');
 
 //Store Followers
-// Route::middleware('auth:api')->get('/follow/{id}', 'Api\StoreFollowerController@follow');
 Route::get('/follow/{id}', 'Api\StoreFollowerController@follow');
 Route::get('/followed', 'Api\StoreFollowerController@index');
 
@@ -39,14 +38,10 @@ Route::get('/myshop', 'Api\StoreController@myShop');
 //Store Types
 Route::get('/storetypes', 'Api\StoreTypeController@index');
 
-//Store Followers
-Route::get('/follow/{id}', 'Api\StoreFollowerController@follow');
-// Route::get('/follow/{id}', 'Api\StoreFollowerController@follow');
-Route::get('/followed', 'Api\StoreFollowerController@index');
-
 
 //Categories
-Route::get('/categories/{parent}', 'Api\CategoryController@show');
+Route::get('/categories', 'Api\CategoryController@index');
+// Route::get('/categories/{parent}', 'Api\CategoryController@show');
 
 
 //Posts
@@ -63,12 +58,14 @@ Route::get('/products', 'Api\ProductController@index');
 Route::post('/products', 'Api\ProductController@getFiltered');
 Route::get('/products/shop/{id}', 'Api\ProductController@getShopProducts');
 Route::get('/products/{id}', 'Api\ProductController@show');
+Route::post('/products', 'Api\ProductController@store');
+Route::post('/products/{id}', 'Api\ProductController@update');
+Route::delete('/products/{id}', 'Api\ProductController@destroy');
 
 
 //Faqs
 Route::get('/faqs', 'Api\FaqController@index');
 Route::get('/faqs/shop/{id}', 'Api\FaqController@getShopFaqs');
-
 Route::post('/faqs', 'Api\FaqController@store');
 Route::post('/faqs/{id}', 'Api\FaqController@update');
 Route::delete('/faqs/{id}', 'Api\FaqController@destroy');
@@ -77,14 +74,11 @@ Route::delete('/faqs/{id}', 'Api\FaqController@destroy');
 Route::get('/reviews', 'Api\ReviewController@index');
 Route::get('/reviews/shops/{id}', 'Api\ReviewController@shopReviews');
 Route::post('/reviews', 'Api\ReviewController@store');
-// Route::post('/reviews/{id}', 'Api\ReviewController@update');
+Route::post('/reviews/{id}', 'Api\ReviewController@update');
 Route::delete('/reviews/{id}', 'Api\ReviewController@destroy');
 
 //Product Reviews
-// Route::get('/reviews', 'Api\ProductReviewController@index');
-// Route::get('/reviews/shops/{id}', 'Api\ProductReviewController@shopReviews');
 Route::post('/products/reviews', 'Api\ProductReviewController@store');
-// Route::post('/reviews/{id}', 'Api\ProductReviewController@update');
 Route::delete('/products/reviews/{id}', 'Api\ProductReviewController@destroy');
 
 
@@ -92,8 +86,7 @@ Route::delete('/products/reviews/{id}', 'Api\ProductReviewController@destroy');
 // Route::get('/messages', 'Api\MessageController@index');
 Route::get('/messages/{id}', 'Api\MessageController@show');
 Route::post('/messages/shop', 'Api\MessageController@shopSent'); //might not get used 
-Route::post('/messages/customer', 'Api\MessageController@customerSent'); //might not get used 
-// Route::post('/messages', 'Api\MessageController@messageSent'); //sending message to a specific id
+Route::post('/messages/customer', 'Api\MessageController@customerSent'); //might not get used
 Route::delete('/messages/{id}', 'Api\MessageController@destroy'); //Delete chat with some user
 
 //Conversations

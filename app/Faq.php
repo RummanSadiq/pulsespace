@@ -12,11 +12,11 @@ class Faq extends Model
      * @var array
      */
     protected $fillable = [
-        'store_id', 'question', 'answer',
+        'shop_id', 'question', 'answer', "is_active"
     ];
 
-    public function store()
+    public function shop()
     {
-        return $this->belongsTo('App\Store');
+        return $this->belongsTo('App\Shop');
     }
 }

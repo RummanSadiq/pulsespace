@@ -31,7 +31,7 @@
 // });
 
 Auth::routes();
-Route::get('/{path?}', 'DashboardController@index')->name('dashboard');
+// Route::get('/{path?}', 'DashboardController@index')->name('dashboard');
 Route::group([
     'domain' => 'pulsespace.test',
 ], function () {

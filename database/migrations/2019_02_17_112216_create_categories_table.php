@@ -19,7 +19,10 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->string('default_picture')->nullable();
             $table->integer('parent_id')->nullable()->unsigned();
-            
+
+
+            $table->boolean('is_active')->default(1);
+
             $table->timestamps();
         });
 

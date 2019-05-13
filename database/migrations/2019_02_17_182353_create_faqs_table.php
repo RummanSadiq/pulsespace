@@ -16,12 +16,14 @@ class CreateFaqsTable extends Migration
         Schema::create('faqs', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('store_id')->unsigned();
-            $table->foreign('store_id')->references('id')->on('stores');
+            $table->integer('shop_id')->unsigned();
+            $table->foreign('shop_id')->references('id')->on('shops');
 
             $table->string('question');
-            $table->string('answer');
+            $table->text('answer');
 
+
+            $table->boolean('is_active')->default(1);
 
             $table->timestamps();
         });

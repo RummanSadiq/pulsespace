@@ -23,6 +23,9 @@ class CreateAddressesTable extends Migration
             $table->string('city')->nullable();
             $table->string('country')->nullable();
 
+
+            $table->boolean('is_active')->default(1);
+
             $table->timestamps();
         });
     }

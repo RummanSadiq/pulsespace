@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Store extends Model
+class Shop extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,11 +13,10 @@ class Store extends Model
      */
     protected $fillable = [
         'user_id',
-        'store_type_id',
+        'shop_type_id',
         'address_id',
         'name',
         'contact',
-        'display_picture',
         'wifi',
         'try_room',
         'card_payment',
@@ -25,8 +24,10 @@ class Store extends Model
         'wash_room',
         'delivery',
         'return_policy',
-        'open_time',
-        'close_time',
+        'open_at',
+        'close_at',
+        'approved_at',
+        'is_active',
     ];
 
     public function user()
@@ -44,25 +45,30 @@ class Store extends Model
         return $this->hasMany('App\Product');
     }
 
-    public function attachments()
+    // public function attachments()
+    // {
+    //     return $this->hasMany('App\ShopAttachment', 'shop_id');
+    // }
+
+    public function promotion()
     {
-        return $this->hasMany('App\ShopAttachment', 'shop_id');
+        return $this->hasOne('App\Promotion');
     }
 
-    public function storeType()
+    public function shopType()
     {
-        return $this->belongsTo('App\StoreType');
+        return $this->belongsTo('App\ShopType');
     }
 
-    public function storeFollowers()
+    public function shopFollowers()
     {
-        return $this->hasMany('App\StoreFollower');
+        return $this->hasMany('App\ShopFollower');
     }
 
-    public function reviews()
-    {
-        return $this->hasMany('App\Review');
-    }
+    // public function reviews()
+    // {
+    //     return $this->hasMany('App\Review');
+    // }
 
     public function posts()
     {

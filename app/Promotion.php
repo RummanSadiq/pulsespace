@@ -7,11 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Promotion extends Model
 {
     protected $fillable = [
-        "product_id", "discount", "end"
+        "shop_id", "package_name", "ends_at", "is_active"
     ];
-
-    public function product() 
-    {
-        return $this->belongsTo('App\Product');
-    }
 }

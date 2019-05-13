@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStoreFollowersTable extends Migration
+class CreateShopFollowersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,18 @@ class CreateStoreFollowersTable extends Migration
      */
     public function up()
     {
-        Schema::create('store_followers', function (Blueprint $table) {
+        Schema::create('shop_followers', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('user_id')->unsigned();
-            $table->integer('store_id')->unsigned();
+            $table->integer('shop_id')->unsigned();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('store_id')->references('id')->on('stores');
-            
+            $table->foreign('shop_id')->references('id')->on('shops');
+
+
+            $table->boolean('is_active')->default(1);
+
             $table->timestamps();
         });
     }
@@ -33,6 +36,6 @@ class CreateStoreFollowersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('store_followers');
+        Schema::dropIfExists('shop_followers');
     }
 }

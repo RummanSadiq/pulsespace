@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'date_of_birth'
+        'name', 'email', 'password', 'date_of_birth', 'gender', 'phone_no', 'shopping_list_name', 'is_active'
     ];
 
     /**
@@ -37,9 +37,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function store()
+    public function shop()
     {
-        return $this->hasOne('App\Store');
+        return $this->hasOne('App\Shop');
     }
 
     public function messages()
@@ -52,40 +52,35 @@ class User extends Authenticatable
         return $this->hasMany('App\Review');
     }
 
-    public function productReviews()
+    // public function productReviews()
+    // {
+    //     return $this->hasMany('App\ProductReview');
+    // }
+
+    public function shopFollowers()
     {
-        return $this->hasMany('App\ProductReview');
+        return $this->hasMany('App\ShopFollower');
     }
 
-    public function shoppingLists()
-    {
-        return $this->hasMany('App\ShoppingList');
-    }
+    // public function firstParticipantConversations()
+    // {
+    //     return $this->hasMany('App\Conversation', 'first_participant_id');
+    // }
 
-    public function storeFollowers()
-    {
-        return $this->hasMany('App\StoreFollower');
-    }
+    // public function secondParticipantConversations()
+    // {
+    //     return $this->hasMany('App\Conversation', 'second_participant_id');
+    // }
 
-    public function firstParticipantConversations()
-    {
-        return $this->hasMany('App\Conversation', 'first_participant_id');
-    }
+    // public function shopConversations()
+    // {
+    //     return $this->firstParticipantConversations->where('first_participant_type', '1')
+    //         ->merge($this->secondParticipantConversations->where('second_participant_type', '1'));
+    // }
 
-    public function secondParticipantConversations()
-    {
-        return $this->hasMany('App\Conversation', 'second_participant_id');
-    }
-
-    public function shopConversations()
-    {
-        return $this->firstParticipantConversations->where('first_participant_type', '1')
-            ->merge($this->secondParticipantConversations->where('second_participant_type', '1'));
-    }
-
-    public function customerConversations()
-    {
-        return $this->firstParticipantConversations->where('first_participant_type', '0')
-            ->merge($this->secondParticipantConversations->where('second_participant_type', '0'));
-    }
+    // public function customerConversations()
+    // {
+    //     return $this->firstParticipantConversations->where('first_participant_type', '0')
+    //         ->merge($this->secondParticipantConversations->where('second_participant_type', '0'));
+    // }
 }

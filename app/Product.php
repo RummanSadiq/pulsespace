@@ -12,36 +12,16 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'store_id', 'name', 'description', 'display_picture', 'price', 'category_id',
+        'shop_id', 'name', 'description', 'price', 'sale_price', 'category_id', 'sale_starts_at', 'sale_ends_at', 'is_active'
     ];
 
-    public function store()
+    public function shop()
     {
-        return $this->belongsTo('App\Store');
+        return $this->belongsTo('App\Shop');
     }
 
     public function category()
     {
         return $this->belongsTo('App\Category');
-    }
-
-    public function shoppingLists()
-    {
-        return $this->belongsToMany('App\ShoppingList', 'list_items');
-    }
-
-    public function promotion()
-    {
-        return $this->hasOne('App\Promotion');
-    }
-
-    public function attachments()
-    {
-        return $this->hasMany('App\PostAttachment');
-    }
-
-    public function reviews()
-    {
-        return $this->hasMany('App\ProductReview');
     }
 }

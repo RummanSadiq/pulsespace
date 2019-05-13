@@ -22,8 +22,10 @@ class CreateMessagesTable extends Migration
             $table->integer('sender_id')->unsigned();
             $table->foreign('sender_id')->references('id')->on('users');
 
-            $table->string('text');
-            
+            $table->text('text');
+
+            $table->boolean('is_active')->default(1);
+
             $table->timestamps();
         });
     }

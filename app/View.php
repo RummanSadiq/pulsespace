@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ListItem extends Model
+class View extends Model
 {
     protected $fillable = [
-        "user_id", "product_id", "is_active"
+        'user_id', 'parent_id', 'type', 'is_active'
     ];
 }

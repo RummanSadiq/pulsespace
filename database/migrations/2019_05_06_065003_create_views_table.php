@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProductAttachmentsTable extends Migration
+class CreateViewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,17 @@ class CreateProductAttachmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_attachments', function (Blueprint $table) {
+        Schema::create('views', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('attachment');
-            $table->integer('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->integer('parent_id')->unsigned();
+
+            $table->string('type');
+
+            $table->boolean('is_active')->default(1);
 
             $table->timestamps();
         });
@@ -31,6 +36,6 @@ class CreateProductAttachmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_attachments');
+        Schema::dropIfExists('views');
     }
 }

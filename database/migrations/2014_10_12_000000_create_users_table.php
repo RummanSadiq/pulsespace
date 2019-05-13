@@ -23,6 +23,11 @@ class CreateUsersTable extends Migration
             $table->string('gender')->default('Not mentioned');
             $table->string('phone_no')->nullable();
 
+            $table->string('shopping_list_name')->nullable();
+
+            $table->boolean('is_active')->default(1);
+            $table->boolean('is_super_admin')->default(0);
+
             $table->rememberToken();
             $table->timestamps();
         });

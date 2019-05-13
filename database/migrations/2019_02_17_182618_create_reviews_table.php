@@ -20,6 +20,7 @@ class CreateReviewsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
 
+            //Shop or Product Id
             $table->integer('parent_id')->unsigned();
             // $table->foreign('parent_id')->references('id')->on('stores');
 
@@ -27,6 +28,11 @@ class CreateReviewsTable extends Migration
             $table->float('rating');
             $table->string('description')->nullable();
 
+            $table->string('type');
+
+            $table->boolean('is_active')->default(1);
+
+            $table->integer('votes')->default(0);
             $table->timestamps();
         });
     }

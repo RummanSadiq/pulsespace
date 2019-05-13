@@ -16,11 +16,13 @@ class CreateListItemsTable extends Migration
         Schema::create('list_items', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('shopping_list_id')->unsigned();
-            $table->foreign('shopping_list_id')->references('id')->on('shopping_lists');
-            
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
+
+            $table->boolean('is_active')->default(1);
 
             $table->timestamps();
         });
