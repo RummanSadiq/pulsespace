@@ -41,14 +41,20 @@ class Posts extends Component {
     render() {
         return (
             <div>
-                <Col span={16} offset={6}>
+                <Col  xs={{ offset: 6, span: 18 }}
+                    sm={{ offset: 6, span: 18 }}
+                    md={{ offset: 6, span: 18 }}
+                    lg={{ offset: 6, span: 18 }}
+                    xl={{ offset: 3, span: 20 }}
+                    
+                    >
                     <APostForm newPosts={this.getPosts} />
                     <Card
                         title={<h3> Previous Posts </h3>}
                         type="inner"
                         hoverable="true"
                         bordered={false}
-                        style={{ width: 1000 }}
+                        // style={{ width: 1000 }}
                         headStyle={{ textAlign: "center" }}
                     >
                         <div style={{ paddingTop: "3%" }}>

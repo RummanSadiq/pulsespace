@@ -10,8 +10,7 @@ import UserReviews from "./UserReviews";
 import AddProduct from "./Add Product";
 import EPForm from "./EditProduct";
 import ViewProducts from "./View Products";
-import background from "../react_images/background.jpg";
-
+import Promote from './Promote';
 import Shop from "./Shop";
 class Dashboard extends Component {
     render() {
@@ -29,6 +28,7 @@ class Dashboard extends Component {
                         <Route path="/ViewProduct" component={ViewProducts} />
                         <Route path="/Edit" component={EPForm} />
                         <Route path="/Shop" component={Shop} />
+                        <Route path='/promote' component={Promote}/>
                         {/* <Route
                             path="/logout"
                             component={() => {
