@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Cascader } from 'antd';
+import {} from "antd";
 import {
     Col,
     Input,
@@ -10,7 +10,9 @@ import {
     Select,
     Form,
     Row,
-    message
+    message,
+    Cascader,
+    Checkbox
 } from "antd";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import axios from "axios";
@@ -23,7 +25,7 @@ function hasErrors(fieldsError) {
 }
 class AddProductForm extends React.Component {
     state = {
-        image_path: "",
+        image_path: [],
         categories: [],
         goToPosts: false,
         goToProducts: false
@@ -52,7 +54,7 @@ class AddProductForm extends React.Component {
     handleUpload = event => {
         if (event.file.status !== "uploading") {
             console.log(event.file);
-            this.setState({ image_path: event.file.response.url });
+            this.setState({ image_path: event.fileList });
         }
     };
 
@@ -178,6 +180,8 @@ class AddProductForm extends React.Component {
                             )}
                         </Form.Item>
 
+                        
+
                         <Form.Item>
                             <h2>Select category</h2>
 
@@ -190,10 +194,23 @@ class AddProductForm extends React.Component {
                                     }
                                 ]
                             })(
-                                <Cascader options={this.state.categories} placeholder="Please select Category" />
+                                <Cascader
+                                    options={this.state.categories}
+                                    placeholder="Please select Category"
+                                />
                             )}
                         </Form.Item>
-
+                        <Form.Item>
+                            {getFieldDecorator("generate_post", {
+                                rules: [
+                                    {
+                                        required: false,
+                                        message:
+                                            "Please input your Product Description!"
+                                    }
+                                ]
+                            })(<Checkbox>Generate Post?</Checkbox>)}
+                        </Form.Item>
                         <Form.Item>
                             <div style={{ marginLeft: "90%", marginTop: "2%" }}>
                                 <Button
