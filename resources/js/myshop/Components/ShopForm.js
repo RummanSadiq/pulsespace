@@ -53,9 +53,9 @@ class ShopForm extends React.Component {
                 console.log("Received values of form: ", values);
 
                 if (this.state.store.StoreName !== null) {
-                    console.log("storename");
-
-                    values.attachments = this.state.image;
+                    if (this.state.image) {
+                        values.attachments = this.state.image;
+                    }
 
                     values.open_at = moment
                         .utc(values.open_at)

@@ -1,45 +1,11 @@
 import React, { Component } from "react";
-import { Row, Col, Card, Avatar, Rate, Layout } from "antd";
-import axios from "axios";
-
-const { Header, Content } = Layout;
-
-class UserReviews extends Component {
-    state = {
-        reviews: []
-    };
-
-    componentDidMount() {
-        if (this.props.reviews){
-            this.setState({reviews:this.props.reviews})
-
-        }else{
-            axios.get("/api/reviews").then(res => {
-            const reviewsData = res.data;
-            console.log(reviewsData);
-            this.setState({ reviews: reviewsData });
-        });
-        }
-        
-    }
-
+import {Card, Avatar, Rate} from 'antd';
+class ProductReviews extends Component {
+    state = {};
     render() {
         return (
-            <div >
-                <Col
-                    xs={{ offset: 6, span: 18 }}
-                    sm={{ offset: 6, span: 18 }}
-                    md={{ offset: 6, span: 18 }}
-                    lg={{ offset: 6, span: 18 }}
-                    xl={{ offset: 3, span: 20 }}
-                >
-                    <Header style={{ backgroundColor: "#f5f5f5" }}>
-                        <div style={{ textAlign: "center" }}>
-                            <h1>What Users think about your store</h1>
-                        </div>
-                    </Header>
-
-                    {this.state.reviews.map(element => (
+            <div>
+                    {this.props.reviews.map(element => (
                         <div key={element.key} style={{ padding: "3%" }}>
                             <Card
                                 title={
@@ -65,10 +31,9 @@ class UserReviews extends Component {
                             </Card>
                         </div>
                     ))}
-                </Col>
             </div>
         );
     }
 }
 
-export default UserReviews;
+export default ProductReviews;

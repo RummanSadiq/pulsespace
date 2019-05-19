@@ -14,9 +14,11 @@ import {
     Upload,
     Select,
     Modal,
-    Popconfirm
+    Popconfirm,
+    Rate
 } from "antd";
 import EPForm from "./EditProduct";
+import ProductReviews from "./ProductReviews";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { element } from "prop-types";
@@ -32,7 +34,8 @@ class ViewProducts extends Component {
         show: false,
         categories: [],
         selectedRowKeys: [],
-        discount: 0
+        discount: 0,
+        showReview: false
     };
 
     componentDidMount() {
@@ -94,6 +97,15 @@ class ViewProducts extends Component {
         };
         console.log("Discount data to be sent to api will be: ", disc);
     };
+    handleReviews = (event, record) => {
+        this.setState({ reviews: record.reviews }, () => {
+            this.setState({ showReview: true });
+        });
+        console.log("record is", record);
+    };
+    handleReviewOk = () => {
+        this.setState({ showReview: false });
+    };
     render() {
         const columns = [
             // {
@@ -114,10 +126,13 @@ class ViewProducts extends Component {
             },
             {
                 title: "Picture",
-                dataIndex: "display_picture",
+                dataIndex: "attachments",
                 key: "picture",
-                render: Image => (
-                    <img src={Image} style={{ width: 50, height: 50 }} />
+                render: attachments => (
+                    <img
+                        src={attachments[0].url}
+                        style={{ width: 50, height: 50 }}
+                    />
                 )
             },
             {
@@ -177,9 +192,17 @@ class ViewProducts extends Component {
                 )
             },
             {
-                title: "Rating/Reviews",
-                dataIndex: "category",
-                key: "rating"
+                title: "Average Rating",
+                dataIndex: "avg_rating",
+                key: "rating",
+                render: (avg_rating, record) => (
+                    <a
+                        href="javascript:;"
+                        onClick={event => this.handleReviews(event, record)}
+                    >
+                        {avg_rating}
+                    </a>
+                )
             }
         ];
         const { selectedRowKeys } = this.state;
@@ -190,65 +213,81 @@ class ViewProducts extends Component {
         const hasSelected = selectedRowKeys.length > 0;
         const isdiscount = this.state.discount > 0;
         return (
-                <Col   xs={{ offset: 6, span: 18 }}
+            <Col
+                xs={{ offset: 6, span: 18 }}
                 sm={{ offset: 6, span: 18 }}
                 md={{ offset: 6, span: 18 }}
                 lg={{ offset: 6, span: 18 }}
-                xl={{ offset: 3, span: 20 }} style={{backgroundColor:'#FFFFFF'}}>
-                    <div>
-                        <h1 style={{ textAlign: "center" }}>
-                            These are all the products you have listed.
-                        </h1>
-                    </div>
-                    <div>
-                        <Input
-                            type="number"
-                            placeholder="%"
-                            onChange={this.discountChange}
-                            disabled={!hasSelected}
-                            style={{ width: 200 }}
-                        />
-                        <span style={{ marginLeft: 8 }}>
-                            <Button
-                                type="primary"
-                                onClick={this.handleDiscount}
-                                disabled={!isdiscount}
-                                // loading={loading}
-                            >
-                                Create Discount
-                            </Button>{" "}
-                        </span>
-
-                        <span style={{ marginLeft: 8 }}>
-                            {hasSelected
-                                ? `Selected ${selectedRowKeys.length} items`
-                                : ""}
-                        </span>
-                    </div>
-                    <Table
-                        bordered={true}
-                        rowSelection={rowSelection}
-                        columns={columns}
-                        dataSource={this.state.products}
-                        style={{ backgroundColor: "white" }}
-                        rowKey={record => record.id}
+                xl={{ offset: 3, span: 20 }}
+                style={{ backgroundColor: "#FFFFFF" }}
+            >
+                <div>
+                    <h1 style={{ textAlign: "center" }}>
+                        These are all the products you have listed.
+                    </h1>
+                </div>
+                <div>
+                    <Input
+                        type="number"
+                        placeholder="%"
+                        onChange={this.discountChange}
+                        disabled={!hasSelected}
+                        style={{ width: 200 }}
                     />
+                    <span style={{ marginLeft: 8 }}>
+                        <Button
+                            type="primary"
+                            onClick={this.handleDiscount}
+                            disabled={!isdiscount}
+                            // loading={loading}
+                        >
+                            Create Discount
+                        </Button>{" "}
+                    </span>
 
-                    <Modal
-                        title="Edit Product"
-                        visible={this.state.show}
-                        onOk={event => this.handleOk(event)}
-                        onCancel={this.handleCancel}
-                        destroyOnClose={true}
-                        footer={null}
-                        style={{overflow:'auto'}}
-                    >
-                        <EPForm
-                            record={this.state.erecord}
-                            handleOk={this.handleOk}
-                        />
-                    </Modal>
-                </Col>
+                    <span style={{ marginLeft: 8 }}>
+                        {hasSelected
+                            ? `Selected ${selectedRowKeys.length} items`
+                            : ""}
+                    </span>
+                </div>
+                <Table
+                    bordered={true}
+                    rowSelection={rowSelection}
+                    columns={columns}
+                    dataSource={this.state.products}
+                    style={{ backgroundColor: "white" }}
+                    rowKey={record => record.id}
+                />
+
+                <Modal
+                    title="Edit Product"
+                    visible={this.state.show}
+                    onOk={event => this.handleOk(event)}
+                    onCancel={this.handleCancel}
+                    destroyOnClose={true}
+                    footer={null}
+                    style={{ overflow: "auto" }}
+                >
+                    <EPForm
+                        record={this.state.erecord}
+                        handleOk={this.handleOk}
+                    />
+                </Modal>
+
+                <Modal
+                    title="Product reviews"
+                    visible={this.state.showReview}
+                    onOk={event => this.handleReviewOk(event)}
+                    onCancel={this.handleReviewOk}
+                    destroyOnClose={true}
+                    maskClosable={true}
+                    footer={null}
+                    style={{ overflow: "auto" }}
+                >
+                   <ProductReviews reviews={this.state.reviews}/> 
+                </Modal>
+            </Col>
         );
     }
 }

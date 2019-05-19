@@ -10,20 +10,13 @@ class EditProduct extends Component {
         super(props);
 
         this.state.record = this.props.record;
-        this.state.fileList = [
-            {
-                uid: "-1",
-                name: "Current Picture",
-                status: "done",
-                url: this.state.record.display_picture
-            }
-        ];
+        this.state.attachments = this.props.record.attachments
+
     }
     state = {
-        image_path: "",
+        attachments: [],
         categories: [],
         record: {},
-        fileList: []
     };
 
     componentDidMount() {
@@ -33,14 +26,15 @@ class EditProduct extends Component {
             this.setState({ categories: data });
         });
 
-        console.log("received props are", this.state.record);
+        console.log("the product data received by edit product form is", this.state.record);
     }
 
     handleUpload = event => {
-        if (event.file.status !== "uploading") {
-            console.log(event.file);
-            this.setState({ image_path: event.file.response.url });
-        }
+        // if (event.file.status !== "uploading") {
+            // console.log(event.file);
+            this.setState({ attachments: event.fileList });
+            console.log('handling  upload');
+        // }
     };
 
     handleSubmit = e => {
@@ -48,26 +42,20 @@ class EditProduct extends Component {
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                if (this.state.image_path !== "") {
-                    values["display_picture"] = this.state.image_path;
-                    console.log("Rumman");
-                } else {
-                    values[
-                        "display_picture"
-                    ] = this.state.record.display_picture;
-                    console.log("Sadiq");
-                }
+              values.category_name=this.props.record.category_name;
 
-                console.log("Received values of form: ", values);
+                console.log("Received values of form after adding attachments: ", values);
+                values.attachments=this.state.attachments;
 
-                message.success("DONE");
+                
 
                 axios
                     .post("api/products/" + this.state.record.id, values)
                     .then(res => {
                         const data = res.data;
-                        console.log(data);
+                        console.log('response from server after editing product',data);
                         this.props.handleOk();
+                        message.success("DONE");
                     })
                     .catch(res => {
                         console.log(res);
@@ -91,8 +79,8 @@ class EditProduct extends Component {
         const descriptionError =
             isFieldTouched("description") && getFieldError("description");
         const pictureError =
-            isFieldTouched("display_picture") &&
-            getFieldError("display_picture");
+            isFieldTouched("attachments") &&
+            getFieldError("attachments");
         const categoryError =
             isFieldTouched("category_id") && getFieldError("category_id");
         const priceError = isFieldTouched("price") && getFieldError("price");
@@ -178,8 +166,8 @@ class EditProduct extends Component {
                     validateStatus={pictureError ? "error" : ""}
                     help={pictureError || ""}
                 >
-                    {getFieldDecorator("display_picture", {
-                        initialValue: this.state.record.display_picture,
+                    {getFieldDecorator("attachments", {
+                        initialValue: this.state.record.attachments,
 
                         rules: [
                             {
@@ -193,7 +181,7 @@ class EditProduct extends Component {
                             onChange={this.handleUpload}
                             listType="picture"
                             name="image"
-                            fileList={this.state.fileList}
+                            fileList={this.state.attachments}
                         >
                             <Button>
                                 <Icon type="upload" /> Upload
@@ -202,7 +190,7 @@ class EditProduct extends Component {
                     )}
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                     validateStatus={categoryError ? "error" : ""}
                     help={categoryError || ""}
                 >
@@ -232,7 +220,7 @@ class EditProduct extends Component {
                             ))}
                         </Select>
                     )}
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item>
                     {" "}
