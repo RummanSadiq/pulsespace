@@ -63,7 +63,7 @@ class AddProductForm extends React.Component {
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.display_picture = this.state.image_path;
+                values.attachments = this.state.image_path;
                 console.log("Received values of form: ", values);
 
                 axios.post("/api/products", values).then(res => {
@@ -159,7 +159,7 @@ class AddProductForm extends React.Component {
                             <h3>Upload Pictures</h3>
                         </div>
                         <Form.Item>
-                            {getFieldDecorator("display_picture", {
+                            {getFieldDecorator("attachments", {
                                 rules: [
                                     {
                                         required: true,
@@ -179,8 +179,6 @@ class AddProductForm extends React.Component {
                                 </Upload>
                             )}
                         </Form.Item>
-
-                        
 
                         <Form.Item>
                             <h2>Select category</h2>

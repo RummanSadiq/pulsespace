@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Product;
 use App\Category;
 use App\Shop;
+use App\Attachment;
 
 
 use Illuminate\Support\Facades\DB;
@@ -23,10 +24,40 @@ class ProductController extends Controller
     {
         $products = Product::all();
 
+
+
+
+
         foreach ($products as $prod) {
             $prod['shop_name'] = Shop::find($prod->shop_id)->name;
-            $prod['shop_picture'] = Shop::find($prod->shop_id)->display_picture;
             $prod['category_name'] = Category::find($prod->category_id)->name;
+
+            $prod->attachments;
+
+            foreach ($prod['attachments'] as $attachment) {
+
+                $attachment['status'] = 'Done';
+                $attachment['uid'] = $attachment['id'];
+            }
+
+
+            $reviews = $prod->reviews;
+            if (count($reviews) > 0) {
+
+                $total = 0;
+                $noOfReviews = 0;
+
+                foreach ($reviews as $rev) {
+                    $total += $rev['rating'];
+                    $noOfReviews++;
+                    $rev->user;
+                }
+
+
+                $prod["avg_rating"] = $total / $noOfReviews;
+                $prod["total_reviews"] = count($reviews);
+            }
+            $prod["key"] = $prod->id;
         }
         return response()->json($products);
     }
@@ -96,6 +127,14 @@ class ProductController extends Controller
         foreach ($products as $prod) {
             $prod["key"] = $prod->id;
             $prod["category"] = Category::find($prod->category_id)->name;
+
+            $prod->attachments;
+
+            foreach ($prod['attachments'] as $attachment) {
+
+                $attachment['status'] = 'Done';
+                $attachment['uid'] = $attachment['id'];
+            }
         }
         return response()->json($products);
     }
@@ -120,11 +159,26 @@ class ProductController extends Controller
         $user = Auth::user();
         $shop = $user->shop;
         $request['shop_id'] = $shop->id;
+
+        $attachments = $request['attachments'];
+        unset($request['attachments']);
+
+        $request['category_id'] = last($request->category);
+
         $product = Product::create($request->all());
+
+        foreach ($attachments as $attachment) {
+            Attachment::create([
+                'name' => $attachment['name'],
+                'url' => $attachment['response']['url'],
+                'parent_id' => $product->id,
+                'type' => 'product'
+            ]);
+        }
+
+
         return response()->json($product, 201);
     }
-
-
 
     /**
      * Display the specified resource.
@@ -184,6 +238,28 @@ class ProductController extends Controller
         // $category = Category::select('id')->where('name', $request['category'])->first();
         // $request['category_id'] = $category->id;
         // unset($request['category']);
+
+        if (!empty($request['attachments'])) {
+
+            $product->attachments()->delete();
+            $attachments = $request['attachments'];
+            unset($request['attachments']);
+
+            foreach ($attachments as $attachment) {
+
+                if (isset($attachment['response'])) {
+                    $url =  $attachment['response']['url'];
+                } else {
+                    $url =  $attachment['url'];
+                }
+                Attachment::create([
+                    'name' => $attachment['name'],
+                    'url' => $url,
+                    'parent_id' => $product->id,
+                    'type' => 'product'
+                ]);
+            }
+        }
 
         $product->update($request->all());
         return response()->json($product, 201);

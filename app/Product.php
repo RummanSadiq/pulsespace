@@ -37,4 +37,9 @@ class Product extends Model
     {
         return $this->hasMany('App\Attachment', 'parent_id')->where('type', 'product');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany('App\Review', 'parent_id')->where('type', 'product');
+    }
 }

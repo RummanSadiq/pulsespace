@@ -85,7 +85,6 @@ class ShopController extends Controller
         $request['user_id'] = $user->id;
         $request['address_id'] = $address->id;
 
-        $attachments = $request['attachments'];
 
 
         unset($request['address']);
@@ -94,8 +93,9 @@ class ShopController extends Controller
         unset($request['zip']);
         unset($request['country']);
         unset($request['city']);
-        unset($request['attachments']);
 
+        $attachments = $request['attachments'];
+        unset($request['attachments']);
 
         $shop = Shop::create($request->all());
 
@@ -107,6 +107,8 @@ class ShopController extends Controller
                 'type' => 'shop'
             ]);
         }
+
+
 
         return response()->json($shop, 201);
     }
