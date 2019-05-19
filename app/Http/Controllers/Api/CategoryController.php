@@ -15,9 +15,47 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::whereNull('parent_id')->get();
         return response()->json($categories);
     }
+
+
+
+    // const options = [
+    //     {
+    //       value: 'zhejiang',
+    //       label: 'Zhejiang',
+    //       children: [
+    //         {
+    //           value: 'hangzhou',
+    //           label: 'Hangzhou',
+    //           children: [
+    //             {
+    //               value: 'xihu',
+    //               label: 'West Lake',
+    //             },
+    //           ],
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       value: 'jiangsu',
+    //       label: 'Jiangsu',
+    //       children: [
+    //         {
+    //           value: 'nanjing',
+    //           label: 'Nanjing',
+    //           children: [
+    //             {
+    //               value: 'zhonghuamen',
+    //               label: 'Zhong Hua Men',
+    //             },
+    //           ],
+    //         },
+    //       ],
+    //     },
+    //   ];
+
 
     /**
      * Show the form for creating a new resource.
