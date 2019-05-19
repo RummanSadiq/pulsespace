@@ -207,7 +207,7 @@ class AddProductForm extends React.Component {
                                             "Please input your Product Description!"
                                     }
                                 ]
-                            })(<Checkbox>Generate Post?</Checkbox>)}
+                            })(<Checkbox defaultChecked>Generate Post?</Checkbox>)}
                         </Form.Item>
                         <Form.Item>
                             <div style={{ marginLeft: "90%", marginTop: "2%" }}>
