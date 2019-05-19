@@ -24,10 +24,6 @@ class ProductController extends Controller
     {
         $products = Product::all();
 
-
-
-
-
         foreach ($products as $prod) {
             $prod['shop_name'] = Shop::find($prod->shop_id)->name;
             $prod['category_name'] = Category::find($prod->category_id)->name;
@@ -117,6 +113,22 @@ class ProductController extends Controller
 
         return response()->json($products);
     }
+
+
+
+
+    public function setDiscount(Request $request)
+    {
+        foreach ($request['products'] as $id) {
+            $product = Product::findOrFail($id);
+            $product->update([
+                "sale_price" => $product->price - ($product->price * ((int)$request['percent'] / 100)),
+                "sale_starts_at" => now()
+            ]);
+        }
+    }
+
+
 
 
     public function getShopProducts($shop_id)

@@ -93,6 +93,10 @@ class ViewProducts extends Component {
             percent: this.state.discount
         };
         console.log("Discount data to be sent to api will be: ", disc);
+
+        axios.post("/api/products/discount", disc).then(res => {
+            console.log("Discounts Added");
+        });
     };
     render() {
         const columns = [
@@ -190,65 +194,68 @@ class ViewProducts extends Component {
         const hasSelected = selectedRowKeys.length > 0;
         const isdiscount = this.state.discount > 0;
         return (
-                <Col   xs={{ offset: 6, span: 18 }}
+            <Col
+                xs={{ offset: 6, span: 18 }}
                 sm={{ offset: 6, span: 18 }}
                 md={{ offset: 6, span: 18 }}
                 lg={{ offset: 6, span: 18 }}
-                xl={{ offset: 3, span: 20 }} style={{backgroundColor:'#FFFFFF'}}>
-                    <div>
-                        <h1 style={{ textAlign: "center" }}>
-                            These are all the products you have listed.
-                        </h1>
-                    </div>
-                    <div>
-                        <Input
-                            type="number"
-                            placeholder="%"
-                            onChange={this.discountChange}
-                            disabled={!hasSelected}
-                            style={{ width: 200 }}
-                        />
-                        <span style={{ marginLeft: 8 }}>
-                            <Button
-                                type="primary"
-                                onClick={this.handleDiscount}
-                                disabled={!isdiscount}
-                                // loading={loading}
-                            >
-                                Create Discount
-                            </Button>{" "}
-                        </span>
-
-                        <span style={{ marginLeft: 8 }}>
-                            {hasSelected
-                                ? `Selected ${selectedRowKeys.length} items`
-                                : ""}
-                        </span>
-                    </div>
-                    <Table
-                        bordered={true}
-                        rowSelection={rowSelection}
-                        columns={columns}
-                        dataSource={this.state.products}
-                        style={{ backgroundColor: "white" }}
-                        rowKey={record => record.id}
+                xl={{ offset: 3, span: 20 }}
+                style={{ backgroundColor: "#FFFFFF" }}
+            >
+                <div>
+                    <h1 style={{ textAlign: "center" }}>
+                        These are all the products you have listed.
+                    </h1>
+                </div>
+                <div>
+                    <Input
+                        type="number"
+                        placeholder="%"
+                        onChange={this.discountChange}
+                        disabled={!hasSelected}
+                        style={{ width: 200 }}
                     />
+                    <span style={{ marginLeft: 8 }}>
+                        <Button
+                            type="primary"
+                            onClick={this.handleDiscount}
+                            disabled={!isdiscount}
+                            // loading={loading}
+                        >
+                            Create Discount
+                        </Button>{" "}
+                    </span>
 
-                    <Modal
-                        title="Edit Product"
-                        visible={this.state.show}
-                        onOk={event => this.handleOk(event)}
-                        onCancel={this.handleCancel}
-                        destroyOnClose={true}
-                        footer={null}
-                        style={{overflow:'auto'}}
-                    >
-                        <EPForm
-                            record={this.state.erecord}
-                            handleOk={this.handleOk}
-                        />
-                    </Modal>
-                </Col>
+                    <span style={{ marginLeft: 8 }}>
+                        {hasSelected
+                            ? `Selected ${selectedRowKeys.length} items`
+                            : ""}
+                    </span>
+                </div>
+                <Table
+                    bordered={true}
+                    rowSelection={rowSelection}
+                    columns={columns}
+                    dataSource={this.state.products}
+                    style={{ backgroundColor: "white" }}
+                    rowKey={record => record.id}
+                />
+
+                <Modal
+                    title="Edit Product"
+                    visible={this.state.show}
+                    onOk={event => this.handleOk(event)}
+                    onCancel={this.handleCancel}
+                    destroyOnClose={true}
+                    footer={null}
+                    style={{ overflow: "auto" }}
+                >
+                    <EPForm
+                        record={this.state.erecord}
+                        handleOk={this.handleOk}
+                    />
+                </Modal>
+            </Col>
         );
     }
 }
