@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\ShopAttachment;
-
+use App\ShopFollower;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-
 use Illuminate\Support\Facades\Auth;
+use App\Shop;
 
-class ShopAttachmentController extends Controller
+class ShopFollowerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,13 @@ class ShopAttachmentController extends Controller
      */
     public function index()
     {
-        //
+
+        $user = Auth::User();
+        // $user = User::find(1);
+
+        $shops = ShopFollower::where("user_id", $user->id)->get()->values();
+
+        return response()->json($shops);
     }
 
     /**
@@ -39,7 +45,9 @@ class ShopAttachmentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    { }
+    {
+        //
+    }
 
     /**
      * Display the specified resource.
@@ -48,9 +56,7 @@ class ShopAttachmentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
+    { }
 
     /**
      * Show the form for editing the specified resource.
@@ -58,9 +64,21 @@ class ShopAttachmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function follow($id)
     {
-        //
+
+        $user = Auth::User();
+        // $user = User::find(1);
+        $con = [
+            "user_id" => $user->id,
+            "shop_id" => $id
+        ];
+        $row = ShopFollower::where($con)->first();
+        if (!$row) {
+            ShopFollower::create($con);
+        } else {
+            $this->destroy($row->id);
+        }
     }
 
     /**
@@ -83,7 +101,7 @@ class ShopAttachmentController extends Controller
      */
     public function destroy($id)
     {
-        $attachment = ShopAttachment::find($id);
-        $attachment->delete();
+        $row = ShopFollower::find($id);
+        $row->delete();
     }
 }

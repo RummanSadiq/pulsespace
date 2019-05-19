@@ -22,21 +22,21 @@ Route::get('/users/shop', 'Api\UserController@hasShop');
 Route::get('/user', 'Api\UserController@index');
 
 //Store Followers
-Route::get('/follow/{id}', 'Api\StoreFollowerController@follow');
-Route::get('/followed', 'Api\StoreFollowerController@index');
+Route::get('/follow/{id}', 'Api\ShopFollowerController@follow');
+Route::get('/followed', 'Api\ShopFollowerController@index');
 
 
 //Shop
-Route::get('/shops', 'Api\StoreController@index');
-Route::get('/shops/{id}', 'Api\StoreController@show');
-Route::post('/shop', 'Api\StoreController@store');
-Route::post('/updateshop', 'Api\StoreController@update');
-Route::delete('/shops/{id}', 'Api\StoreController@destroy');
-Route::get('/myshop', 'Api\StoreController@myShop');
+Route::get('/shops', 'Api\ShopController@index');
+Route::get('/shops/{id}', 'Api\ShopController@show');
+Route::post('/shop', 'Api\ShopController@store');
+Route::post('/updateshop', 'Api\ShopController@update');
+Route::delete('/shops/{id}', 'Api\ShopController@destroy');
+Route::get('/myshop', 'Api\ShopController@myShop');
 
 
-//Store Types
-Route::get('/storetypes', 'Api\StoreTypeController@index');
+//Shop Types
+Route::get('/shoptypes', 'Api\ShopTypeController@index');
 
 
 //Categories
@@ -45,6 +45,7 @@ Route::get('/categories', 'Api\CategoryController@index');
 
 
 //Posts
+Route::get('/myposts', 'Api\PostController@myPosts');
 Route::get('/posts', 'Api\PostController@index');
 Route::get('/posts/shop/{id}', 'Api\PostController@getShopPosts');
 Route::post('/posts', 'Api\PostController@store');

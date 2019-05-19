@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\StoreType;
+use App\ShopType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class StoreTypeController extends Controller
+class ShopTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class StoreTypeController extends Controller
      */
     public function index()
     {
-        $types = StoreType::all();
+        $types = ShopType::all();
 
         return response()->json($types);
     }

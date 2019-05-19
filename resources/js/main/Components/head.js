@@ -201,20 +201,18 @@ class Head extends Component {
                             )}
                             {this.state.logged.id && (
                                 <Menu.Item key="7">
-                                   
-                                        <Dropdown overlay={menu}>
-                                            <div>
-                                                {this.state.unread && (
-                                                    <Badge count={1} >
-                                                        <Icon type="bell"/>
-                                                    </Badge>
-                                                )}
-                                                {!this.state.unread && (
+                                    <Dropdown overlay={menu}>
+                                        <div>
+                                            {this.state.unread && (
+                                                <Badge count={1}>
                                                     <Icon type="bell" />
-                                                )}
-                                            </div>
-                                        </Dropdown>
-                                    
+                                                </Badge>
+                                            )}
+                                            {!this.state.unread && (
+                                                <Icon type="bell" />
+                                            )}
+                                        </div>
+                                    </Dropdown>
                                 </Menu.Item>
                             )}
                         </Menu>

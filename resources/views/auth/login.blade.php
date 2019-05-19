@@ -5,7 +5,19 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login Form') }}</div>
+                <div class="card-header">
+
+                    <?php
+
+
+                    // $message = exec("python D:\Valet\pulsespace\resources\views\auth\test.py");
+                    // echo $message;
+
+                    $output = exec('C:\Users\chrum\AppData\Local\Programs\Python\Python37-32\python.exe D:\Valet\pulsespace\resources\views\auth\test.py');
+                    echo $output;
+
+                    ?>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">

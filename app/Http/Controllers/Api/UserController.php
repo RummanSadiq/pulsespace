@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\User;
 use Illuminate\Http\Request;
-use App\Store;
+use App\Shop;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +37,7 @@ class UserController extends Controller
 
     public function hasShop()
     {
-        $shop = Auth::User()->store;
+        $shop = Auth::User()->shop;
         // $shop = User::find(1)->store;
         if ($shop) {
             $res = 1;

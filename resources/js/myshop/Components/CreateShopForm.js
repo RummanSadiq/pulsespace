@@ -32,7 +32,7 @@ class CreateShopForm extends Component {
     };
 
     componentDidMount() {
-        axios.get("/api/storetypes").then(res => {
+        axios.get("/api/shoptypes").then(res => {
             const storedata = res.data;
             this.setState({ store_types: storedata });
         });
@@ -44,23 +44,30 @@ class CreateShopForm extends Component {
         }
     };
 
-    getLocation =()=> {
-        const location = window.navigator && window.navigator.geolocation
-        
+    getLocation = () => {
+        const location = window.navigator && window.navigator.geolocation;
+
         if (location) {
-          location.getCurrentPosition((position) => {
-              console.log('Latitude is '+position.coords.latitude+'    Longitude is '+position.coords.longitude);
-            this.setState({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            })
-          }, (error) => {
-            // this.setState({ latitude: 'err-latitude', longitude: 'err-longitude' })
-            console.log('Error getting lat long inside search', error);
-          })
+            location.getCurrentPosition(
+                position => {
+                    console.log(
+                        "Latitude is " +
+                            position.coords.latitude +
+                            "    Longitude is " +
+                            position.coords.longitude
+                    );
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    });
+                },
+                error => {
+                    // this.setState({ latitude: 'err-latitude', longitude: 'err-longitude' })
+                    console.log("Error getting lat long inside search", error);
+                }
+            );
         }
-    
-      }
+    };
     handleSubmit = e => {
         e.preventDefault();
 
@@ -80,8 +87,8 @@ class CreateShopForm extends Component {
                     .utc(values.close_time)
                     .format("HH:mm:ss");
 
-                    values.latitude=this.state.latitude;
-                    values.longitude=this.state.longitude;
+                values.latitude = this.state.latitude;
+                values.longitude = this.state.longitude;
 
                 axios
                     .post("/api/shop", values)
@@ -93,7 +100,7 @@ class CreateShopForm extends Component {
                         // this.setRedirect();
                     })
                     .catch(function(error) {
-                        throw(error);
+                        throw error;
                         console.log(error);
                         console.log(values);
                         message.error(
@@ -131,12 +138,12 @@ class CreateShopForm extends Component {
             <div>
                 {/* {this.renderRedirect()} */}
                 <Form onSubmit={this.handleSubmit}>
-                    <Form.Item label="Store Type:">
-                        {getFieldDecorator("store_type_id", {
+                    <Form.Item label="Shop Type:">
+                        {getFieldDecorator("shop_type_id", {
                             rules: [
                                 {
                                     required: true,
-                                    message: "Please input your store type!"
+                                    message: "Please input your shop type!"
                                 }
                             ]
                         })(
@@ -221,7 +228,7 @@ class CreateShopForm extends Component {
                             </Form.Item>
                         </Col>
                     </Row>
-                    
+
                     {/* <Row>
                         <Col span={12}>
                             <Form.Item label="Lat:">

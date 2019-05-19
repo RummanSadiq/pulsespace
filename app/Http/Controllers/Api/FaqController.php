@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Faq;
-use App\Store;
+use App\Shop;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class FaqController extends Controller
 {
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -20,11 +20,11 @@ class FaqController extends Controller
     {
         // $store = Store::select('id')->where('owner_id', $id)->first();
         $user = Auth::user();
-        $store = $user->store;
+        $shop = $user->shop;
         // $store_id = $store->id;
-        
+
         // $faqs = Faq::where('store_id', $store_id)->get();
-        $faqs = $store->faqs;
+        $faqs = $shop->faqs;
         return response()->json($faqs);
     }
 
@@ -47,8 +47,8 @@ class FaqController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $store = $user->store;
-        $request['store_id'] = $store->id;
+        $shop = $user->shop;
+        $request['shop_id'] = $shop->id;
         $faq = Faq::create($request->all());
         return response()->json($faq, 201);
     }
@@ -60,8 +60,7 @@ class FaqController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-    }
+    { }
 
     /**
      * Show the form for editing the specified resource.

@@ -16,16 +16,38 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function allPosts()
     {
         $user = Auth::user();
         // $user = User::find(1);
 
-        $store = $user->store;
+        $store = $user->shop;
         // $posts = $store->posts->sortByDesc('created_at');
         $posts = $store->posts->reverse()->values();
         return response()->json($posts);
     }
+
+    public function index()
+    {
+        $posts = Post::all();
+
+        foreach ($posts as $post) {
+            $post['shop_name'] = Shop::find($post->store_id)->name;
+            $post['shop_picture'] = Shop::find($post->store_id)->display_picture;
+        }
+
+        return response()->json($posts);
+    }
+
+
+    public function getShopPosts($shop_id)
+    {
+        $shop = Shop::find($shop_id);
+        $posts = $shop->posts->reverse()->values();
+        return response()->json($posts);
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -48,14 +70,14 @@ class PostController extends Controller
         $user = Auth::user();
         // $user = User::find(1);
 
-        $store = $user->store;
-        $request['store_id'] = $store->id;
+        $shop = $user->shop;
+        $request['shop_id'] = $shop->id;
 
         $post = Post::create($request->all());
         return response()->json($post, 201);
     }
 
-    public function productPost(Request $request) 
+    public function productPost(Request $request)
     {
         $description = "We just added a new product to our store. Buy " . $request['name'] . " at Rs. " . $request['price'] . " only." . " Contact us for more info";
 

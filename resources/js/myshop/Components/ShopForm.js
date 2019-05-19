@@ -30,13 +30,13 @@ class ShopForm extends React.Component {
     };
 
     componentDidMount() {
-        axios.get("/api/storetypes").then(res => {
+        axios.get("/api/shoptypes").then(res => {
             const storedata = res.data;
-            console.log("store types are", storedata);
+            console.log("shop types are", storedata);
             this.setState({ store_types: storedata });
         });
 
-        console.log("STORE values inside form are", this.state.store);
+        console.log("Shop values inside form are", this.state.store);
     }
 
     handleUpload = event => {
@@ -99,9 +99,9 @@ class ShopForm extends React.Component {
         return (
             <Col>
                 <Form onSubmit={this.handleSubmit}>
-                    <Form.Item label="Store Type:">
-                        {getFieldDecorator("store_type_id", {
-                            initialValue: this.state.store.store_type_id,
+                    <Form.Item label="Shop Type:">
+                        {getFieldDecorator("shop_type_id", {
+                            initialValue: this.state.store.shop_type_id,
 
                             rules: [
                                 {

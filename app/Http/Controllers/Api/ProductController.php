@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\ProductReview;
 use App\Product;
 use App\Category;
-use App\Store;
+use App\Shop;
 
 
 use Illuminate\Support\Facades\DB;
@@ -25,8 +25,8 @@ class ProductController extends Controller
         $products = Product::all();
 
         foreach ($products as $prod) {
-            $prod['store_name'] = Store::find($prod->store_id)->name;
-            $prod['store_picture'] = Store::find($prod->store_id)->display_picture;
+            $prod['shop_name'] = Shop::find($prod->shop_id)->name;
+            $prod['shop_picture'] = Shop::find($prod->shop_id)->display_picture;
             $prod['category_name'] = Category::find($prod->category_id)->name;
         }
         return response()->json($products);
@@ -36,8 +36,8 @@ class ProductController extends Controller
     {
 
         $user = Auth::user();
-        $store = $user->store;
-        $products = $store->products->reverse()->values();
+        $shop = $user->shop;
+        $products = $shop->products->reverse()->values();
         foreach ($products as $prod) {
             $prod["key"] = $prod->id;
             $prod["category"] = Category::find($prod->category_id)->name;
@@ -92,8 +92,8 @@ class ProductController extends Controller
     public function getShopProducts($shop_id)
     {
 
-        $store = Store::find($shop_id);
-        $products = $store->products->reverse()->values();
+        $shop = Shop::find($shop_id);
+        $products = $shop->products->reverse()->values();
         foreach ($products as $prod) {
             $prod["key"] = $prod->id;
             $prod["category"] = Category::find($prod->category_id)->name;
@@ -119,8 +119,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $store = $user->store;
-        $request['store_id'] = $store->id;
+        $shop = $user->shop;
+        $request['shop_id'] = $shop->id;
         $product = Product::create($request->all());
         return response()->json($product, 201);
     }
@@ -136,7 +136,7 @@ class ProductController extends Controller
     public function show($product_id)
     {
         $product = Product::findOrFail($product_id);
-        $product->store->user;
+        $product->shop->user;
         $reviews = $product->reviews;
 
 

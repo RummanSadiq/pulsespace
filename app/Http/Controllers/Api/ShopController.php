@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Store;
-use App\StoreType;
+use App\Shop;
+use App\ShopType;
 use App\Address;
 use App\User;
-use App\ShopAttachment;
+use App\Attachment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class StoreController extends Controller
+class ShopController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,12 +21,12 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $stores = Store::all();
+        $shops = Shop::all();
 
-        foreach ($stores as $store) {
-            $store->attachments;
+        foreach ($shops as $shop) {
+            $shop->attachments;
         }
-        return response()->json($stores);
+        return response()->json($shops);
     }
 
     public function myShop()
@@ -34,23 +34,23 @@ class StoreController extends Controller
 
         $user = Auth::user();
         // $user = User::find(5);
-        $store = $user->store;
+        $shop = $user->shop;
 
-        $store['store_owner'] = $user->name;
-        $store['store_type'] = StoreType::find($store->store_type_id)->name;
-        $store['address'] = Address::find($store->address_id)->place;
-        $store['city'] = Address::find($store->address_id)->city;
-        $store['name'] = strtoupper($store->name);
+        $shop['shop_owner'] = $user->name;
+        $shop['store_type'] = StoreType::find($shop->shop_type_id)->name;
+        $shop['address'] = Address::find($shop->address_id)->place;
+        $shop['city'] = Address::find($shop->address_id)->city;
+        $shop['name'] = strtoupper($shop->name);
 
-        $store->attachments;
+        $shop->attachments;
 
-        foreach ($store['attachments'] as $attachment) {
+        foreach ($shop['attachments'] as $attachment) {
 
             $attachment['status'] = 'Done';
             $attachment['uid'] = $attachment['id'];
         }
 
-        return response()->json($store);
+        return response()->json($shop);
     }
 
     /**
@@ -81,7 +81,7 @@ class StoreController extends Controller
             'country' => $request->input('country')
         ]);
 
-        $storetype = StoreType::select('id')->where('name', $request['store_type'])->first();
+        $shoptype = ShopType::select('id')->where('name', $request['shop_type'])->first();
         $request['user_id'] = $user->id;
         $request['address_id'] = $address->id;
 
@@ -97,17 +97,18 @@ class StoreController extends Controller
         unset($request['attachments']);
 
 
-        $store = Store::create($request->all());
+        $shop = Shop::create($request->all());
 
         foreach ($attachments as $attachment) {
-            ShopAttachment::create([
+            Attachment::create([
                 'name' => $attachment['name'],
                 'url' => $attachment['response']['url'],
-                'shop_id' => $store->id
+                'parent_id' => $shop->id,
+                'type' => 'shop'
             ]);
         }
 
-        return response()->json($store, 201);
+        return response()->json($shop, 201);
     }
 
     /**
@@ -143,10 +144,10 @@ class StoreController extends Controller
     {
         $user = Auth::user();
         // $user = User::find(2);
-        $store = $user->store;
+        $shop = $user->shop;
 
 
-        $address = Address::find($store->address_id);
+        $address = Address::find($shop->address_id);
         $address->update([
             'place' => $request->input('address'),
             'latitude' => $request->input('latitude'),
@@ -168,7 +169,7 @@ class StoreController extends Controller
 
         if (!empty($request['attachments'])) {
 
-            $store->attachments()->delete();
+            $shop->attachments()->delete();
             $attachments = $request['attachments'];
             unset($request['attachments']);
 
@@ -182,14 +183,14 @@ class StoreController extends Controller
                 ShopAttachment::create([
                     'name' => $attachment['name'],
                     'url' => $url,
-                    'shop_id' => $store->id
+                    'shop_id' => $shop->id
                 ]);
             }
         }
 
-        $store->update($request->all());
+        $shop->update($request->all());
 
-        return response()->json($store, 201);
+        return response()->json($shop, 201);
     }
 
     /**
@@ -200,7 +201,7 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
-        $store = Store::find($id);
-        $store->delete();
+        $shop = Shop::find($id);
+        $shop->delete();
     }
 }
