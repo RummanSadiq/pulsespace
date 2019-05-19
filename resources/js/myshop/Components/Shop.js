@@ -115,7 +115,7 @@ class Shop extends Component {
                                                         <img
                                                             src={element.url}
                                                             alt="Store Image"
-                                                            height={350}
+                                                            // height={350}
                                                         />
                                                     </div>
                                                 )
@@ -186,11 +186,11 @@ class Shop extends Component {
                             <Row>
                                 <Col span={12} className="infoColumns">
                                     <span>Store opens At: </span>
-                                    {this.state.store.open_time}
+                                    {this.state.store.open_at}
                                 </Col>
                                 <Col span={12} className="infoColumns">
                                     <span>Closing Time</span>
-                                    {this.state.store.close_time}
+                                    {this.state.store.close_at}
                                 </Col>
                             </Row>
                             <Row>

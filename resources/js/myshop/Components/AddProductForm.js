@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Cascader } from 'antd';
 import {
     Col,
     Input,
@@ -180,7 +181,7 @@ class AddProductForm extends React.Component {
                         <Form.Item>
                             <h2>Select category</h2>
 
-                            {getFieldDecorator("category_id", {
+                            {getFieldDecorator("category", {
                                 rules: [
                                     {
                                         required: true,
@@ -189,16 +190,7 @@ class AddProductForm extends React.Component {
                                     }
                                 ]
                             })(
-                                <Select
-                                    placeholder="Select Category"
-                                    style={{ width: 320 }}
-                                >
-                                    {this.state.categories.map(element => (
-                                        <Option value={element.id}>
-                                            {element.name}
-                                        </Option>
-                                    ))}
-                                </Select>
+                                <Cascader options={this.state.categories} placeholder="Please select Category" />
                             )}
                         </Form.Item>
 
