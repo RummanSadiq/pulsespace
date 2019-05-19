@@ -142,8 +142,8 @@ class Shop extends Component {
                             </Row>
                             <Row style={{ marginTop: "2em" }}>
                                 <Col span={12} className="infoColumns">
-                                    <span>Store Type: </span>
-                                    {this.state.store.store_type}
+                                    <span>Shop Type: </span>
+                                    {this.state.store.shop_type}
                                 </Col>
 
                                 <Col span={12} className="infoColumns">

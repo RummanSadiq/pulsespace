@@ -12,7 +12,15 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'shop_id', 'name', 'description', 'price', 'sale_price', 'category_id', 'sale_starts_at', 'sale_ends_at', 'is_active'
+        'shop_id',
+        'name',
+        'description',
+        'price',
+        'sale_price',
+        'category_id',
+        'sale_starts_at',
+        'sale_ends_at',
+        'is_active'
     ];
 
     public function shop()
@@ -23,5 +31,10 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo('App\Category');
+    }
+
+    public function attachments()
+    {
+        return $this->hasMany('App\Attachment', 'parent_id')->where('type', 'product');
     }
 }

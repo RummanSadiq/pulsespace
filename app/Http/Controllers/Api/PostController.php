@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Post;
 use App\User;
+use App\Shop;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,9 +22,9 @@ class PostController extends Controller
         $user = Auth::user();
         // $user = User::find(1);
 
-        $store = $user->shop;
+        $shop = $user->shop;
         // $posts = $store->posts->sortByDesc('created_at');
-        $posts = $store->posts->reverse()->values();
+        $posts = $shop->posts->reverse()->values();
         return response()->json($posts);
     }
 
@@ -32,8 +33,8 @@ class PostController extends Controller
         $posts = Post::all();
 
         foreach ($posts as $post) {
-            $post['shop_name'] = Shop::find($post->store_id)->name;
-            $post['shop_picture'] = Shop::find($post->store_id)->display_picture;
+            $post['shop_name'] = Shop::find($post->shop_id)->name;
+            $post['shop_picture'] = Shop::find($post->shop_id)->display_picture;
         }
 
         return response()->json($posts);

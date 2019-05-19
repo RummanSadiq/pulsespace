@@ -106,7 +106,7 @@ class ShopForm extends React.Component {
                             rules: [
                                 {
                                     required: true,
-                                    message: "Please input your store type!"
+                                    message: "Please input your shop type!"
                                 }
                             ]
                         })(

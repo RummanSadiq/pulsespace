@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\ProductReview;
 use App\Product;
 use App\Category;
 use App\Shop;

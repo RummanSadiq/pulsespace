@@ -33,11 +33,11 @@ class ShopController extends Controller
     {
 
         $user = Auth::user();
-        // $user = User::find(5);
+        // $user = User::find(1);
         $shop = $user->shop;
 
         $shop['shop_owner'] = $user->name;
-        $shop['store_type'] = StoreType::find($shop->shop_type_id)->name;
+        $shop['shop_type'] = ShopType::find($shop->shop_type_id)->name;
         $shop['address'] = Address::find($shop->address_id)->place;
         $shop['city'] = Address::find($shop->address_id)->city;
         $shop['name'] = strtoupper($shop->name);
@@ -180,10 +180,11 @@ class ShopController extends Controller
                 } else {
                     $url =  $attachment['url'];
                 }
-                ShopAttachment::create([
+                Attachment::create([
                     'name' => $attachment['name'],
                     'url' => $url,
-                    'shop_id' => $shop->id
+                    'parent_id' => $shop->id,
+                    'type' => 'shop'
                 ]);
             }
         }

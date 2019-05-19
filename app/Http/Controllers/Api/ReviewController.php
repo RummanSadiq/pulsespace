@@ -18,10 +18,10 @@ class ReviewController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $store = $user->store;
-        $reviews = $store->reviews;
+        $shop = $user->shop;
+        $reviews = $shop->reviews;
 
-        foreach($reviews as $rev) {
+        foreach ($reviews as $rev) {
             $rev["key"] = $rev->id;
             $rev['username'] = User::find($rev->user_id)->name;
         }

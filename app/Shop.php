@@ -45,10 +45,10 @@ class Shop extends Model
         return $this->hasMany('App\Product');
     }
 
-    // public function attachments()
-    // {
-    //     return $this->hasMany('App\ShopAttachment', 'shop_id');
-    // }
+    public function attachments()
+    {
+        return $this->hasMany('App\Attachment', 'parent_id')->where('type', 'shop');
+    }
 
     public function promotion()
     {
@@ -65,10 +65,10 @@ class Shop extends Model
         return $this->hasMany('App\ShopFollower');
     }
 
-    // public function reviews()
-    // {
-    //     return $this->hasMany('App\Review');
-    // }
+    public function reviews()
+    {
+        return $this->hasMany('App\Review', 'parent_id')->where('type', 'shop');
+    }
 
     public function posts()
     {
