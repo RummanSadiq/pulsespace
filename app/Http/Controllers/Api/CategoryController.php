@@ -16,8 +16,23 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::whereNull('parent_id')->get();
+
+        $this->addChildren($categories);
+
         return response()->json($categories);
     }
+
+    private function addChildren($list)
+    {
+        foreach ($list as $item) {
+            $children = Category::where('parent_id', $item->id)->get();
+            if (count($children) > 0) {
+                $item['children'] = $children;
+                $this->addChildren($children);
+            }
+        }
+    }
+
 
 
 
