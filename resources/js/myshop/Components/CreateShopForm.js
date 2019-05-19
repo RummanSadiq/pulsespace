@@ -79,12 +79,12 @@ class CreateShopForm extends Component {
                     values.attachments = this.state.image;
                 }
 
-                values.open_time = moment
-                    .utc(values.open_time)
+                values.open_at = moment
+                    .utc(values.open_at)
                     .format("HH:mm:ss");
 
-                values.close_time = moment
-                    .utc(values.close_time)
+                values.close_at = moment
+                    .utc(values.close_at)
                     .format("HH:mm:ss");
 
                 values.latitude = this.state.latitude;
@@ -193,7 +193,7 @@ class CreateShopForm extends Component {
                     <Row>
                         <Col span={12}>
                             <Form.Item label="Opens at:">
-                                {getFieldDecorator("open_time", {
+                                {getFieldDecorator("open_at", {
                                     rules: [
                                         {
                                             required: true,
@@ -211,7 +211,7 @@ class CreateShopForm extends Component {
                         </Col>
                         <Col span={12}>
                             <Form.Item label="Closes at:">
-                                {getFieldDecorator("close_time", {
+                                {getFieldDecorator("close_at", {
                                     rules: [
                                         {
                                             required: true,
