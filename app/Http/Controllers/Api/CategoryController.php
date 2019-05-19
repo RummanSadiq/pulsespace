@@ -26,6 +26,16 @@ class CategoryController extends Controller
     {
         foreach ($list as $item) {
             $children = Category::where('parent_id', $item->id)->get();
+            $item['value'] = $item['id'];
+            $item['label'] = $item['name'];
+
+            unset($item['id']);
+            unset($item['name']);
+            unset($item['created_at']);
+            unset($item['updated_at']);
+            unset($item['is_active']);
+            unset($item['default_picture']);
+
             if (count($children) > 0) {
                 $item['children'] = $children;
                 $this->addChildren($children);
