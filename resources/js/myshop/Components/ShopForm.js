@@ -57,12 +57,12 @@ class ShopForm extends React.Component {
 
                     values.attachments = this.state.image;
 
-                    values.open_time = moment
-                        .utc(values.open_time)
+                    values.open_at = moment
+                        .utc(values.open_at)
                         .format("HH:mm:ss");
 
-                    values.close_time = moment
-                        .utc(values.close_time)
+                    values.close_at = moment
+                        .utc(values.close_at)
                         .format("HH:mm:ss");
 
                     axios
@@ -162,9 +162,9 @@ class ShopForm extends React.Component {
                     <Row>
                         <Col span={12}>
                             <Form.Item label="Opens at:">
-                                {getFieldDecorator("open_time", {
+                                {getFieldDecorator("open_at", {
                                     initialValue: moment(
-                                        this.state.store.open_time,
+                                        this.state.store.open_at,
 
                                         "HH:mm:ss "
                                     ),
@@ -186,9 +186,9 @@ class ShopForm extends React.Component {
                         </Col>
                         <Col span={12}>
                             <Form.Item label="Closes at:">
-                                {getFieldDecorator("close_time", {
+                                {getFieldDecorator("close_at", {
                                     initialValue: moment(
-                                        this.state.store.close_time,
+                                        this.state.store.close_at,
 
                                         "HH:mm:ss"
                                     ),
