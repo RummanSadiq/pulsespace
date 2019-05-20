@@ -121,7 +121,29 @@ class ShopController extends Controller
      */
     public function show($id)
     {
-        //
+        $shop = Shop::findOrFail($id)->with('address', 'user', 'shopType', 'attachments', 'reviews')->get()->first();
+
+        $reviews = $shop->reviews;
+
+
+        if (count($reviews) > 0) {
+
+            $total = 0;
+            $noOfReviews = 0;
+
+            foreach ($reviews as $rev) {
+                $total += $rev['rating'];
+                $noOfReviews++;
+                $rev->user;
+            }
+
+
+            $shop["avg_rating"] = $total / $noOfReviews;
+            $shop["total_reviews"] = count($reviews);
+        }
+        $shop["key"] = $shop->id;
+
+        return response()->json($shop);
     }
 
     /**
