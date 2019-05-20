@@ -13,7 +13,9 @@ class ProductDetails extends Component {
         Axios.get("/api/products/" + this.props.match.params.id).then(res => {
             const product = res.data;
             console.log("product data is", product);
-            this.setState({ product: product });
+            this.setState({ product: product },()=>{
+                this.setState({Reviews: this.state.product.reviews});
+            });
         });
     }
     render() {
@@ -33,6 +35,17 @@ class ProductDetails extends Component {
                                 />
                                 <br />
                                 <div>
+                                    {/* {this.state.product.attachments.map(image =>(
+                                         <img
+                                         src={
+                                            image.url
+                                         }
+                                         width={100}
+                                         height={100}
+                                         style={{ padding: "1%" }}
+                                     />
+
+                                    ))} */}
                                     <img
                                         src={
                                             "https://cdn.pixabay.com/photo/2019/04/08/21/46/harley-davidson-4113065_960_720.jpg"
@@ -58,20 +71,30 @@ class ProductDetails extends Component {
                                 </div>
                             </Col>
                             <Col span={8}>
-                                <h1>
-                                    HP 15 Laptop 15.6" Touchscreen , Intel
-                                    Pentium Silver N5000, Intel UHD Graphics
-                                    605, 500GB HDD, 4GB SDRAM, DVD, Scarlet Red,
-                                    15-bs244wm
-                                    {this.state.product.name}
-                                </h1>
+                                <h1>{this.state.product.name}</h1>
                                 <h4>{this.state.product.description}</h4>
                                 <Rate disabled allowHalf defaultValue={3.5} />
                                 <span>47 reviews</span>
                                 <span>
-                                    Shop name{this.state.product.store_id}
+                                    <a href='javascript;;'>{this.state.product.shop.name}</a>
                                 </span>
-                                <h2>Rs. {this.state.product.price}</h2>
+                                <h2>
+                                    {this.state.product.sale_price > 0 && (
+                                        <div>
+                                            Old Price Rs.{" "}
+                                            <strike style={{ color: "black" }}>
+                                                {this.state.product.price}
+                                            </strike>
+                                            <div>
+                                                Discounted Price Rs.
+                                                {this.state.product.sale_price}
+                                            </div>
+                                        </div>
+                                    )}
+                                    {!this.state.product.sale_price > 0 && (
+                                        <div>Rs.{this.state.product.price}</div>
+                                    )}
+                                </h2>
                                 <h4>Address</h4>
                                 <Button
                                     type="primary"
@@ -81,7 +104,7 @@ class ProductDetails extends Component {
                                 >
                                     Add to List
                                 </Button>
-                                <span>Store doesn't provide shipping</span>
+                                <div><h4>{this.state.product.shop.delivery>0 ? "Store Provides delivery":"Store Does not provide delivery"}</h4></div>
                             </Col>
                         </Row>
                         <hr />{" "}

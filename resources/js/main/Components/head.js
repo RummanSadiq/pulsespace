@@ -151,15 +151,15 @@ class Head extends Component {
         );
 
         return (
-            <BrowserRouter>
+            <BrowserRouter style={{ backgroundColor: "white" }}>
                 <div>
-                    <div style={{ backgroundColor: "#F5F5F5" }}>
+                    <div >
                         <Menu
                             theme="light"
                             mode="horizontal"
                             style={{
-                                lineHeight: "30px",
-                                marginLeft: "70%",
+                                lineHeight: "50px",
+                                // marginLeft: "70%",
                                 backgroundColor: "#F5F5F5"
                             }}
                         >
@@ -217,7 +217,7 @@ class Head extends Component {
                             )}
                         </Menu>
                     </div>
-                    <Row>
+                    <Row style={{ backgroundColor: "white" }}>
                         <Col offset={4}>
                             <div
                                 style={{
@@ -264,20 +264,20 @@ class Head extends Component {
                             </div>
                         </Col>
                     </Row>{" "}
-                    <div style={{ padding: "2%", textAlign: "center" }}>
+                    <div style={{padding:'2%', textAlign: "center", backgroundColor: "white" }}>
                         <Dropdown overlay={category}>
                             <NavLink to="/categories">
-                                <Button icon="appstore" rounded="true">
+                                <Button icon="appstore" rounded="true" >
                                     Categories
                                 </Button>
                             </NavLink>
                         </Dropdown>
 
-                        <Button icon="shop" rounded="true">
+                        <Button icon="shop" rounded="true" style={{marginLeft:'1%', marginRight:'1%'}}>
                             Stores
                         </Button>
 
-                        <Button icon="database" rounded="true">
+                        <Button icon="database" rounded="true" >
                             Products
                         </Button>
                     </div>

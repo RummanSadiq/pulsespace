@@ -94,7 +94,8 @@ class ViewProducts extends Component {
     handleDiscount = () => {
         var disc = {
             products: this.state.selectedRowKeys,
-            percent: this.state.discount
+            percent: this.state.discount,
+            sale_ends_at: this.state.end_date
         };
         console.log("Discount data to be sent to api will be: ", disc);
 

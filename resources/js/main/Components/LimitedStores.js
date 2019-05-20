@@ -81,96 +81,82 @@ class Stores extends Component {
     render() {
         return (
             <div>
-               
-                    <Card
-                        title={<h2>{this.state.title}</h2>}
-                        extra={<Button icon="plus">All</Button>}
-                        bordered={false}
-                        style={{ background: "#ECECEC" }}
-                    >
-                        <List
-                            grid={{
-                                gutter: 18,
-                                column: 6,
-                                xs: 1,
-                                sm: 2,
-                                md: 2,
-                                lg: 3,
-                                xl: 3,
-                                xxl: 4
-                            }}
-                            pagination={{
-                                onChange: page => {
-                                    console.log(page);
-                                },
-                                pageSize: this.state.size
-                            }}
-                            dataSource={this.state.shops}
-                            renderItem={element => (
-                                <List.Item>
-                                    <Card
-                                        hoverable
-                                        cover={
-                                            <NavLink to={"store/" + element.id}>
-                                                <Carousel>
-                                                    {this.state.shops
-                                                        .attachments &&
-                                                        this.state.store.attachments.map(
-                                                            element => (
-                                                                <div>
-                                                                    <img
-                                                                        src={
-                                                                            element.url
-                                                                        }
-                                                                        alt="Store Image"
-                                                                        height={
-                                                                            350
-                                                                        }
-                                                                    />
-                                                                </div>
-                                                            )
-                                                        )}
-                                                </Carousel>
-                                            </NavLink>
+                <Card
+                    title={<h2>{this.state.title}</h2>}
+                    extra={<Button icon="plus">All</Button>}
+                    bordered={false}
+                    style={{ background: "#ECECEC" }}
+                >
+                    <List
+                        grid={{
+                            gutter: 18,
+                            column: 6,
+                            xs: 1,
+                            sm: 2,
+                            md: 2,
+                            lg: 3,
+                            xl: 3,
+                            xxl: 4
+                        }}
+                        pagination={{
+                            onChange: page => {
+                                console.log(page);
+                            },
+                            pageSize: this.state.size
+                        }}
+                        dataSource={this.state.shops}
+                        renderItem={element => (
+                            <List.Item>
+                                <Card
+                                    hoverable
+                                    cover={
+                                        <NavLink to={"store/" + element.id}>
+                                            <img
+                                                src={element.attachments[0].url}
+                                                alt="Store Image"
+                                                width={'100%'}
+                                                height={200}
+                                            />
+                                           
+                                        </NavLink>
+                                    }
+                                >
+                                    <Meta
+                                        title={element.name}
+                                        description={<div style={{color:'#72BEFC', marginBottom:'1%'}}>{element.contact}</div>}
+                                    />
+                                    <List.Item.Meta
+                                        description={
+                                            <div>
+                                                <Button
+                                                    icon="add"
+                                                    block
+                                                    style={{
+                                                        backgroundColor:
+                                                            "#F57224",
+                                                        color: "white"
+                                                    }}
+                                                    onClick={() =>
+                                                        this.handleFollow(
+                                                            element.id
+                                                        )
+                                                    }
+                                                >
+                                                    {this.checkFollow(
+                                                        element.id
+                                                    ) && "Following"}
+                                                    {!this.checkFollow(
+                                                        element.id
+                                                    ) && "Follow"}
+                                                </Button>
+                                            </div>
                                         }
-                                        style={{ width: 240 }}
-                                    >
-                                        <Meta
-                                            title={element.name}
-                                            description={element.contact}
-                                        />
-                                        <List.Item.Meta
-                                            description={
-                                                <div>
-                                                    <Button
-                                                        icon="add"
-                                                        block
-                                                        style={{
-                                                            backgroundColor:
-                                                                "#F57224",
-                                                            color: "white"
-                                                        }}
-                                                        onClick={() =>
-                                                            this.handleFollow(
-                                                                element.id
-                                                            )
-                                                        }
-                                                    >
-                                                        {this.checkFollow(
-                                                            element.id
-                                                        ) && "Following"}
-                                                        {!this.checkFollow(
-                                                            element.id
-                                                        ) && "Follow"}
-                                                    </Button>
-                                                </div>
-                                            }
-                                        />
-                                    </Card>
-                                </List.Item>
-                            )}
-                        />
-                    </Card>
+                                    />
+                                </Card>
+                            </List.Item>
+                        )}
+                    />
+                </Card>
             </div>
         );
     }

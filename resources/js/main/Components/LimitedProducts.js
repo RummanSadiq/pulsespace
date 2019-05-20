@@ -68,28 +68,37 @@ class Products extends Component {
                         }}
                         dataSource={this.props.products}
                         renderItem={element => (
-                            <List.Item style={{ padding: "3%" }}>
-                                {this.renderRedirect(element.id)}
+                            <List.Item
+                            //  style={{ padding: "3%" }}
+                            >
+                                {/* {this.renderRedirect(element.id)} */}
                                 <Card
                                     hoverable
                                     cover={
                                         <div>
-                                            <img
+                                            <NavLink
+                                                to={"product/" + element.id}
+                                            >
+
+                                             <img
                                                 alt="example"
-                                                src={element.display_picture}
-                                                onClick={this.setRedirect}
+                                                src={element.attachments[0].url}
+                                                // onClick={this.setRedirect}
                                                 style={{
-                                                    width: 188,
-                                                    height: 290,
-                                                    padding: "5%"
+                                                    width: 233,
+                                                    height: 233
+                                                    // padding: "5%"
                                                 }}
-                                            />
+                                            />   
+                                            </NavLink>
+                                            
                                         </div>
                                     }
                                     style={{
-                                        width: 188,
-                                        height: 290,
-                                        padding: "5%"
+                                        background: "white"
+                                        // width: 188,
+                                        // height: 290,
+                                        // padding: "5%"
                                     }}
                                 >
                                     <Meta
@@ -99,9 +108,9 @@ class Products extends Component {
                                     <List.Item.Meta
                                         title={
                                             <NavLink
-                                                to={"store/" + element.store_id}
+                                                to={"store/" + element.shop_id}
                                             >
-                                                {element.store_name}
+                                                {element.shop_name}
                                             </NavLink>
                                         }
                                         description={
@@ -109,7 +118,32 @@ class Products extends Component {
                                                 <h3
                                                     style={{ color: "#F57224" }}
                                                 >
-                                                    Rs.{element.price}
+                                                    {element.sale_price > 0 && (
+                                                        <div>
+                                                            Old Price Rs.{" "}
+                                                            <strike
+                                                                style={{
+                                                                    color:
+                                                                        "black"
+                                                                }}
+                                                            >
+                                                                {element.price}
+                                                            </strike>
+                                                            <div>
+                                                                Discounted Price
+                                                                Rs.
+                                                                {
+                                                                    element.sale_price
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    {!element.sale_price >
+                                                        0 && (
+                                                        <div>
+                                                            Rs.{element.price}
+                                                        </div>
+                                                    )}
                                                 </h3>
 
                                                 <Button
