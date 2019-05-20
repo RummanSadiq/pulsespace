@@ -220,6 +220,7 @@ class ProductController extends Controller
 
 
             $product["avg_rating"] = $total / $noOfReviews;
+            $product["total_reviews"] = count($reviews);
         }
         $product["key"] = $product->id;
 
