@@ -201,7 +201,9 @@ class ProductController extends Controller
     public function show($product_id)
     {
         $product = Product::findOrFail($product_id);
-        $product->shop->user;
+        $shop = $product->shop;
+        $shop->user;
+        $shop->address;
         $reviews = $product->reviews;
 
 
@@ -222,6 +224,7 @@ class ProductController extends Controller
         $product["key"] = $product->id;
 
         $product["category"] = Category::find($product->category_id)->name;
+
         return response()->json($product);
     }
 
