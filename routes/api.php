@@ -57,6 +57,7 @@ Route::delete('/posts/{id}', 'Api\PostController@destroy');
 //Products
 Route::get('/products', 'Api\ProductController@index');
 Route::post('/products', 'Api\ProductController@getFiltered');
+Route::post('/products/discount', 'Api\ProductController@setDiscount');
 Route::get('/products/shop/{id}', 'Api\ProductController@getShopProducts');
 Route::get('/products/{id}', 'Api\ProductController@show');
 Route::post('/products', 'Api\ProductController@store');

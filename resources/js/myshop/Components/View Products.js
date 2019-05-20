@@ -96,6 +96,11 @@ class ViewProducts extends Component {
             percent: this.state.discount
         };
         console.log("Discount data to be sent to api will be: ", disc);
+
+        axios.post("/api/products/discount", disc).then(res => {
+            console.log("Discounts Added");
+            message.success("discount added successfully");
+        });
     };
     handleReviews = (event, record) => {
         this.setState({ reviews: record.reviews }, () => {
@@ -136,11 +141,28 @@ class ViewProducts extends Component {
                 )
             },
             {
-                title: "Price",
+                title: "Actual Price",
                 dataIndex: "price",
                 key: "price",
                 defaultSortOrder: "descend",
                 sorter: (a, b) => a.price - b.price
+            },
+            {
+                title: "Discounted Price",
+                dataIndex: "sale_price",
+                key: "sale_price",
+                defaultSortOrder: "descend",
+                sorter: (a, b) => a.price - b.price
+            },
+            {
+                title: "Discount Started at",
+                dataIndex: "sale_starts_at",
+                key: "starts_at"
+            },
+            {
+                title: "Discount Ends at",
+                dataIndex: "sale_ends_at",
+                key: "ends_at"
             },
             {
                 title: "Category",
@@ -285,7 +307,7 @@ class ViewProducts extends Component {
                     footer={null}
                     style={{ overflow: "auto" }}
                 >
-                   <ProductReviews reviews={this.state.reviews}/> 
+                    <ProductReviews reviews={this.state.reviews} />
                 </Modal>
             </Col>
         );
