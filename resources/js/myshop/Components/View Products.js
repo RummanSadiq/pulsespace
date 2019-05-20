@@ -15,6 +15,7 @@ import {
     Select,
     Modal,
     Popconfirm,
+    DatePicker,
     Rate
 } from "antd";
 import EPForm from "./EditProduct";
@@ -110,6 +111,10 @@ class ViewProducts extends Component {
     };
     handleReviewOk = () => {
         this.setState({ showReview: false });
+    };
+    onChangeDate =(date, dateString)=>{
+        console.log('Date is ', date,' Date String is ',dateString)
+        this.setState({end_date:dateString});
     };
     render() {
         const columns = [
@@ -256,6 +261,9 @@ class ViewProducts extends Component {
                         disabled={!hasSelected}
                         style={{ width: 200 }}
                     />
+                    <span style={{ marginLeft: 8 }}>
+                    <DatePicker onChange={this.onChangeDate} disabled={!isdiscount}/>
+                    </span>
                     <span style={{ marginLeft: 8 }}>
                         <Button
                             type="primary"
