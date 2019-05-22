@@ -116,6 +116,7 @@ class ReviewController extends Controller
 
     public function store(Request $request)
     {
+
         $user = Auth::user();
         $request['user_id'] = $user->id;
 
@@ -132,8 +133,10 @@ class ReviewController extends Controller
                 'type' => 'review'
             ]);
         }
-
         return response()->json($review, 201);
+
+
+        // return response()->json("Unable to add review");
     }
 
     /**

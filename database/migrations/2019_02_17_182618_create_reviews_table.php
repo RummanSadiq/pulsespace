@@ -26,7 +26,7 @@ class CreateReviewsTable extends Migration
 
 
             $table->float('rating');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
 
             $table->string('type');
 

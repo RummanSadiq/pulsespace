@@ -28,10 +28,10 @@ class FaqController extends Controller
         return response()->json($faqs);
     }
 
-    public function getShopFaqs($store_id)
+    public function getShopFaqs($id)
     {
-        $store = Store::find($store_id);
-        $faqs = $store->faqs;
+        $shop = Shop::find($id);
+        $faqs = $shop->faqs;
         return response()->json($faqs);
     }
 
