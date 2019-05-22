@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Review;
 use App\User;
 use App\Attachment;
+use App\Product;
+use App\Shop;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

@@ -201,6 +201,7 @@ class ProductController extends Controller
         $shop->address;
         $reviews = $product->reviews;
 
+        $product->attachments;
 
         if (count($reviews) > 0) {
 
