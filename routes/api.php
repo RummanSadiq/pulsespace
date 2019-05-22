@@ -73,8 +73,10 @@ Route::post('/faqs/{id}', 'Api\FaqController@update');
 Route::delete('/faqs/{id}', 'Api\FaqController@destroy');
 
 //Reviews
-Route::get('/reviews', 'Api\ReviewController@index');
+Route::get('/reviews/shops', 'Api\ReviewController@indexMyShop');
+Route::get('/reviews/products', 'Api\ReviewController@indexMyProduct');
 Route::get('/reviews/shops/{id}', 'Api\ReviewController@shopReviews');
+Route::get('/reviews/products/{id}', 'Api\ReviewController@productReviews');
 Route::post('/reviews', 'Api\ReviewController@store');
 Route::post('/reviews/{id}', 'Api\ReviewController@update');
 Route::delete('/reviews/{id}', 'Api\ReviewController@destroy');

@@ -107,10 +107,6 @@ class ProductController extends Controller
         }
 
 
-
-
-
-
         return response()->json($products);
     }
 
@@ -123,7 +119,8 @@ class ProductController extends Controller
             $product = Product::findOrFail($id);
             $product->update([
                 "sale_price" => $product->price - ($product->price * ((int)$request['percent'] / 100)),
-                "sale_starts_at" => now()
+                "sale_starts_at" => now(),
+                "sale_ends_at" => $request['sale_ends_at']
             ]);
         }
     }
@@ -133,7 +130,6 @@ class ProductController extends Controller
 
     public function getShopProducts($shop_id)
     {
-
         $shop = Shop::find($shop_id);
         $products = $shop->products->reverse()->values();
         foreach ($products as $prod) {
@@ -187,7 +183,6 @@ class ProductController extends Controller
                 'type' => 'product'
             ]);
         }
-
 
         return response()->json($product, 201);
     }

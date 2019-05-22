@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Post;
 use App\User;
 use App\Shop;
+use App\Attachment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function allPosts()
+    public function myPosts()
     {
         $user = Auth::user();
         // $user = User::find(1);
@@ -25,6 +26,10 @@ class PostController extends Controller
         $shop = $user->shop;
         // $posts = $store->posts->sortByDesc('created_at');
         $posts = $shop->posts->reverse()->values();
+
+        foreach ($posts as $post) {
+            $post->attachments;
+        }
         return response()->json($posts);
     }
 
@@ -33,8 +38,8 @@ class PostController extends Controller
         $posts = Post::all();
 
         foreach ($posts as $post) {
-            $post['shop_name'] = Shop::find($post->shop_id)->name;
-            $post['shop_picture'] = Shop::find($post->shop_id)->display_picture;
+            $post->attachments;
+            $post->shop;
         }
 
         return response()->json($posts);
@@ -45,6 +50,11 @@ class PostController extends Controller
     {
         $shop = Shop::find($shop_id);
         $posts = $shop->posts->reverse()->values();
+
+        foreach ($posts as $post) {
+            $post->attachments;
+        }
+
         return response()->json($posts);
     }
 
@@ -74,7 +84,21 @@ class PostController extends Controller
         $shop = $user->shop;
         $request['shop_id'] = $shop->id;
 
+        $attachments = $request['attachments'];
+        unset($request['attachments']);
+
         $post = Post::create($request->all());
+
+        foreach ($attachments as $attachment) {
+            Attachment::create([
+                'name' => $attachment['name'],
+                'url' => $attachment['response']['url'],
+                'parent_id' => $post->id,
+                'type' => 'post'
+            ]);
+        }
+
+
         return response()->json($post, 201);
     }
 
@@ -83,8 +107,7 @@ class PostController extends Controller
         $description = "We just added a new product to our store. Buy " . $request['name'] . " at Rs. " . $request['price'] . " only." . " Contact us for more info";
 
         $request->replace([
-            "description" => $description,
-            "image_path" => $request['display_picture']
+            "description" => $description
         ]);
 
         return $this->store($request);
@@ -122,6 +145,30 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $post = Post::find($id);
+
+        if (!empty($request['attachments'])) {
+
+            $post->attachments()->delete();
+            $attachments = $request['attachments'];
+            unset($request['attachments']);
+
+            foreach ($attachments as $attachment) {
+
+                if (isset($attachment['response'])) {
+                    $url =  $attachment['response']['url'];
+                } else {
+                    $url =  $attachment['url'];
+                }
+                Attachment::create([
+                    'name' => $attachment['name'],
+                    'url' => $url,
+                    'parent_id' => $post->id,
+                    'type' => 'post'
+                ]);
+            }
+        }
+
+
         $post->update($request->all());
         return response()->json($post, 201);
     }

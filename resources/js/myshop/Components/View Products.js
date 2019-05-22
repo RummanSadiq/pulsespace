@@ -113,9 +113,14 @@ class ViewProducts extends Component {
     handleReviewOk = () => {
         this.setState({ showReview: false });
     };
-    onChangeDate =(date, dateString)=>{
-        console.log('Date is ', date,' Date String is ',dateString)
-        this.setState({end_date:dateString});
+    onChangeDate = (date, dateString) => {
+        console.log(
+            "Date is ",
+            date.format("MMMM Do YYYY, h:mm:ss a"),
+            " Date String is ",
+            dateString
+        );
+        this.setState({ end_date: date.format("YYYY-MM-DD hh:mm:ss") });
     };
     render() {
         const columns = [
@@ -263,7 +268,10 @@ class ViewProducts extends Component {
                         style={{ width: 200 }}
                     />
                     <span style={{ marginLeft: 8 }}>
-                    <DatePicker onChange={this.onChangeDate} disabled={!isdiscount}/>
+                        <DatePicker
+                            onChange={this.onChangeDate}
+                            disabled={!isdiscount}
+                        />
                     </span>
                     <span style={{ marginLeft: 8 }}>
                         <Button

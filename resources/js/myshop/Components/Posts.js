@@ -17,8 +17,8 @@ class Posts extends Component {
     }
 
     getPosts = () => {
-        console.log('this.get posts');
-        axios.get("/api/posts").then(res => {
+        console.log("this.get posts");
+        axios.get("/api/myposts").then(res => {
             const postd = res.data;
             this.setState({ posts: postd });
             console.log(this.state.posts);
@@ -41,13 +41,13 @@ class Posts extends Component {
     render() {
         return (
             <div>
-                <Col  xs={{ offset: 6, span: 18 }}
+                <Col
+                    xs={{ offset: 6, span: 18 }}
                     sm={{ offset: 6, span: 18 }}
                     md={{ offset: 6, span: 18 }}
                     lg={{ offset: 6, span: 18 }}
                     xl={{ offset: 3, span: 20 }}
-                    
-                    >
+                >
                     <APostForm newPosts={this.getPosts} />
                     <Card
                         title={<h3> Previous Posts </h3>}

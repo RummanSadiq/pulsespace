@@ -14,4 +14,9 @@ class Review extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function attachments()
+    {
+        return $this->hasMany('App\Attachment', 'parent_id')->where('type', 'review');
+    }
 }
