@@ -6,6 +6,7 @@ import {
     Button,
     Carousel,
     List,
+    Badge,
     Avatar,
     Icon,
     Skeleton
@@ -68,10 +69,7 @@ class Products extends Component {
                         }}
                         dataSource={this.props.products}
                         renderItem={element => (
-                            <List.Item
-                            //  style={{ padding: "3%" }}
-                            >
-                                {/* {this.renderRedirect(element.id)} */}
+                            <List.Item>
                                 <Card
                                     hoverable
                                     cover={
@@ -79,19 +77,20 @@ class Products extends Component {
                                             <NavLink
                                                 to={"product/" + element.id}
                                             >
-
-                                             <img
-                                                alt="example"
-                                                src={element.attachments[0].url}
-                                                // onClick={this.setRedirect}
-                                                style={{
-                                                    width: 233,
-                                                    height: 233
-                                                    // padding: "5%"
-                                                }}
-                                            />   
+                                                <img
+                                                    alt="example"
+                                                    src={
+                                                        element.attachments[0]
+                                                            .url
+                                                    }
+                                                    // onClick={this.setRedirect}
+                                                    style={{
+                                                        width: 233,
+                                                        height: 233
+                                                        // padding: "5%"
+                                                    }}
+                                                />
                                             </NavLink>
-                                            
                                         </div>
                                     }
                                     style={{
@@ -120,7 +119,11 @@ class Products extends Component {
                                                 >
                                                     {element.sale_price > 0 && (
                                                         <div>
-                                                            Old Price Rs.{" "}
+                                                            {/* <Badge
+      count={4}
+      style={{ backgroundColor: '#fff', color: '#999', boxShadow: '0 0 0 1px #d9d9d9 inset' }}
+    /> */}
+                                                            Price Rs.{" "}
                                                             <strike
                                                                 style={{
                                                                     color:
@@ -129,13 +132,14 @@ class Products extends Component {
                                                             >
                                                                 {element.price}
                                                             </strike>
-                                                            <div>
+                                                            {element.sale_price}
+                                                            {/* <div>
                                                                 Discounted Price
                                                                 Rs.
                                                                 {
                                                                     element.sale_price
                                                                 }
-                                                            </div>
+                                                            </div> */}
                                                         </div>
                                                     )}
                                                     {!element.sale_price >

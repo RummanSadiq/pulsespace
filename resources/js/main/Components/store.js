@@ -19,7 +19,7 @@ import axios from "axios";
 import FAQs from "./LimitedFaqs";
 import AllPosts from "./AllPosts";
 import Reviews from "./Reviews";
-
+import StoreInfo from "./StoreInfo";
 import "../css/sbar.css";
 
 const { TabPane } = Tabs;
@@ -30,7 +30,7 @@ class Store extends Component {
     }
     state = {
         products: [],
-        store: {},
+        // store: {},
         faqs: [],
         posts: [],
         followed: [],
@@ -43,67 +43,30 @@ class Store extends Component {
             console.log("store information is", storedata);
             this.setState({ store: storedata });
         });
-
-        axios.get("/api/products/shop/" + this.state.id).then(res => {
-            const productsData = res.data;
-            console.log(productsData);
-            this.setState({ products: productsData });
-        });
-
-        this.getFollowed();
+        this.getProducts();
         this.getReviews();
     }
-    getFollowed() {
-        axios.get("/api/followed").then(res => {
-            const followedData = res.data;
-            console.log("followed data is", followedData);
-            this.setState({ followed: followedData }, () => {
-                console.log("followed data is", this.state.followed);
 
-                this.checkFollow();
-            });
+    getProducts() {
+        axios.get("/api/products/shop/" + this.state.id).then(res => {
+            const productsData = res.data;
+            console.log("Products of store are", productsData);
+            this.setState({ products: productsData });
         });
-    }
-
-    handleFollow(id) {
-        console.log("handle follow", id);
-        axios
-            .get("/api/follow/" + id)
-            .then(res => {
-                this.getFollowed();
-            })
-            .catch(err => {
-                console.log(
-                    "Error occured, cannot make api call to follow store",
-                    err
-                );
-            });
-    }
-
-    checkFollow() {
-        console.log("I am inside check follow");
-        const result = this.state.followed.find(
-            element => element.store_id == this.state.id
-        );
-        console.log("result out is", result);
-
-        if (result) {
-            console.log("result is", result);
-            // return true;
-            this.setState({ f: true });
-        } else {
-            console.log("nope!", result);
-            // return false;
-            this.setState({ f: false });
-        }
     }
 
     getReviews() {
-        axios.get("/api/reviews/shops/" + this.props.match.params.id).then(res => {
-            const reviewsData = res.data;
-            console.log("Reviews  are", reviewsData);
-            this.setState({ Reviews: reviewsData });
-        });
+        axios
+            .get("/api/reviews/shops/" + this.props.match.params.id)
+            .then(res => {
+                const reviewsData = res.data;
+                console.log("Reviews  are", reviewsData);
+                this.setState({ Reviews: reviewsData });
+            })
+            .catch(err => {
+                console.log("Error occurred while getting reviews", err);
+                throw err;
+            });
     }
     getPosts() {
         axios.get("/api/posts/shop/" + this.state.id).then(res => {
@@ -116,248 +79,34 @@ class Store extends Component {
     render() {
         return (
             <div>
-                <Row>
+                 {this.state.store &&
+                 <Row>
                     <Col>
                         <Carousel>
-                            <div>
-                                <img
-                                    src={this.state.store.display_picture}
-                                    width="100%"
-                                    height="100%"
-                                    alt="image"
-                                />
-                            </div>
-                            <div>
-                                <img
-                                    src={this.state.store.display_picture}
-                                    width="100%"
-                                    height="100%"
-                                    alt="image"
-                                />
-                            </div>
-                            <div>
-                                <img
-                                    src={this.state.store.display_picture}
-                                    width="100%"
-                                    height="100%"
-                                    alt="image"
-                                />
-                            </div>
-                            <div>
-                                <img
-                                    src={this.state.store.display_picture}
-                                    width="100%"
-                                    height="100%"
-                                    alt="image"
-                                />
-                            </div>
-                            <div>
-                                <img
-                                    src={this.state.store.display_picture}
-                                    width="100%"
-                                    height="100%"
-                                    alt="image"
-                                />
-                            </div>
+                            {this.state.store.attachments.map(image => (
+                                <div>
+                                    <img
+                                        src={image.url}
+                                        width="100%"
+                                        height="100%"
+                                        alt="image"
+                                    />
+                                </div>
+                            ))}
+                             {/* <div>
+                                    <img
+                                        src={this.state.store.attachments[0].url}
+                                        width='100%'
+                                        height='50%'
+                                        alt="image"
+                                    />
+                                </div> */}
                         </Carousel>
                     </Col>
-                </Row>
-                <Row style={{ marginTop: "3%" }}>
-                    <Col span={12} offset={6}>
-                        <div>
-                            {this.state.f && (
-                                <Button
-                                    icon="check"
-                                    size="large"
-                                    shape="round"
-                                    style={{
-                                        backgroundColor: "#F57224",
-                                        color: "white"
-                                    }}
-                                    onClick={() =>
-                                        this.handleFollow(this.state.id)
-                                    }
-                                >
-                                    Following
-                                </Button>
-                            )}
-                            {!this.state.f && (
-                                <Button
-                                    icon="plus"
-                                    size="large"
-                                    shape="round"
-                                    style={{
-                                        backgroundColor: "#F57224",
-                                        color: "white"
-                                    }}
-                                    onClick={() =>
-                                        this.handleFollow(this.state.id)
-                                    }
-                                >
-                                    Follow
-                                </Button>
-                            )}
+                </Row> }
+                {!this.state.store && <Skeleton />}
 
-                            <Button
-                                icon="message"
-                                size="large"
-                                shape="round"
-                                style={{
-                                    backgroundColor: "#F57224",
-                                    color: "white"
-                                }}
-                            >
-                                Message
-                            </Button>
-                            <div>
-                                Number of Followers{" "}
-                                <span>
-                                    <Rate disabled defaultValue={3} />
-                                </span>
-                            </div>
-                        </div>
-                        <div style={{ textAlign: "center" }}>
-                            <h1>{this.state.store.name}</h1>
-                        </div>
-                        <hr style={{ marginBottom: 0, width: 5 }} />
-                        <Row style={{ fontFamily: "sans-serif" }}>
-                            <Col
-                                span={6}
-                                style={{
-                                    textAlign: "center",
-                                    fontSize: 16
-                                }}
-                            >
-                                <Icon type="phone" />
-                                {this.state.store.contact}
-                            </Col>
-                            <Col
-                                span={8}
-                                offset={2}
-                                style={{
-                                    textAlign: "center",
-                                    fontSize: 16
-                                }}
-                            >
-                                <Icon type="info" />
-                                {this.state.store.address}
-                            </Col>
-                            <Col
-                                span={6}
-                                style={{
-                                    textAlign: "center",
-                                    fontSize: 16
-                                }}
-                            >
-                                <Icon type="info" /> Store City: Lahore
-                            </Col>
-                        </Row>
-                        <hr />
-                        <Row
-                            style={{
-                                padding: 20,
-                                backgroundColor: "#ECECEC"
-                            }}
-                        >
-                            <Col
-                                span={4}
-                                style={{
-                                    textAlign: "center",
-                                    fontSize: 14,
-                                    borderRight: 50,
-                                    borderRightStyle: "solid",
-                                    borderWidth: 2,
-                                    height: "100%"
-                                }}
-                            >
-                                <Icon type="bars" style={{ fontSize: 20 }} />{" "}
-                                {this.state.store.store_type} type
-                            </Col>
-
-                            <Col
-                                span={8}
-                                style={{
-                                    textAlign: "center",
-                                    fontSize: 14,
-                                    borderRight: 50,
-                                    borderRightStyle: "solid",
-                                    borderWidth: 2,
-                                    height: "100%"
-                                }}
-                            >
-                                <Icon
-                                    type="clock-circle"
-                                    style={{ fontSize: 20 }}
-                                />{" "}
-                                <h3 style={{ display: "inline" }}>Opens at:</h3>{" "}
-                                {this.state.store.open_time}
-                                <br />
-                                <Icon
-                                    type="clock-circle"
-                                    style={{ fontSize: 20 }}
-                                />{" "}
-                                <h3 style={{ display: "inline" }}>
-                                    Closes at:
-                                </h3>{" "}
-                                {this.state.store.close_time}
-                            </Col>
-                            <Col
-                                span={4}
-                                style={{
-                                    textAlign: "center",
-                                    fontSize: 14,
-                                    borderRight: 50,
-                                    borderRightStyle: "solid",
-                                    borderWidth: 2,
-                                    height: "100%"
-                                }}
-                            >
-                                <Icon
-                                    type="step-forward"
-                                    style={{ fontSize: 20 }}
-                                />{" "}
-                                <h3 style={{ display: "inline" }}>Delivery:</h3>{" "}
-                                {/* {this.state.delivery > 0 && "Yes"} */}
-                                {this.state.delivery == 1 && "Yes"}
-                                {this.state.delivery != 1 && "No"}
-                            </Col>
-                            <Col
-                                span={4}
-                                style={{
-                                    textAlign: "center",
-                                    fontSize: 14,
-                                    borderRight: 50,
-                                    borderRightStyle: "solid",
-                                    borderWidth: 2,
-                                    height: "100"
-                                }}
-                            >
-                                <Icon type="wifi" style={{ fontSize: 20 }} />{" "}
-                                <h3 style={{ display: "inline" }}>Wifi</h3>{" "}
-                                {this.state.wifi > 0 && "Yes"}
-                                {!this.state.wifi > 0 && "No"}
-                            </Col>
-                            <Col
-                                span={4}
-                                style={{
-                                    textAlign: "center",
-                                    fontSize: 14
-                                }}
-                            >
-                                <Icon
-                                    type="credit-card"
-                                    style={{ fontSize: 20 }}
-                                />{" "}
-                                <h3 style={{ display: "inline" }}>Card:</h3>{" "}
-                                {this.state.card_payment && "Yes"}
-                                {!this.state.card_payment && "No"}
-                            </Col>
-                        </Row>
-                    </Col>
-                    {/* {this.state.store &&
-                    <StoreDetails details={this.state.store} />
-                    } */}
-                </Row>
+                {this.state.store && <StoreInfo store={this.state.store} />}
                 <Tabs
                     defaultActiveKey="1"
                     size={"large"}

@@ -1,17 +1,31 @@
 import React, { Component } from "react";
 import { Form, Icon, Input, Button, Rate, Upload } from "antd";
-
+import axios from "axios";
 const { TextArea } = Input;
 class ReviewForm extends Component {
-    state = {};
+    state = {
+        images: []
+    };
 
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 if (this.props.item_id) {
-                    values.item_id = this.props.item_id;
+                    values.parent_id = this.props.item_id;
                 }
+                if (this.state.images) {
+                    values.attachments = this.state.images;
+                }
+
+                axios
+                    .post("/api/reviews/shops", values)
+                    .then(response => {
+                        console.log("review added", response);
+                    })
+                    .then(err => {
+                        console.log("error occurred while adding review", err);
+                    });
 
                 console.log("Received values of form: ", values);
                 this.props.handleok();
@@ -21,7 +35,7 @@ class ReviewForm extends Component {
     handleUpload = event => {
         if (event.file.status !== "uploading") {
             console.log(event.file);
-            this.setState({ image_path: event.file.response.url });
+            this.setState({ images: event.fileList });
         }
     };
 
@@ -43,7 +57,7 @@ class ReviewForm extends Component {
                         })(<TextArea rows={5} placeholder="Description" />)}
                     </Form.Item>
                     <Form.Item>
-                        {getFieldDecorator("display_picture", {
+                        {getFieldDecorator("attachments", {
                             rules: [
                                 {
                                     required: true,
@@ -72,15 +86,14 @@ class ReviewForm extends Component {
                                     message: "please inputing rating"
                                 }
                             ]
-                        })(<Rate allowHalf defaultValue={2.5} />)}
+                        })(<Rate allowHalf />)}
                     </Form.Item>
                     <Form.Item>
                         <Button
                             type="primary"
                             htmlType="submit"
-                            className="login-form-button"
                         >
-                            Log in
+                            Done
                         </Button>
                     </Form.Item>
                 </Form>

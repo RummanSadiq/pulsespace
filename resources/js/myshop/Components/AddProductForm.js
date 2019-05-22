@@ -28,7 +28,8 @@ class AddProductForm extends React.Component {
         image_path: [],
         categories: [],
         goToPosts: false,
-        goToProducts: false
+        goToProducts: false,
+        generate_post: true
     };
 
     componentDidMount() {
@@ -58,6 +59,9 @@ class AddProductForm extends React.Component {
         }
     };
 
+    handleCheck = () => {
+        this.setState({ generate_post: !this.state.generate_post });
+    };
     handleSubmit = e => {
         e.preventDefault();
 
@@ -71,13 +75,16 @@ class AddProductForm extends React.Component {
                     console.log(data);
                 });
 
-                axios.post("/api/product_post", values).then(res => {
-                    const data = res.data;
-                    console.log(data);
-                    message.success("Product Added");
+                if (this.state.generate_post) {
+                    axios.post("/api/product_post", values).then(res => {
+                        const data = res.data;
+                        console.log(data);
+                        message.success("Product Added");
 
-                    this.setState({ goToProducts: true });
-                });
+                        this.setState({ goToProducts: true });
+                    });
+                }
+
                 this.props.form.resetFields();
             } else {
                 message.error("Error processing request");
@@ -198,17 +205,9 @@ class AddProductForm extends React.Component {
                                 />
                             )}
                         </Form.Item>
-                        <Form.Item>
-                            {getFieldDecorator("generate_post", {
-                                rules: [
-                                    {
-                                        required: false,
-                                        message:
-                                            "Please input your Product Description!"
-                                    }
-                                ]
-                            })(<Checkbox defaultChecked>Generate Post?</Checkbox>)}
-                        </Form.Item>
+                        <Checkbox defaultChecked onChange={this.handleCheck}>
+                            Generate Post?
+                        </Checkbox>
                         <Form.Item>
                             <div style={{ marginLeft: "90%", marginTop: "2%" }}>
                                 <Button

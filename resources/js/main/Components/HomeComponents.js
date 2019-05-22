@@ -134,7 +134,7 @@ class HomeComponents extends Component {
                                         <Products
                                             products={this.state.products}
                                             title="Explore Products"
-                                            size={6}
+                                            size={8}
                                             all={true}
                                         />
                                     )}

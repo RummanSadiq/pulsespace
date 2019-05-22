@@ -9,7 +9,8 @@ import {
     List,
     Avatar,
     Rate,
-    Modal
+    Modal,
+    Icon
 } from "antd";
 import axios from "axios";
 import AddReviewForm from "./ReviewForm";
@@ -71,19 +72,19 @@ class Reviews extends Component {
                         renderItem={item => (
                             <List.Item
                                 key={item.id}
-                                extra={
-                                    <img
-                                        width={272}
-                                        alt="logo"
-                                        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                                    />
-                                }
-                                style={{ background: "white" }}
+                                // extra={
+                                //     <img
+                                //         width={272}
+                                //         alt="logo"
+                                //         src={item.attachments[0].url}
+                                //     />
+                                // }
+                                style={{ background: "white", padding:'2%' }}
                             >
                                 <List.Item.Meta
-                                    avatar={<Avatar src={item.avatar} />}
+                                    avatar={<Avatar><Icon type='user'/></Avatar>}
                                     title={
-                                        <a href={item.href}>{item.user.name}</a>
+                                        <a href={item.href}>{item.username}</a>
                                     }
                                     description={
                                         <Rate
@@ -92,7 +93,10 @@ class Reviews extends Component {
                                         />
                                     }
                                 />
-                                {item.description}
+                                <div style={{fontWeight:'inherit'}}>
+                                  {item.description}  
+                                </div>
+                                
                             </List.Item>
                         )}
                     />
@@ -102,6 +106,7 @@ class Reviews extends Component {
                     visible={this.state.visible}
                     // onOk={this.handleOk}
                     onCancel={this.handleCancel}
+                    footer={null}
                 >
                     <AddReviewForm handleok={this.handleCancel} item_id={1} />
                 </Modal>

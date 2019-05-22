@@ -71,8 +71,7 @@ class AddPostForm extends Component {
         const {
             getFieldDecorator,
             getFieldsError,
-            getFieldError,
-            isFieldTouched
+            
         } = this.props.form;
 
         return (

@@ -207,19 +207,13 @@ class Shop extends Component {
                                 <Col span={12} className="infoColumns">
                                     {this.state.store.wifi > 0 && (
                                         <span>
-                                            {/* <Icon type="wifi" /> */}
                                             Store has Wifi
                                         </span>
                                     )}
                                     {!this.state.store.wifi > 0 && (
                                         <span>
-                                            <Icon
-                                            // type="wifi"
-                                            // style={{
-                                            //     color: "#F81D22"
-                                            // }}
-                                            />
-                                            /> Store does not have Wifi
+                                           
+                                            Store does not have Wifi
                                         </span>
                                     )}
                                 </Col>
