@@ -17,14 +17,13 @@ class AddPostForm extends Component {
     state = {
         posts: [],
         description: "",
-        image_path: "",
+        images: [],
         posted: false,
         uploadedFile: ""
     };
 
     handleChange = event => {
         this.setState({ description: event.target.value });
-        console.log(event.target.value);
     };
 
     handleSubmit = e => {
@@ -35,19 +34,24 @@ class AddPostForm extends Component {
             if (!err) {
                 var arr = {
                     description: this.state.description,
-                    image_path: this.state.image_path
+                    attachments: this.state.images
                 };
+              
                 axios.post("/api/posts", arr).then(res => {
                     this.props.form.resetFields();
                     console.log(this.myUpload.current);
                     this.myUpload.current.handleManualRemove(
-                        this.state.uploadedFile
+                        this.state.images
                     );
 
                     this.props.newPosts();
+                    this.setState({ images: "" });
                     this.setState({ posted: !this.state.posted });
                     this.props.form.resetFields();
                     message.success("Post Added");
+                }).catch(err=>{
+                    console.log('Error occured while adding to database', err);
+                    message.error('Cannot call database');
                 });
             } else {
                 message.error("Input fields cannot be empty");
@@ -59,8 +63,8 @@ class AddPostForm extends Component {
     handleUpload = event => {
         if (event.file.status !== "uploading") {
             console.log("Uploading file is", event.file);
-            this.setState({ image_path: event.file.response.url });
-            this.setState({ uploadedFile: event.file });
+            this.setState({ images: event.fileList});
+            // this.setState({ uploadedFile: event.file });
         }
     };
     render() {
@@ -107,6 +111,7 @@ class AddPostForm extends Component {
                     >
                         <Form.Item>
                             {getFieldDecorator("display_picture", {
+                                // valuePropName: 'fileList',
                                 rules: [
                                     {
                                         required: false,
@@ -120,6 +125,7 @@ class AddPostForm extends Component {
                                     listType="picture"
                                     name="image"
                                     ref={this.myUpload}
+                                    defaultFileList={this.state.images}
                                 >
                                     <Button icon="upload">
                                         Upload Picture

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Row, Col, Card, Button, List, Avatar, Icon, Skeleton } from "antd";
+import { Row, Col, Card, Button, List, Avatar, Icon, Skeleton, Carousel } from "antd";
 
 class AllPosts extends Component {
     constructor (props){
@@ -40,27 +40,27 @@ class AllPosts extends Component {
                                 pageSize: 6
                             }}
                             dataSource={this.state.posts}
-                            // footer={
-                            //     <div>
-                            //         <b>ant design</b> footer part
-                            //     </div>
-                            // }
+                            footer={
+                                <div>
+                                    <b>POSTS</b>
+                                </div>
+                            }
                             style={{ background: "#F5F5F5" }}
                             renderItem={element => (
                                 <List.Item
-                                    key={element.store_id}
+                                    key={element.id}
                                     style={{ textAlign: "left" }}
                                 >
                                     <List.Item.Meta
                                         avatar={
                                             <Avatar
-                                                src={element.store_picture}
-                                            />
+                                                
+                                            ><Icon type='shop' theme='twoTone'/></Avatar>
                                         }
                                         title={
                                             <a href={"store/" + element.id}>
                                                 {" "}
-                                                {element.store_name}
+                                                {element.shop.name}
                                             </a>
                                         }
                                         description={element.created_at}
@@ -71,11 +71,20 @@ class AllPosts extends Component {
                                     </div>
 
                                     <div style={{ marginTop: "20" }}>
-                                        <img
-                                            // alt={element.description}
-                                            src={element.image_path}
-                                            width={1000}
-                                        />
+                                    <Carousel style={{textAlign:'center', height:'100', maxHeight:'100'}}>
+                                           { element.attachments.map(
+                                                image => (
+                                                    <div style={{textAlign:'center', height:'100'}}>
+                                                        <img
+                                                            src={image.url}
+                                                            alt="Store Image"
+                                                            height='600'
+                                                            width='100%'
+                                                        />
+                                                    </div>
+                                                )
+                                            )}
+                                            </Carousel>
                                     </div>
                                 </List.Item>
                             )}

@@ -99,7 +99,7 @@ class Store extends Component {
     }
 
     getReviews() {
-        axios.get("/api/reviews/shops/" + this.state.id).then(res => {
+        axios.get("/api/reviews/shops/" + this.props.match.params.id).then(res => {
             const reviewsData = res.data;
             console.log("Reviews  are", reviewsData);
             this.setState({ Reviews: reviewsData });
