@@ -110,6 +110,7 @@ class PostController extends Controller
             "description" => $description
         ]);
 
+        // return response()->json($request);
         return $this->store($request);
     }
 
