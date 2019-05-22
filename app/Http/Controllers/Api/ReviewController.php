@@ -98,10 +98,10 @@ class ReviewController extends Controller
         $this->store($request);
     }
 
-    public function productStore(Request $request)
+    public function shopStore(Request $request)
     {
         $request->replace([
-            "type" => "product"
+            "type" => "shop"
         ]);
 
         $this->store($request);
@@ -119,8 +119,6 @@ class ReviewController extends Controller
     {
         $user = Auth::user();
         $request['user_id'] = $user->id;
-        $request['parent_id'] = $request->id;
-
 
         $attachments = $request['attachments'];
         unset($request['attachments']);
