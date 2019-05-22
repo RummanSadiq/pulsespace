@@ -93,18 +93,15 @@ class ReviewController extends Controller
 
     public function productStore(Request $request)
     {
-        $request->replace([
-            "type" => "product"
-        ]);
+        $request['type'] = "product";
 
         $this->store($request);
     }
 
     public function shopStore(Request $request)
     {
-        $request->replace([
-            "type" => "shop"
-        ]);
+
+        $request['type'] = "shop";
 
         $this->store($request);
     }

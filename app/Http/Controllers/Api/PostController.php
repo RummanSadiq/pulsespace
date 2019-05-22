@@ -106,9 +106,7 @@ class PostController extends Controller
     {
         $description = "We just added a new product to our store. Buy " . $request['name'] . " at Rs. " . $request['price'] . " only." . " Contact us for more info";
 
-        $request->replace([
-            "description" => $description
-        ]);
+        $request['description'] = $description;
 
         // return response()->json($request);
         return $this->store($request);
