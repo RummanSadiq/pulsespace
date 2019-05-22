@@ -209,6 +209,7 @@ class ProductController extends Controller
             $noOfReviews = 0;
 
             foreach ($reviews as $rev) {
+                $rev->attachments;
                 $total += $rev['rating'];
                 $noOfReviews++;
                 $rev->user;

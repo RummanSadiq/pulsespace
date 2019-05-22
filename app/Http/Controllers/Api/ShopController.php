@@ -133,6 +133,7 @@ class ShopController extends Controller
 
             foreach ($reviews as $rev) {
                 $total += $rev['rating'];
+                $rev->attachments;
                 $noOfReviews++;
                 $rev->user;
             }
