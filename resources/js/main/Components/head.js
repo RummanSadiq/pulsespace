@@ -10,7 +10,8 @@ import {
     Icon,
     Dropdown,
     Divider,
-    Badge
+    Badge,
+    Modal
 } from "antd";
 import {
     BrowserRouter,
@@ -22,6 +23,8 @@ import {
 import SearchResults from "./Search";
 import logo from "../Images/logo.png";
 import axios from "axios";
+import Register_Form from "./RegisterForm";
+import Login_Form from "./LoginForm";
 
 import "../css/sbar.css";
 import MenuItem from "antd/lib/menu/MenuItem";
@@ -53,7 +56,9 @@ class Head extends Component {
         logged: "",
         value: "",
         notifications: [],
-        unread: true
+        unread: true,
+        visible: false,
+        visibleLogin: false
     };
 
     componentDidMount() {
@@ -84,6 +89,30 @@ class Head extends Component {
             });
         });
     }
+
+    showModal = () => {
+        this.setState({
+            visible: true
+        });
+    };
+
+    showModalLogin = () => {
+        this.setState({
+            visibleLogin: true
+        });
+    };
+
+    handleOk = e => {
+        console.log(e);
+        this.setState({
+            visible: false
+        });
+
+        this.setState({
+            visibleLogin: false
+        });
+    };
+
     handleSearch = e => {
         console.log("search value is", e.target.value);
         this.setState({ value: e.target.value });
@@ -153,7 +182,7 @@ class Head extends Component {
         return (
             <BrowserRouter style={{ backgroundColor: "white" }}>
                 <div>
-                    <div >
+                    <div>
                         <Menu
                             theme="light"
                             mode="horizontal"
@@ -186,7 +215,12 @@ class Head extends Component {
 
                             {!this.state.logged.id && (
                                 <Menu.Item key="4">
-                                    <a href="/login">Login</a>
+                                    <a
+                                        // href="/login"
+                                        onClick={this.showModalLogin}
+                                    >
+                                        Login
+                                    </a>
                                 </Menu.Item>
                             )}
                             {this.state.logged.id && (
@@ -196,7 +230,10 @@ class Head extends Component {
                             )}
                             {!this.state.logged.id && (
                                 <Menu.Item key="6">
-                                    <a href="/register">Signup</a>
+                                    <a 
+                                    // href="/register"
+                                    onClick={this.showModal}
+                                    >Signup</a>
                                 </Menu.Item>
                             )}
                             {this.state.logged.id && (
@@ -264,23 +301,51 @@ class Head extends Component {
                             </div>
                         </Col>
                     </Row>{" "}
-                    <div style={{padding:'2%', textAlign: "center", backgroundColor: "white" }}>
+                    <div
+                        style={{
+                            padding: "2%",
+                            textAlign: "center",
+                            backgroundColor: "white"
+                        }}
+                    >
                         <Dropdown overlay={category}>
                             <NavLink to="/categories">
-                                <Button icon="appstore" rounded="true" >
+                                <Button icon="appstore" rounded="true">
                                     Categories
                                 </Button>
                             </NavLink>
                         </Dropdown>
 
-                        <Button icon="shop" rounded="true" style={{marginLeft:'1%', marginRight:'1%'}}>
+                        <Button
+                            icon="shop"
+                            rounded="true"
+                            style={{ marginLeft: "1%", marginRight: "1%" }}
+                        >
                             Stores
                         </Button>
 
-                        <Button icon="database" rounded="true" >
+                        <Button icon="database" rounded="true">
                             Products
                         </Button>
                     </div>
+                    <Modal
+                        title="Creaet an account"
+                        visible={this.state.visible}
+                        handleOk={this.handleOk}
+                        footer={null}
+                        onCancel={this.handleOk}
+                    >
+                        <Register_Form done={this.handleOk} />
+                    </Modal>
+                    <Modal
+                        title="Creaet an account"
+                        visible={this.state.visibleLogin}
+                        handleOk={this.handleOk}
+                        footer={null}
+                        onCancel={this.handleOk}
+                    >
+                        <Login_Form done={this.handleOk} />
+                    </Modal>
                 </div>
             </BrowserRouter>
         );
