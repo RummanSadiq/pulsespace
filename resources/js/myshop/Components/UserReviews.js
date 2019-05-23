@@ -14,7 +14,7 @@ class UserReviews extends Component {
             this.setState({reviews:this.props.reviews})
 
         }else{
-            axios.get("/api/reviews").then(res => {
+            axios.get("/api/reviews/shops").then(res => {
             const reviewsData = res.data;
             console.log(reviewsData);
             this.setState({ reviews: reviewsData });

@@ -7,6 +7,8 @@ class RegisterForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log("Received values of form: ", values);
+
+                this.props.done();
             }
         });
     };
@@ -86,7 +88,7 @@ class RegisterForm extends React.Component {
                         htmlType="submit"
                         className="login-form-button"
                     >
-                        Log in
+                        Register
                     </Button>
                     <br/>
                     Or <a href="/login">Login</a>

@@ -15,7 +15,7 @@ class AllPosts extends Component {
     };
 
     componentDidMount() {
-       
+       console.log('Posts received are ', this.props.posts);
     }
     render() {
         return (
@@ -39,7 +39,7 @@ class AllPosts extends Component {
                                 },
                                 pageSize: 6
                             }}
-                            dataSource={this.state.posts}
+                            dataSource={this.props.posts}
                             footer={
                                 <div>
                                     <b>POSTS</b>
@@ -60,7 +60,7 @@ class AllPosts extends Component {
                                         title={
                                             <a href={"store/" + element.id}>
                                                 {" "}
-                                                {element.shop.name}
+                                                {/* {this.props.name} */}
                                             </a>
                                         }
                                         description={element.created_at}

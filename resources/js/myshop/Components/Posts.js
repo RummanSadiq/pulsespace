@@ -44,6 +44,11 @@ class Posts extends Component {
     handleDelete(event, id) {
         axios.delete("/api/posts/" + id).then(() => {
             this.getPosts();
+            console.log('Element deleted');
+            message.success('Deleted');
+        }).catch(err=>{
+            console.log('Error in deleting', err);
+            message.error('Cannot Delete');
         });
     }
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Rate, Button, Skeleton, Tabs } from "antd";
+import { Row, Col, Rate, Button, Skeleton, Tabs, Carousel } from "antd";
 import Reviews from "./Reviews";
 import Products from "./LimitedProducts";
 import Axios from "axios";
@@ -13,9 +13,16 @@ class ProductDetails extends Component {
         Axios.get("/api/products/" + this.props.match.params.id).then(res => {
             const product = res.data;
             console.log("product data is", product);
-            this.setState({ product: product },()=>{
-                this.setState({Reviews: this.state.product.reviews});
-            });
+            this.setState({ product: product });
+        });
+        this.getReviews();
+    }
+
+    getReviews(){
+        Axios.get("/api/reviews/products/" + this.props.match.params.id).then(res => {
+            const product = res.data;
+            console.log("product reviews are", product);
+            this.setState({ Reviews: product });
         });
     }
     render() {
@@ -26,49 +33,27 @@ class ProductDetails extends Component {
                     <div>
                         <Row>
                             <Col span={8} offset={4}>
-                                <img
-                                    src={
-                                        "https://cdn.pixabay.com/photo/2019/04/08/21/46/harley-davidson-4113065_960_720.jpg"
-                                    }
-                                    width={400}
-                                    height={400}
-                                />
-                                <br />
-                                <div>
-                                    {/* {this.state.product.attachments.map(image =>(
-                                         <img
-                                         src={
-                                            image.url
-                                         }
-                                         width={100}
-                                         height={100}
-                                         style={{ padding: "1%" }}
-                                     />
-
-                                    ))} */}
-                                    <img
-                                        src={
-                                            "https://cdn.pixabay.com/photo/2019/04/08/21/46/harley-davidson-4113065_960_720.jpg"
-                                        }
-                                        width={100}
-                                        height={100}
-                                        style={{ padding: "1%" }}
-                                    />
-                                    <img
-                                        src={
-                                            "https://cdn.pixabay.com/photo/2019/04/08/21/46/harley-davidson-4113065_960_720.jpg"
-                                        }
-                                        width={100}
-                                        height={100}
-                                    />
-                                    <img
-                                        src={
-                                            "https://cdn.pixabay.com/photo/2019/04/08/21/46/harley-davidson-4113065_960_720.jpg"
-                                        }
-                                        width={100}
-                                        height={100}
-                                    />
-                                </div>
+                                
+                                <Carousel
+                                    style={{ background: "white", padding:'1%' }}
+                                    effect="fade"
+                                    autoplay
+                                    infinite
+                                    dotStyle={{ marginBottom: 50,color:'black' }}
+                                    
+                                >
+                                    {this.state.product.attachments.map(
+                                        image => (
+                                            <div>
+                                                <img
+                                                    src={image.url}
+                                                    style={{ padding: "1%" }}
+                                                    height="500"
+                                                />
+                                            </div>
+                                        )
+                                    )}
+                                </Carousel>
                             </Col>
                             <Col span={8}>
                                 <h1>{this.state.product.name}</h1>
@@ -76,7 +61,9 @@ class ProductDetails extends Component {
                                 <Rate disabled allowHalf defaultValue={3.5} />
                                 <span>47 reviews</span>
                                 <span>
-                                    <a href='javascript;;'>{this.state.product.shop.name}</a>
+                                    <a href="javascript;;">
+                                        {this.state.product.shop.name}
+                                    </a>
                                 </span>
                                 <h2>
                                     {this.state.product.sale_price > 0 && (
@@ -104,7 +91,13 @@ class ProductDetails extends Component {
                                 >
                                     Add to List
                                 </Button>
-                                <div><h4>{this.state.product.shop.delivery>0 ? "Store Provides delivery":"Store Does not provide delivery"}</h4></div>
+                                <div>
+                                    <h4>
+                                        {this.state.product.shop.delivery > 0
+                                            ? "Store Provides delivery"
+                                            : "Store Does not provide delivery"}
+                                    </h4>
+                                </div>
                             </Col>
                         </Row>
                         <hr />{" "}
@@ -124,6 +117,10 @@ class ProductDetails extends Component {
                                         title="Product Reviews"
                                         size={3}
                                         Reviews={this.state.Reviews}
+                                        type="products"
+                                        id={this.props.match.params.id}
+                                        // lift={this.getReviews}
+                                        user_id={this.state.product.shop.user_id}
                                     />
                                 )}
                             </Col>

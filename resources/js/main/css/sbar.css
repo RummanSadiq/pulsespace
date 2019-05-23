@@ -29,17 +29,6 @@
     right: 16px;
   }
 
-  .ant-carousel .slick-slide {
-    text-align: center;
-    height: 160px;
-    /* line-height: 160px; */
-    overflow: hidden;
-  }
-  
-  .ant-carousel .slick-slide {
-    color: #fff;
-  }
-
   .demo-infinite-container {
     border: 1px solid #e8e8e8;
     border-radius: 4px;
@@ -52,4 +41,13 @@
     bottom: 40px;
     width: 100%;
     text-align: center;
+  }
+
+  .ant-carousel .slick-slide {
+    text-align: center;
+    /* height: 160px; */
+    /* line-height: 160px; */
+    /* background: rgb(128, 159, 180); */
+    overflow: hidden;
+    color: black;
   }

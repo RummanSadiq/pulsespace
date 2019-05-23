@@ -73,6 +73,7 @@ class StoreInfo extends Component {
                                     color: "white"
                                 }}
                                 onClick={() => this.handleFollow(this.state.id)}
+                                
                             >
                                 Following
                             </Button>
@@ -124,7 +125,7 @@ class StoreInfo extends Component {
                                 fontSize: 16
                             }}
                         >
-                            <Icon type="phone" />
+                            <Icon type="phone" theme='twoTone'/>
                             {this.state.store.contact}
                         </Col>
                         <Col
@@ -135,7 +136,7 @@ class StoreInfo extends Component {
                                 fontSize: 16
                             }}
                         >
-                            <Icon type="info" />
+                            <Icon type="info" theme='twoTone'/>
                             {this.state.store.address.place}
                         </Col>
                         <Col
@@ -145,7 +146,7 @@ class StoreInfo extends Component {
                                 fontSize: 16
                             }}
                         >
-                            <Icon type="info" /> Store City: Lahore
+                            <Icon type="info" theme='twoTone'/> Store City: Lahore
                         </Col>
                     </Row>
                     <hr />
@@ -166,8 +167,8 @@ class StoreInfo extends Component {
                                 height: "100%"
                             }}
                         >
-                            <Icon type="bars" style={{ fontSize: 20 }} />{" "}
-                            {this.state.store.store_type} type
+                            <Icon type="bars" style={{ fontSize: 20 }} theme='twoTone'/>{" "}
+                            {this.state.store.shop_type.name} type
                         </Col>
 
                         <Col
@@ -184,6 +185,7 @@ class StoreInfo extends Component {
                             <Icon
                                 type="clock-circle"
                                 style={{ fontSize: 20 }}
+                                theme='twoTone'
                             />{" "}
                             <h3 style={{ display: "inline" }}>Opens at:</h3>{" "}
                             {this.state.store.open_at}
@@ -191,6 +193,7 @@ class StoreInfo extends Component {
                             <Icon
                                 type="clock-circle"
                                 style={{ fontSize: 20 }}
+                                theme='twoTone'
                             />{" "}
                             <h3 style={{ display: "inline" }}>Closes at:</h3>{" "}
                             {this.state.store.close_at}
@@ -209,6 +212,7 @@ class StoreInfo extends Component {
                             <Icon
                                 type="step-forward"
                                 style={{ fontSize: 20 }}
+                                theme='twoTone'
                             />{" "}
                             <h3 style={{ display: "inline" }}>Delivery:</h3>{" "}
                             {/* {this.state.delivery > 0 && "Yes"} */}
@@ -226,7 +230,7 @@ class StoreInfo extends Component {
                                 height: "100"
                             }}
                         >
-                            <Icon type="wifi" style={{ fontSize: 20 }} />{" "}
+                            <Icon type="wifi" style={{ fontSize: 20 }} theme='twoTone' />{" "}
                             <h3 style={{ display: "inline" }}>Wifi</h3>{" "}
                             {this.state.wifi > 0 && "Yes"}
                             {!this.state.wifi > 0 && "No"}
@@ -238,7 +242,7 @@ class StoreInfo extends Component {
                                 fontSize: 14
                             }}
                         >
-                            <Icon type="credit-card" style={{ fontSize: 20 }} />{" "}
+                            <Icon type="credit-card" style={{ fontSize: 20 }} theme='twoTone'/>{" "}
                             <h3 style={{ display: "inline" }}>Card:</h3>{" "}
                             {this.state.card_payment && "Yes"}
                             {!this.state.card_payment && "No"}

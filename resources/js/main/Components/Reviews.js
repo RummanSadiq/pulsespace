@@ -10,7 +10,8 @@ import {
     Avatar,
     Rate,
     Modal,
-    Icon
+    Icon,
+    message
 } from "antd";
 import axios from "axios";
 import AddReviewForm from "./ReviewForm";
@@ -24,29 +25,47 @@ class Reviews extends Component {
     }
     state = {
         Reviews: [],
-        visible: false
+        visible: false,
+        user:''
     };
 
     componentDidMount() {
-        // axios.get("/api/reviews/shops/").then(res => {
-        //     const reviewsData = res.data;
-        //     console.log("Reviews  are", reviewsData);
-        //     this.setState({ Reviews: reviewsData });
-        // });
+        axios.get("/api/user").then(res => {
+            const user = res.data;
+            console.log("Logged in user is", user);
+            this.setState({ user: user });
+        });
     }
     showModal = () => {
-        this.setState({
+        if (this.state.user.id == this.props.user_id){
+            message.error('You cannot add review to your own store.');
+        }else{
+          this.setState({
             visible: true
-        });
+        });  
+        }
+        
     };
     handleCancel = e => {
         console.log(e);
         this.setState({
             visible: false
         });
+        // this.props.lift();
     };
 
     render() {
+        const IconText = ({ type, text }) => (
+            <span>
+                <Icon
+                    type={type}
+                    style={{ marginRight: 8, fontSize: "20px" }}
+                    theme="twoTone"
+                />
+                {text}
+            </span>
+        );
+
         return (
             <div>
                 <Card
@@ -57,7 +76,7 @@ class Reviews extends Component {
                             Add a Review
                         </Button>
                     }
-                    style={{ background: "#ECECEC", textAlign:'left' }}
+                    style={{ background: "#ECECEC", textAlign: "left" }}
                 >
                     <List
                         itemLayout="vertical"
@@ -72,17 +91,18 @@ class Reviews extends Component {
                         renderItem={item => (
                             <List.Item
                                 key={item.id}
-                                // extra={
-                                //     <img
-                                //         width={272}
-                                //         alt="logo"
-                                //         src={item.attachments[0].url}
-                                //     />
-                                // }
-                                style={{ background: "white", padding:'2%' }}
+                                actions={[
+                                    <IconText type="like" text="156" />,
+                                    <IconText type="dislike" text="156" />
+                                ]}
+                                style={{ background: "white", padding: "2%" }}
                             >
                                 <List.Item.Meta
-                                    avatar={<Avatar><Icon type='user'/></Avatar>}
+                                    avatar={
+                                        <Avatar>
+                                            <Icon type="user" />
+                                        </Avatar>
+                                    }
                                     title={
                                         <a href={item.href}>{item.username}</a>
                                     }
@@ -93,10 +113,32 @@ class Reviews extends Component {
                                         />
                                     }
                                 />
-                                <div style={{fontWeight:'inherit'}}>
-                                  {item.description}  
+                                <div style={{ fontWeight: "inherit" }}>
+                                    {item.description}
                                 </div>
-                                
+                                <div style={{ textAlign: "right" }}>
+                                    {item.created_at}
+                                </div>
+
+                                <div>
+                                    <Carousel>
+                                        {item.attachments.map(image => (
+                                            <div
+                                                style={{
+                                                    textAlign: "center",
+                                                    height: "100"
+                                                }}
+                                            >
+                                                <img
+                                                    src={image.url}
+                                                    alt="Store Image"
+                                                    height="600"
+                                                    width="100%"
+                                                />
+                                            </div>
+                                        ))}
+                                    </Carousel>
+                                </div>
                             </List.Item>
                         )}
                     />
@@ -108,7 +150,12 @@ class Reviews extends Component {
                     onCancel={this.handleCancel}
                     footer={null}
                 >
-                    <AddReviewForm handleok={this.handleCancel} item_id={1} />
+                    <AddReviewForm
+                        handleok={this.handleCancel}
+                        item_id={this.props.id}
+                        type={this.props.type}
+                        lift={this.props.lift}
+                    />
                 </Modal>
             </div>
         );

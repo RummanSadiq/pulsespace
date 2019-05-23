@@ -45,6 +45,7 @@ class Store extends Component {
         });
         this.getProducts();
         this.getReviews();
+        this.getPosts();
     }
 
     getProducts() {
@@ -137,6 +138,10 @@ class Store extends Component {
                                         Reviews={this.state.Reviews}
                                         size={3}
                                         title="Store Reviews"
+                                        type="shop"
+                                        // lift={this.getReviews}
+                                        user_id={this.state.store.user_id}
+
                                     />
                                 )}
                             </Col>
@@ -150,6 +155,7 @@ class Store extends Component {
                                     <AllPosts
                                         posts={this.state.posts}
                                         title="Store Activity"
+                                        // name={this.state.store.name}
                                     />
                                 )}
                             </Col>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Icon, Input, Button, Rate, Upload } from "antd";
+import { Form, Icon, Input, Button, Rate, Upload, message } from "antd";
 import axios from "axios";
 const { TextArea } = Input;
 class ReviewForm extends Component {
@@ -17,18 +17,34 @@ class ReviewForm extends Component {
                 if (this.state.images) {
                     values.attachments = this.state.images;
                 }
-
-                axios
+                if (this.props.type=='shop'){
+                  axios
                     .post("/api/reviews/shops", values)
                     .then(response => {
                         console.log("review added", response);
+                        message.success('Review added successfully');
+                        this.props.handleok();
                     })
-                    .then(err => {
-                        console.log("error occurred while adding review", err);
-                    });
-
+                    .catch(err => {
+                        console.log("error occurred while adding review of the shop", err);
+                        message.error('No response from server');
+                    });  
+                }else{
+                    axios
+                    .post("/api/reviews/products", values)
+                    .then(response => {
+                        console.log("review added", response);
+                        message.success('Review added successfully');
+                        this.props.handleok();
+                    })
+                    .catch(err => {
+                        console.log("error occurred while adding review of the product", err);
+                        message.error('No response from server');
+                    }); 
+                }
+                
                 console.log("Received values of form: ", values);
-                this.props.handleok();
+                
             }
         });
     };
