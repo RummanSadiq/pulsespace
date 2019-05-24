@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { Row, Col, Card, Icon, Avatar, Badge } from "antd";
+import { Row, Col, Card, Icon, Avatar, Badge, Tabs, Skeleton } from "antd";
+import Chat from "./Chat";
+import Stores from "./LimitedStores";
+import Products from "./LimitedProducts";
+
+const { TabPane } = Tabs;
+
 class Profile extends Component {
     state = {};
     render() {
@@ -37,7 +43,61 @@ class Profile extends Component {
                         </Col>
                     </Row>
                 </div>
-                <Row>
+                <Tabs
+                    defaultActiveKey="1"
+                    size={"large"}
+                    style={{ textAlign: "center" }}
+                >
+                    <TabPane tab="My Stores" key="1">
+                        <Row>
+                            <Col lg={16} offset={4}>
+                                {this.state.shops && (
+                                    <Stores
+                                        shops={this.state.shops}
+                                        title="Explore Stores"
+                                        size={6}
+                                        getShops={this.getStores}
+                                    />
+                                )}
+                                {!this.state.shops && <Skeleton />}
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tab="My Shopping List" key="2">
+                        <Row>
+                            <Col lg={16} offset={4}>
+                                {this.state.posts && (
+                                    <AllPosts
+                                        posts={this.state.posts}
+                                        title="Explore activities from Different Stores"
+                                    />
+                                )}
+                                {!this.state.posts && <Skeleton />}
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tab="My Reviews" key="3">
+                        <Row>
+                            <Col lg={16} offset={4}>
+                                {this.state.posts && (
+                                    <AllPosts
+                                        posts={this.state.posts}
+                                        title="Explore activities from Different Stores"
+                                    />
+                                )}
+                                {!this.state.posts && <Skeleton />}
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tab="Messages" key="4">
+                        <Row>
+                            <Col lg={16} offset={4}>
+                                <Chat />
+                            </Col>
+                        </Row>
+                    </TabPane>
+                </Tabs>
+                {/* <Row>
                     <Card.Grid style={gridStyle}>
                         {" "}
                         <Icon
@@ -81,7 +141,7 @@ class Profile extends Component {
                         </Badge>{" "}
                         <h3> Messages</h3>
                     </Card.Grid>
-                </Row>
+                </Row> */}
             </div>
         );
     }

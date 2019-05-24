@@ -3,7 +3,7 @@ import { Row, Col } from "antd";
 import Products from "./LimitedProducts";
 import Axios from 'axios';
 import {withRouter} from 'react-router-dom'
-class MyList extends Component {
+class MyShoppingList extends Component {
     state = {
         products: []
     };
@@ -30,4 +30,4 @@ class MyList extends Component {
     }
 }
 
-export default MyList;
+export default MyShoppingList;
