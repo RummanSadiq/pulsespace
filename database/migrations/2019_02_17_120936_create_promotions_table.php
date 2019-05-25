@@ -21,7 +21,7 @@ class CreatePromotionsTable extends Migration
 
             $table->string('package_name');
 
-            $table->time('ends_at');
+            $table->timestamp('ends_at');
 
             $table->boolean('is_active')->default(1);
 

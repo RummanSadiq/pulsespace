@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Promotion;
+use App\Package;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Controllers\Controller;
 
 class PromotionController extends Controller
@@ -15,7 +18,15 @@ class PromotionController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Promotion::all());
+    }
+
+
+    public function myPromotion()
+    {
+        $shop = Auth::user()->shop;
+
+        return response($shop->promotion);
     }
 
     /**
@@ -36,7 +47,17 @@ class PromotionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $package = Package::findOrFail($request['package_id']);
+
+        $request['package_name'] = $package->name;
+        $request['shop_id'] = Auth::user()->shop->id;
+        // $request['shop_id'] = '1';
+
+
+        $request['ends_at'] = date('Y-m-d H:i:s', strtotime('+' . $package->duration .  ' day', time()));;
+        $promotion = Promotion::create($request->all());
+
+        return response()->json($promotion);
     }
 
     /**

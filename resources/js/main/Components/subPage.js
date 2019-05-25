@@ -6,8 +6,8 @@ import Chat from "./Chat";
 import Profile from "./Profile";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import ProductDetails from "./ProductDetails";
-import MyList from "./myList";
-import HomeComponents from './HomeComponents';
+// import MyList from "./myList";
+import HomeComponents from "./HomeComponents";
 import Login from "./Login";
 import SignUp from "./SignUp";
 
@@ -30,7 +30,7 @@ class SubPage extends Component {
                         component={SearchComponent}
                     />
                     <Route exact path="/categories" component={Categories} />
-                    <Route exact path="/mylist" component={MyList} />
+                    {/* <Route exact path="/mylist" component={MyList} /> */}
                     <Route exact path="/profile" component={Profile} />
                     <Route exact path="/signin" component={Login} />
                     <Route exact path="/up" component={SignUp} />

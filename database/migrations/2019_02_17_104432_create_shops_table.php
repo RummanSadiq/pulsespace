@@ -42,7 +42,7 @@ class CreateShopsTable extends Migration
             $table->time('close_at')->nullable();
 
 
-            $table->time('approved_at')->nullable();
+            $table->timestamp('approved_at')->nullable();
 
 
             $table->boolean('is_active')->default(1);

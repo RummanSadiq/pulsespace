@@ -26,8 +26,8 @@ class CreateProductsTable extends Migration
 
             $table->integer('sale_price')->nullable();
 
-            $table->time('sale_starts_at')->nullable();
-            $table->time('sale_ends_at')->nullable();
+            $table->timestamp('sale_starts_at')->nullable();
+            $table->timestamp('sale_ends_at')->nullable();
 
 
             $table->integer('category_id')->unsigned();

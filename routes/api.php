@@ -43,6 +43,16 @@ Route::get('/shoptypes', 'Api\ShopTypeController@index');
 Route::get('/categories', 'Api\CategoryController@index');
 // Route::get('/categories/{parent}', 'Api\CategoryController@show');
 
+//Packages
+Route::get('/packages', 'Api\PackageController@index');
+
+
+//Promotions
+Route::get('/promotions', 'Api\PromotionController@index');
+Route::post('/promotion', 'Api\PromotionController@store');
+Route::get('/mypromotion', 'Api\PromotionController@myPromotion');
+
+
 
 //Posts
 Route::get('/myposts', 'Api\PostController@myPosts');
