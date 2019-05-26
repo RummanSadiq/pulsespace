@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Card, Avatar, Rate, Layout } from "antd";
+import { Row, Col, Card, Avatar, Rate, Layout, Carousel } from "antd";
 import axios from "axios";
 
 const { Header, Content } = Layout;
@@ -43,13 +43,13 @@ class UserReviews extends Component {
                         <div key={element.key} style={{ padding: "3%" }}>
                             <Card
                                 title={
-                                    <div>
+                                    <h3>
                                         {" "}
                                         <Avatar size={64} icon="user" />
-                                        <span style={{ marginLeft: "1%" }}>
+                                        {/* <span > */}
                                             {element.username}
-                                        </span>
-                                    </div>
+                                        {/* </span> */}
+                                    </h3>
                                 }
                                 extra={
                                     <div>
@@ -62,6 +62,26 @@ class UserReviews extends Component {
                                 }
                             >
                                 {element.description}
+
+                                <div>
+                                    <Carousel>
+                                        {element.attachments.map(image => (
+                                            <div
+                                                style={{
+                                                    textAlign: "center",
+                                                    height: "100"
+                                                }}
+                                            >
+                                                <img
+                                                    src={image.url}
+                                                    alt="Store Image"
+                                                    height="600"
+                                                    width="100%"
+                                                />
+                                            </div>
+                                        ))}
+                                    </Carousel>
+                                </div>
                             </Card>
                         </div>
                     ))}

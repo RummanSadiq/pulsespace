@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
 
 class LoginForm extends React.Component {
+    state={
+        forgot:false
+    }
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -61,7 +64,10 @@ class LoginForm extends React.Component {
                     )}
                 </Form.Item>
                 <Form.Item>
-                    <a className="login-form-forgot" href="">
+                    <a className="login-form-forgot" href="" onClick={(event)=>{
+                        event.preventDefault();
+                        this.setState({forgot:true});
+                    }}>
                         Forgot password?
                     </a>
                     <br/>
@@ -74,7 +80,10 @@ class LoginForm extends React.Component {
                         Log in
                     </Button>
                     <br/>
-                    Or <a href="">register now!</a>
+                    {/* Or <a href="">register now!</a> */}
+                    {this.state.forgot && <div><Input type="email" placeholder="Enter your email"/> <br/> <Button type="primary">Submit</Button> </div>}
+
+
                 </Form.Item>
             </Form>
         );

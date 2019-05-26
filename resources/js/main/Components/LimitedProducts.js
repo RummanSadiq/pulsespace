@@ -85,8 +85,8 @@ class Products extends Component {
                                                     }
                                                     // onClick={this.setRedirect}
                                                     style={{
-                                                        width: 233,
-                                                        height: 233
+                                                        width: 290,
+                                                        height: 250
                                                         // padding: "5%"
                                                     }}
                                                 />

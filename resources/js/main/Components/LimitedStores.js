@@ -13,7 +13,6 @@ import {
 } from "antd";
 import { NavLink } from "react-router-dom";
 import Axios from "axios";
-import store from "../Images/store.jpg";
 
 const { Meta } = Card;
 class Stores extends Component {
@@ -32,11 +31,6 @@ class Stores extends Component {
         this.getFollowed();
     }
     getStores() {
-        // Axios.get("/api/shops").then(res => {
-        //     const shops = res.data;
-        //     console.log("Shops are", shops);
-        //     this.setState({ shops: shops });
-        // });
         this.props.getShops();
     }
     getFollowed() {
@@ -50,7 +44,7 @@ class Stores extends Component {
     handleFollow(id) {
         Axios.get("/api/follow/" + id)
             .then(res => {
-                message.success("following store");
+                // message.success("following store");
                 this.getFollowed();
                 this.getStores();
             })
@@ -67,10 +61,10 @@ class Stores extends Component {
         if (this.state.followed) {
             console.log("followed found");
             const result = this.state.followed.find(
-                element => element.store_id === id
+                element => element.shop_id === id
             );
             if (result) {
-                console.log("result is", result);
+                console.log("returning ture result is", result);
                 return true;
             } else return false;
         }
