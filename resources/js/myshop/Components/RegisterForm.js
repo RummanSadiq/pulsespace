@@ -4,6 +4,10 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
+
+const host = window.location.hostname;
+const myDomain = host.substring(host.lastIndexOf("."));
+
 class RegisterForm extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
@@ -15,7 +19,7 @@ class RegisterForm extends React.Component {
                     .then(res => {
                         console.log("response from register api is", res);
                         cookies.set("access_token", res.data.token, {
-                            domain: ".pulsespace.test"
+                            domain: ".pulsespace" + myDomain
                         });
                         this.props.changeState();
                     })

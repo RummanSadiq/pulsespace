@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
-import axios from 'axios';
+import axios from "axios";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
+
+const host = window.location.hostname;
+const myDomain = host.substring(host.lastIndexOf("."));
+
 class RegisterForm extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
@@ -11,18 +15,17 @@ class RegisterForm extends React.Component {
             if (!err) {
                 console.log("Received values of form: ", values);
                 axios
-                .post("https://api.pulsespace.com/register", values)
-                .then(res => {
-                    console.log('response from register api is',res);
-                    cookies.set("access_token", res.data.token, {
-                        domain: ".pulsespace.test"
+                    .post("https://api.pulsespace.com/register", values)
+                    .then(res => {
+                        console.log("response from register api is", res);
+                        cookies.set("access_token", res.data.token, {
+                            domain: ".pulsespace" + myDomain
+                        });
+                        this.props.done();
+                    })
+                    .catch(res => {
+                        console.log(res);
                     });
-                    this.props.done();
-                })
-                .catch(res => {
-                    console.log(res);
-                });
-                
             }
         });
     };
@@ -74,7 +77,6 @@ class RegisterForm extends React.Component {
                     )}
                 </Form.Item>
 
-
                 <Form.Item>
                     {getFieldDecorator("password", {
                         rules: [
@@ -104,7 +106,7 @@ class RegisterForm extends React.Component {
                     >
                         Register
                     </Button>
-                    <br/>
+                    <br />
                     Or <a href="/login">Login</a>
                 </Form.Item>
             </Form>

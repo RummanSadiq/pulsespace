@@ -6,6 +6,9 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
+const host = window.location.hostname;
+const myDomain = host.substring(host.lastIndexOf("."));
+
 class LoginForm extends React.Component {
     state = {
         forgot: false
@@ -21,7 +24,7 @@ class LoginForm extends React.Component {
                     .then(res => {
                         console.log("response from login api is", res);
                         cookies.set("access_token", res.data.token, {
-                            domain: ".pulsespace.test"
+                            domain: ".pulsespace" + myDomain
                         });
                         this.props.done();
                         window.location.reload();
