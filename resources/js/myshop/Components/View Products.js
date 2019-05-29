@@ -44,7 +44,7 @@ class ViewProducts extends Component {
     }
 
     getProducts() {
-        axios.get("https://api.pulsespace.com/products").then(res => {
+        axios.get("https://api.pulsespace.com/myproducts").then(res => {
             const productsData = res.data;
             console.log(productsData);
             this.setState({ products: productsData });

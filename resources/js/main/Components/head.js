@@ -73,11 +73,6 @@ class Head extends Component {
        this.handleLogin();
     }
 
-    handleRegister = () => {
-        console.log("here");
-
-     
-    };
 
     handleLogin = () => {
         console.log("login");

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Icon, Input, Button, Checkbox } from "antd";
+import { Form, Icon, Input, Button, Checkbox, Card } from "antd";
 
 import axios from "axios";
 
@@ -23,8 +23,9 @@ class LoginForm extends React.Component {
                         cookies.set("access_token", res.data.token, {
                             domain: ".pulsespace.test"
                         });
-                        this.props.done();
-                        window.location.reload();
+                        
+                        this.props.changeState();
+                        // window.location.reload();
                     });
 
                 //to close modal
@@ -35,7 +36,12 @@ class LoginForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <Form onSubmit={this.handleSubmit}>
+            <Card 
+            title={'Welcome to Shopx Business owners portal, please login to continue'}
+            >
+
+            
+            <Form onSubmit={this.handleSubmit} style={{backgroundColor:'white'}}>
                 <Form.Item>
                     {getFieldDecorator("email", {
                         rules: [
@@ -99,7 +105,7 @@ class LoginForm extends React.Component {
                         Log in
                     </Button>
                     <br />
-                    {/* Or <a href="">register now!</a> */}
+                    Or <a href="" onClick={(event)=>{event.preventDefault(); this.props.changeAuth();}}>Not a user? Register now!</a>
                     {this.state.forgot && (
                         <div>
                             <Input
@@ -111,6 +117,7 @@ class LoginForm extends React.Component {
                     )}
                 </Form.Item>
             </Form>
+            </Card>
         );
     }
 }

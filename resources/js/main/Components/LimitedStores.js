@@ -34,7 +34,7 @@ class Stores extends Component {
         this.props.getShops();
     }
     getFollowed() {
-        Axios.get("/api/followed").then(res => {
+        Axios.get("http://api.pulsespace.com/followed").then(res => {
             const followedData = res.data;
             console.log("followed data is", followedData);
             this.setState({ followed: followedData });
@@ -42,7 +42,7 @@ class Stores extends Component {
     }
 
     handleFollow(id) {
-        Axios.get("/api/follow/" + id)
+        Axios.get("http://api.pulsespace.com/follow/" + id)
             .then(res => {
                 // message.success("following store");
                 this.getFollowed();

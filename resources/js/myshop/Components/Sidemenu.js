@@ -17,7 +17,7 @@ class Sidemenu extends Component {
 
     doLogout = e => {
         e.preventDefault();
-        Axios.get("https://api.pulsespace.com/logout").then(res => {
+        Axios.get("https://api.pulsespace.com/logout").then(() => {
             window.location.reload();
         });
     };
