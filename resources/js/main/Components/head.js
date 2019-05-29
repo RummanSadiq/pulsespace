@@ -29,6 +29,10 @@ import Login_Form from "./LoginForm";
 import "../css/sbar.css";
 import MenuItem from "antd/lib/menu/MenuItem";
 
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
+
 const category = (
     <Menu>
         <MenuItem>Women's Fashion</MenuItem>
@@ -46,6 +50,10 @@ const category = (
     </Menu>
 );
 
+axios.defaults.headers = {
+    Authorization: "Bearer " + cookies.get("access_token")
+};
+
 class Head extends Component {
     constructor(props) {
         super(props);
@@ -61,34 +69,77 @@ class Head extends Component {
         visibleLogin: false
     };
 
-    componentDidMount() {
-        axios.get("/api/user").then(res => {
-            const user = res.data;
-            console.log("user is ", user);
-            this.setState({ logged: user }, () => {
-                if (this.state.logged.id) {
-                    //function call to get notifications
-                    var notify = [
-                        {
-                            title: "Title of notification",
-                            message:
-                                "You have received a particular type of notiification that will be showed up here",
-                            link: "/product/2",
-                            read: true
-                        },
-                        {
-                            title: "Title of notification",
-                            message:
-                                "You have received a particular type of notiification that will be showed up here",
-                            link: "/product/2",
-                            read: false
-                        }
-                    ];
-                    this.setState({ notifications: notify });
-                }
+    componentWillMount() {
+        axios
+            .get("http://api.pulsespace.com/user")
+            .then(res => {
+                const user = res.data;
+                console.log("user is ", user);
+                this.setState({ logged: user }, () => {
+                    if (this.state.logged.id) {
+                        //function call to get notifications
+                        var notify = [
+                            {
+                                title: "Title of notification",
+                                message:
+                                    "You have received a particular type of notiification that will be showed up here",
+                                link: "/product/2",
+                                read: true
+                            },
+                            {
+                                title: "Title of notification",
+                                message:
+                                    "You have received a particular type of notiification that will be showed up here",
+                                link: "/product/2",
+                                read: false
+                            }
+                        ];
+                        this.setState({ notifications: notify });
+                    }
+                });
+            })
+            .catch(res => {
+                console.log(res);
             });
-        });
     }
+
+    handleRegister = () => {
+        console.log("here");
+
+        axios
+            .post("http://api.pulsespace.com/register", {
+                name: "Rumman",
+                email: "rummansadiq@gmail.com",
+                password: "12345678"
+            })
+            .then(res => {
+                console.log(res);
+                cookies.set("access_token", res.data.token);
+                localStorage.setItem("access_token", res.data.token);
+                window.location.reload();
+            })
+            .catch(res => {
+                console.log(res);
+            });
+    };
+
+    handleLogin = () => {
+        console.log("login");
+
+        axios
+            .post("http://api.pulsespace.com/login", {
+                email: "rumman@gmail.com",
+                password: "12345678"
+            })
+            .then(res => {
+                console.log(res);
+                cookies.set("access_token", res.data.token, {
+                    domain: ".pulsespace.test"
+                });
+                localStorage.setItem("access_token", res.data.token);
+                window.location.reload();
+            });
+    };
 
     showModal = () => {
         this.setState({
@@ -104,9 +155,6 @@ class Head extends Component {
 
     handleOk = e => {
         console.log(e);
-        this.setState({
-            visible: false
-        });
 
         this.setState({
             visibleLogin: false
@@ -120,7 +168,12 @@ class Head extends Component {
 
     doLogout = e => {
         e.preventDefault();
-        axios.post("/logout").then(res => {
+
+        console.log("Logout");
+
+        axios.get("http://api.pulsespace.com/logout").then(res => {
+            console.log(res);
+            localStorage.removeItem("access_token");
             window.location.reload();
         });
     };
@@ -198,9 +251,9 @@ class Head extends Component {
                                 </Menu.Item>
                             )}
                             <Menu.Item key="2">
-                                <NavLink to="/myshop.pulsespace.test">
-                                    Store owner?
-                                </NavLink>
+                                <a href="https://myshop.pulsespace.test">
+                                    My Shop
+                                </a>
                             </Menu.Item>
                             {this.state.logged.id && (
                                 <Menu.Item key="3">
@@ -230,10 +283,12 @@ class Head extends Component {
                             )}
                             {!this.state.logged.id && (
                                 <Menu.Item key="6">
-                                    <a 
-                                    // href="/register"
-                                    onClick={this.showModal}
-                                    >Signup</a>
+                                    <a
+                                        // href="/register"
+                                        onClick={this.showModal}
+                                    >
+                                        Signup
+                                    </a>
                                 </Menu.Item>
                             )}
                             {this.state.logged.id && (
@@ -329,22 +384,22 @@ class Head extends Component {
                         </Button>
                     </div>
                     <Modal
-                        title="Creaet an account"
+                        title="Create an account"
                         visible={this.state.visible}
-                        handleOk={this.handleOk}
+                        handleOk={this.handleRegister}
                         footer={null}
                         onCancel={this.handleOk}
                     >
-                        <Register_Form done={this.handleOk} />
+                        <Register_Form done={this.handleRegister} />
                     </Modal>
                     <Modal
-                        title="Creaet an account"
+                        title="Login"
                         visible={this.state.visibleLogin}
-                        handleOk={this.handleOk}
+                        handleOk={this.handleLogin}
                         footer={null}
                         onCancel={this.handleOk}
                     >
-                        <Login_Form done={this.handleOk} />
+                        <Login_Form done={this.handleLogin} />
                     </Modal>
                 </div>
             </BrowserRouter>

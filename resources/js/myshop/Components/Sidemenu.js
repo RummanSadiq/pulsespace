@@ -6,7 +6,7 @@ import Dashboard from "./Dashboard";
 import { BrowserRouter } from "react-router-dom";
 import Axios from "axios";
 const { Sider } = Layout;
-import '../Myshop.css';
+import "../Myshop.css";
 
 const SubMenu = Menu.SubMenu;
 
@@ -17,7 +17,7 @@ class Sidemenu extends Component {
 
     doLogout = e => {
         e.preventDefault();
-        Axios.post("/logout").then(res => {
+        Axios.get("https://api.pulsespace.com/logout").then(res => {
             window.location.reload();
         });
     };
@@ -31,12 +31,12 @@ class Sidemenu extends Component {
         return (
             <Row type="flex" style={{ position: "absolute" }}>
                 <Col
-                    // xs={{ span: 4 }}
-                    // sm={{ span: 6 }}
-                    // md={{ span: 6 }}
-                    // lg={{ span: 8 }}
-                    // xl={{ span: 8 }}
-                    //  style={{ minHeight: "50vh" }}
+                // xs={{ span: 4 }}
+                // sm={{ span: 6 }}
+                // md={{ span: 6 }}
+                // lg={{ span: 8 }}
+                // xl={{ span: 8 }}
+                //  style={{ minHeight: "50vh" }}
                 >
                     <Sider
                         collapsible

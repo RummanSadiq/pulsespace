@@ -32,7 +32,7 @@ class CreateShopForm extends Component {
     };
 
     componentDidMount() {
-        axios.get("/api/shoptypes").then(res => {
+        axios.get("https://api.pulsespace.com/shoptypes").then(res => {
             const storedata = res.data;
             this.setState({ store_types: storedata });
         });
@@ -79,9 +79,7 @@ class CreateShopForm extends Component {
                     values.attachments = this.state.image;
                 }
 
-                values.open_at = moment
-                    .utc(values.open_at)
-                    .format("HH:mm:ss");
+                values.open_at = moment.utc(values.open_at).format("HH:mm:ss");
 
                 values.close_at = moment
                     .utc(values.close_at)
@@ -91,7 +89,7 @@ class CreateShopForm extends Component {
                 values.longitude = this.state.longitude;
 
                 axios
-                    .post("/api/shop", values)
+                    .post("https://api.pulsespace.com/shop", values)
                     .then(res => {
                         console.log(res);
                         message.success("Shop Updated!");
@@ -180,7 +178,7 @@ class CreateShopForm extends Component {
                             ]
                         })(
                             <Upload
-                                action="/api/attachment/profile"
+                                action="https://api.pulsespace.com/attachment/profile"
                                 onChange={this.handleUpload}
                                 listType="picture"
                                 name="image"

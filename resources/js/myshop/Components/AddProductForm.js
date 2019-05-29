@@ -34,7 +34,7 @@ class AddProductForm extends React.Component {
 
     componentDidMount() {
         axios
-            .get("/api/categories")
+            .get("https://api.pulsespace.com/categories")
             .then(res => {
                 const data = res.data;
                 console.log(
@@ -70,19 +70,23 @@ class AddProductForm extends React.Component {
                 values.attachments = this.state.image_path;
                 console.log("Received values of form: ", values);
 
-                axios.post("/api/products", values).then(res => {
-                    const data = res.data;
-                    console.log(data);
-                });
-
-                if (this.state.generate_post) {
-                    axios.post("/api/product_post", values).then(res => {
+                axios
+                    .post("https://api.pulsespace.com/products", values)
+                    .then(res => {
                         const data = res.data;
                         console.log(data);
-                        message.success("Product Added");
-
-                        this.setState({ goToProducts: true });
                     });
+
+                if (this.state.generate_post) {
+                    axios
+                        .post("https://api.pulsespace.com/product_post", values)
+                        .then(res => {
+                            const data = res.data;
+                            console.log(data);
+                            message.success("Product Added");
+
+                            this.setState({ goToProducts: true });
+                        });
                 }
 
                 this.props.form.resetFields();
@@ -175,7 +179,7 @@ class AddProductForm extends React.Component {
                                 ]
                             })(
                                 <Upload
-                                    action="/api/attachment/products/"
+                                    action="https://api.pulsespace.com/attachment/products"
                                     onChange={this.handleUpload}
                                     listType="picture"
                                     name="image"

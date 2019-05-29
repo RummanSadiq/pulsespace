@@ -3,10 +3,10 @@ import { Layout, Row, Col, Card, Icon, Button, Carousel } from "antd";
 import axios from "axios";
 class Promote extends Component {
     state = {
-        promotion:{}
+        promotion: {}
     };
     componentDidMount() {
-        axios.get("/api/mypromotion").then(res => {
+        axios.get("https://api.pulsespace.com/mypromotion").then(res => {
             const promoteData = res.data;
             console.log("promotion data is ", promoteData);
             this.setState({ promotion: promoteData });
@@ -46,17 +46,20 @@ class Promote extends Component {
                     //  style={d}
                 >
                     <h1 style={{ textAlign: "center" }}>
-                        Your Current package is 
-                        {this.state.promotion.package_name== 'Pro' && <span style={{color:'#7AB5E9'}}>Pro</span>}
-                        {this.state.promotion.package_name== 'Advanced' && <span style={{color:'#E3255F'}}>Advanced</span>}
-                        {this.state.promotion.package_name== 'Starter' && <span style={{color:'#262626'}}>Starter</span>}
-
-                        <br/>
+                        Your Current package is
+                        {this.state.promotion.package_name == "Pro" && (
+                            <span style={{ color: "#7AB5E9" }}>Pro</span>
+                        )}
+                        {this.state.promotion.package_name == "Advanced" && (
+                            <span style={{ color: "#E3255F" }}>Advanced</span>
+                        )}
+                        {this.state.promotion.package_name == "Starter" && (
+                            <span style={{ color: "#262626" }}>Starter</span>
+                        )}
+                        <br />
                         Ending at: {this.state.promotion.ends_at}
-
-
                     </h1>
-                    <hr/>
+                    <hr />
                     <Row type="flex" justify="space-around">
                         <Col
                             xs={{ span: 24 }}
@@ -75,7 +78,9 @@ class Promote extends Component {
                                 <hr />
                                 <h3>Promote your Shop</h3>
                                 <hr />
-                                <h3>Promote your products and shop for 7 days</h3>
+                                <h3>
+                                    Promote your products and shop for 7 days
+                                </h3>
                                 <Button
                                     block
                                     style={{
@@ -110,7 +115,9 @@ class Promote extends Component {
                                 <hr />
                                 <h3>Attract more customers</h3>
                                 <hr />
-                                <h3>Promote your shop and products for 14 days</h3>
+                                <h3>
+                                    Promote your shop and products for 14 days
+                                </h3>
                                 <Button type="primary" block>
                                     Get Started
                                 </Button>

@@ -36,23 +36,29 @@ class AddPostForm extends Component {
                     description: this.state.description,
                     attachments: this.state.images
                 };
-              
-                axios.post("/api/posts", arr).then(res => {
-                    this.props.form.resetFields();
-                    console.log(this.myUpload.current);
-                    this.myUpload.current.handleManualRemove(
-                        this.state.images
-                    );
 
-                    this.props.newPosts();
-                    this.setState({ images: "" });
-                    this.setState({ posted: !this.state.posted });
-                    this.props.form.resetFields();
-                    message.success("Post Added");
-                }).catch(err=>{
-                    console.log('Error occured while adding to database', err);
-                    message.error('Cannot call database');
-                });
+                axios
+                    .post("https://api.pulsespace.com/posts", arr)
+                    .then(res => {
+                        this.props.form.resetFields();
+                        console.log(this.myUpload.current);
+                        this.myUpload.current.handleManualRemove(
+                            this.state.images
+                        );
+
+                        this.props.newPosts();
+                        this.setState({ images: "" });
+                        this.setState({ posted: !this.state.posted });
+                        this.props.form.resetFields();
+                        message.success("Post Added");
+                    })
+                    .catch(err => {
+                        console.log(
+                            "Error occured while adding to database",
+                            err
+                        );
+                        message.error("Cannot call database");
+                    });
             } else {
                 message.error("Input fields cannot be empty");
                 console.log("Error received is ", err);
@@ -63,16 +69,12 @@ class AddPostForm extends Component {
     handleUpload = event => {
         if (event.file.status !== "uploading") {
             console.log("Uploading file is", event.file);
-            this.setState({ images: event.fileList});
+            this.setState({ images: event.fileList });
             // this.setState({ uploadedFile: event.file });
         }
     };
     render() {
-        const {
-            getFieldDecorator,
-            getFieldsError,
-            
-        } = this.props.form;
+        const { getFieldDecorator, getFieldsError } = this.props.form;
 
         return (
             <Card
@@ -119,7 +121,7 @@ class AddPostForm extends Component {
                                 ]
                             })(
                                 <Upload
-                                    action="/api/attachment/posts"
+                                    action="https://api.pulsespace.com/attachment/posts"
                                     onChange={this.handleUpload}
                                     listType="picture"
                                     name="image"

@@ -30,7 +30,7 @@ class ShopForm extends React.Component {
     };
 
     componentDidMount() {
-        axios.get("/api/shoptypes").then(res => {
+        axios.get("https://api.pulsespace.com/shoptypes").then(res => {
             const storedata = res.data;
             console.log("shop types are", storedata);
             this.setState({ store_types: storedata });
@@ -66,7 +66,7 @@ class ShopForm extends React.Component {
                         .format("HH:mm:ss");
 
                     axios
-                        .post("/api/updateshop", values)
+                        .post("https://api.pulsespace.com/updateshop", values)
                         .then(res => {
                             console.log(res);
                             message.success("Shop Updated!");
@@ -148,7 +148,7 @@ class ShopForm extends React.Component {
                             ]
                         })(
                             <Upload
-                                action="/api/attachment/profile/"
+                                action="https://api.pulsespace.com/attachment/profile"
                                 onChange={this.handleUpload}
                                 listType="picture"
                                 name="image"

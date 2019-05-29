@@ -27,7 +27,7 @@ class Posts extends Component {
 
     getPosts = () => {
         console.log("this.get posts");
-        axios.get("/api/myposts").then(res => {
+        axios.get("https://api.pulsespace.com/myposts").then(res => {
             const postd = res.data;
             this.setState({ posts: postd });
             console.log(this.state.posts);
@@ -42,14 +42,17 @@ class Posts extends Component {
     };
 
     handleDelete(event, id) {
-        axios.delete("/api/posts/" + id).then(() => {
-            this.getPosts();
-            console.log('Element deleted');
-            message.success('Deleted');
-        }).catch(err=>{
-            console.log('Error in deleting', err);
-            message.error('Cannot Delete');
-        });
+        axios
+            .delete("https://api.pulsespace.com/posts/" + id)
+            .then(() => {
+                this.getPosts();
+                console.log("Element deleted");
+                message.success("Deleted");
+            })
+            .catch(err => {
+                console.log("Error in deleting", err);
+                message.error("Cannot Delete");
+            });
     }
 
     render() {
@@ -134,7 +137,9 @@ class Posts extends Component {
                                                         element.id
                                                     )
                                                 }
-                                            >Delete</Button>
+                                            >
+                                                Delete
+                                            </Button>
                                         ]}
                                     >
                                         {/* <List.Item.Meta
@@ -160,19 +165,31 @@ class Posts extends Component {
                                         </div>
 
                                         <div style={{ marginTop: "20" }}>
-                                            <Carousel style={{textAlign:'center', height:'100', maxHeight:'100'}}>
-                                           { element.attachments.map(
-                                                image => (
-                                                    <div style={{textAlign:'center', height:'100'}}>
-                                                        <img
-                                                            src={image.url}
-                                                            alt="Store Image"
-                                                            height='600'
-                                                            width='100%'
-                                                        />
-                                                    </div>
-                                                )
-                                            )}
+                                            <Carousel
+                                                style={{
+                                                    textAlign: "center",
+                                                    height: "100",
+                                                    maxHeight: "100"
+                                                }}
+                                            >
+                                                {element.attachments.map(
+                                                    image => (
+                                                        <div
+                                                            style={{
+                                                                textAlign:
+                                                                    "center",
+                                                                height: "100"
+                                                            }}
+                                                        >
+                                                            <img
+                                                                src={image.url}
+                                                                alt="Store Image"
+                                                                height="600"
+                                                                width="100%"
+                                                            />
+                                                        </div>
+                                                    )
+                                                )}
                                             </Carousel>
                                         </div>
                                     </List.Item>

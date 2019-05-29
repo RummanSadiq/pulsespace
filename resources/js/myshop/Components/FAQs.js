@@ -31,7 +31,7 @@ class Faqs extends Component {
     };
 
     componentDidMount() {
-        axios.get("/api/faqs").then(res => {
+        axios.get("https://api.pulsespace.com/faqs").then(res => {
             const faqsdata = res.data;
             this.setState({ faqs: faqsdata });
         });
@@ -41,12 +41,13 @@ class Faqs extends Component {
         event.preventDefault();
         const counters = this.state.faqs.filter(c => c.id !== id);
         this.setState({ faqs: counters });
-        axios.delete("/api/faqs/" + id).then(res => {
+        axios.delete("https://api.pulsespace.com/faqs/" + id).then(res => {
             const faqsdata = res.data;
-            this.setState({ faqs: faqsdata }
-            //     ,()=>{
-            //     message.success('FAQ deleted successfully');
-            // }
+            this.setState(
+                { faqs: faqsdata }
+                //     ,()=>{
+                //     message.success('FAQ deleted successfully');
+                // }
             );
         });
     }
@@ -67,7 +68,7 @@ class Faqs extends Component {
                 answer: this.state.newanswer
             };
 
-            axios.post("/api/faqs", str).then(res => {
+            axios.post("https://api.pulsespace.com/faqs", str).then(res => {
                 console.log(res);
                 console.log(res.data);
                 message.success("FAQ Added");
@@ -126,7 +127,10 @@ class Faqs extends Component {
 
         let updatedfaq = faq[index];
         axios
-            .post("/api/faqs/" + updatedfaq.id, updatedfaq)
+            .post(
+                "https://api.pulsespace.com/faqs/" + updatedfaq.id,
+                updatedfaq
+            )
             .then(res => {
                 const faqsdata = res.data;
                 // this.setState({ faqs: faqsdata });
@@ -154,7 +158,7 @@ class Faqs extends Component {
     };
 
     popCancel = () => {
-        console.log('Canceled');
+        console.log("Canceled");
     };
     render() {
         return (
@@ -193,61 +197,61 @@ class Faqs extends Component {
                                 onChange={this.onChangeAnswer}
                             />
                         </Modal>
-                       {!this.state.faqs && <Icon type="loading" />}
-                        { this.state.faqs &&
-                            
-                            
+                        {!this.state.faqs && <Icon type="loading" />}
+                        {this.state.faqs &&
                             this.state.faqs.map(element => (
-                            <div style={{ paddingTop: "10px" }}>
-                                <Card
-                                    title={element.question}
-                                    // key={element.id}
-                                    type="inner"
-                                    hoverable="true"
-                                    bordered={false}
-                                    // style={{ width: 1200 }}
-                                    extra={
-                                        <div>
-                                            <Button
-                                                type="primary"
-                                                size={"large"}
-                                                icon="edit"
-                                                onClick={() =>
-                                                    this.showModalm2(element)
-                                                }
-                                            />
-                                            <Popconfirm
-                                                title="Are you sure delete this question?"
-                                                onConfirm={event =>
-                                                    this.handleDelete(
-                                                        event,
-                                                        element.id
-                                                    )
-                                                }
-                                                onCancel={this.popCancel}
-                                                okText="Yes"
-                                                cancelText="No"
-                                            >
-                                                {/* <Icon type="delete" stye={{color:'#FF7678'}}/> */}
+                                <div style={{ paddingTop: "10px" }}>
+                                    <Card
+                                        title={element.question}
+                                        // key={element.id}
+                                        type="inner"
+                                        hoverable="true"
+                                        bordered={false}
+                                        // style={{ width: 1200 }}
+                                        extra={
+                                            <div>
                                                 <Button
-                                                type="danger"
-                                                size={"large"}
-                                                icon="delete"
-                                                // onClick={event =>
-                                                //     this.handleDelete(
-                                                //         event,
-                                                //         element.id
-                                                //     )
-                                                // }
-                                            />
-                                            </Popconfirm>{" "}
-                                        </div>
-                                    }
-                                >
-                                    <p>{element.answer}</p>
-                                </Card>
-                            </div>
-                        ))}
+                                                    type="primary"
+                                                    size={"large"}
+                                                    icon="edit"
+                                                    onClick={() =>
+                                                        this.showModalm2(
+                                                            element
+                                                        )
+                                                    }
+                                                />
+                                                <Popconfirm
+                                                    title="Are you sure delete this question?"
+                                                    onConfirm={event =>
+                                                        this.handleDelete(
+                                                            event,
+                                                            element.id
+                                                        )
+                                                    }
+                                                    onCancel={this.popCancel}
+                                                    okText="Yes"
+                                                    cancelText="No"
+                                                >
+                                                    {/* <Icon type="delete" stye={{color:'#FF7678'}}/> */}
+                                                    <Button
+                                                        type="danger"
+                                                        size={"large"}
+                                                        icon="delete"
+                                                        // onClick={event =>
+                                                        //     this.handleDelete(
+                                                        //         event,
+                                                        //         element.id
+                                                        //     )
+                                                        // }
+                                                    />
+                                                </Popconfirm>{" "}
+                                            </div>
+                                        }
+                                    >
+                                        <p>{element.answer}</p>
+                                    </Card>
+                                </div>
+                            ))}
 
                         <Modal
                             title="Edit a Question"

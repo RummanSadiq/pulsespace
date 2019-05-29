@@ -17,34 +17,39 @@ class ReviewForm extends Component {
                 if (this.state.images) {
                     values.attachments = this.state.images;
                 }
-                if (this.props.type=='shop'){
-                  axios
-                    .post("/api/reviews/shops", values)
-                    .then(response => {
-                        console.log("review added", response);
-                        message.success('Review added successfully');
-                        this.props.handleok();
-                    })
-                    .catch(err => {
-                        console.log("error occurred while adding review of the shop", err);
-                        message.error('No response from server');
-                    });  
-                }else{
+                if (this.props.type == "shop") {
                     axios
-                    .post("/api/reviews/products", values)
-                    .then(response => {
-                        console.log("review added", response);
-                        message.success('Review added successfully');
-                        this.props.handleok();
-                    })
-                    .catch(err => {
-                        console.log("error occurred while adding review of the product", err);
-                        message.error('No response from server');
-                    }); 
+                        .post("/api/reviews/shops", values)
+                        .then(response => {
+                            console.log("review added", response);
+                            message.success("Review added successfully");
+                            this.props.handleok();
+                        })
+                        .catch(err => {
+                            console.log(
+                                "error occurred while adding review of the shop",
+                                err
+                            );
+                            message.error("No response from server");
+                        });
+                } else {
+                    axios
+                        .post("/api/reviews/products", values)
+                        .then(response => {
+                            console.log("review added", response);
+                            message.success("Review added successfully");
+                            this.props.handleok();
+                        })
+                        .catch(err => {
+                            console.log(
+                                "error occurred while adding review of the product",
+                                err
+                            );
+                            message.error("No response from server");
+                        });
                 }
-                
+
                 console.log("Received values of form: ", values);
-                
             }
         });
     };
@@ -82,7 +87,7 @@ class ReviewForm extends Component {
                             ]
                         })(
                             <Upload
-                                action="/api/attachment/products/"
+                                action="https://api.pulsespace.com/attachment/products"
                                 onChange={this.handleUpload}
                                 listType="picture"
                                 name="image"
@@ -105,10 +110,7 @@ class ReviewForm extends Component {
                         })(<Rate allowHalf />)}
                     </Form.Item>
                     <Form.Item>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                        >
+                        <Button type="primary" htmlType="submit">
                             Done
                         </Button>
                     </Form.Item>

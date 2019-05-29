@@ -44,7 +44,7 @@ class ViewProducts extends Component {
     }
 
     getProducts() {
-        axios.get("/api/products").then(res => {
+        axios.get("https://api.pulsespace.com/products").then(res => {
             const productsData = res.data;
             console.log(productsData);
             this.setState({ products: productsData });
@@ -60,7 +60,7 @@ class ViewProducts extends Component {
         console.log("Price: " + record.price);
         console.log("Category: " + record.category);
 
-        axios.delete("api/products/" + record.id);
+        axios.delete("https://api.pulsespace.com/products/" + record.id);
         this.getProducts();
     }
 
@@ -89,32 +89,34 @@ class ViewProducts extends Component {
 
     discountChange = event => {
         console.log("event target value is", event.target.value);
-        if (event.target.value>0 && event.target.value <90){
-           this.setState({ discount: event.target.value }); 
+        if (event.target.value > 0 && event.target.value < 90) {
+            this.setState({ discount: event.target.value });
+        } else {
+            message.error(
+                "Discount value muust be greater than 0 and less than 90"
+            );
         }
-        else{
-            message.error('Discount value muust be greater than 0 and less than 90');
-        }
-        
     };
     handleDiscount = () => {
-        if (this.state.discount>0 && this.state.discount < 90){
-             var disc = {
-            products: this.state.selectedRowKeys,
-            percent: this.state.discount,
-            sale_ends_at: this.state.end_date
-        };
-        console.log("Discount data to be sent to api will be: ", disc);
+        if (this.state.discount > 0 && this.state.discount < 90) {
+            var disc = {
+                products: this.state.selectedRowKeys,
+                percent: this.state.discount,
+                sale_ends_at: this.state.end_date
+            };
+            console.log("Discount data to be sent to api will be: ", disc);
 
-        axios.post("/api/products/discount", disc).then(res => {
-            console.log("Discounts Added");
-            message.success("discount added successfully");
-        }); 
+            axios
+                .post("https://api.pulsespace.com/products/discount", disc)
+                .then(res => {
+                    console.log("Discounts Added");
+                    message.success("discount added successfully");
+                });
+        } else {
+            message.error(
+                "Discount value muust be greater than 0 and less than 90"
+            );
         }
-        else{
-            message.error ('Discount value muust be greater than 0 and less than 90');
-        }
-      
     };
     handleReviews = (event, record) => {
         this.setState({ reviews: record.reviews }, () => {

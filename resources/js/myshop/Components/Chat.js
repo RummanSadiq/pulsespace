@@ -44,7 +44,7 @@ class Chat extends Component {
     }
 
     getConversations() {
-        axios.get("/api/conversations/shop").then(res => {
+        axios.get("https://api.pulsespace.com/conversations/shop").then(res => {
             this.setState({ conversations: res.data });
 
             if (this.state.initial_screen) {
@@ -65,7 +65,7 @@ class Chat extends Component {
         }
         this.setState({ conversation_id: id });
 
-        axios.get("/api/messages/" + id).then(res => {
+        axios.get("https://api.pulsespace.com/messages/" + id).then(res => {
             this.setState({ chat: res.data });
             console.log(this.myChat);
             this.myChat.current.scrollTop = this.myChat.current.scrollHeight;
@@ -83,32 +83,37 @@ class Chat extends Component {
                 conversation_id: this.state.conversation_id
             };
 
-            axios.post("/api/messages/shop", str).then(res => {
-                //Refresh the messages
-                this.getMessages(this.state.conversation_id, this.state.title);
-                this.getConversations();
-                this.setState({ newreply: "" });
-            });
+            axios
+                .post("https://api.pulsespace.com/messages/shop", str)
+                .then(res => {
+                    //Refresh the messages
+                    this.getMessages(
+                        this.state.conversation_id,
+                        this.state.title
+                    );
+                    this.getConversations();
+                    this.setState({ newreply: "" });
+                });
         }
     }
 
     render() {
         return (
-            
-                <Col
+            <Col
                 xs={{ offset: 6, span: 18 }}
                 sm={{ offset: 6, span: 18 }}
                 md={{ offset: 6, span: 18 }}
                 lg={{ offset: 6, span: 18 }}
                 xl={{ offset: 3, span: 20 }}
-                 style={{ marginTop: "2em" }}>
+                style={{ marginTop: "2em" }}
+            >
                 <Header style={{ backgroundColor: "#f5f5f5" }}>
                     <div style={{ textAlign: "center" }}>
                         <h1>Customer Queries</h1>
                     </div>
                 </Header>
                 <Row style={{ position: "inherit" }}>
-                    <Col span={8} style={{overflow:"auto"}}>
+                    <Col span={8} style={{ overflow: "auto" }}>
                         <Card title="Messages" bordered={false}>
                             <List
                                 itemLayout="horizontal"
@@ -140,14 +145,14 @@ class Chat extends Component {
                             />
                         </Card>
                     </Col>
-                    <Col span={16} >
+                    <Col span={16}>
                         <Card
                             title={this.state.title}
                             bordered={true}
                             style={{
                                 marginLeft: "10dp",
                                 width: "100%",
-                                overflow:'auto'
+                                overflow: "auto"
                             }}
                         >
                             <div
@@ -245,7 +250,7 @@ class Chat extends Component {
                         </div>
                     </Col>
                 </Row>
-                </Col>
+            </Col>
         );
     }
 }

@@ -10,30 +10,32 @@ class EditProduct extends Component {
         super(props);
 
         this.state.record = this.props.record;
-        this.state.attachments = this.props.record.attachments
-
+        this.state.attachments = this.props.record.attachments;
     }
     state = {
         attachments: [],
         categories: [],
-        record: {},
+        record: {}
     };
 
     componentDidMount() {
-        axios.get("/api/categories").then(res => {
+        axios.get("https://api.pulsespace.com/categories").then(res => {
             const data = res.data;
             console.log(data);
             this.setState({ categories: data });
         });
 
-        console.log("the product data received by edit product form is", this.state.record);
+        console.log(
+            "the product data received by edit product form is",
+            this.state.record
+        );
     }
 
     handleUpload = event => {
         // if (event.file.status !== "uploading") {
-            // console.log(event.file);
-            this.setState({ attachments: event.fileList });
-            console.log('handling  upload');
+        // console.log(event.file);
+        this.setState({ attachments: event.fileList });
+        console.log("handling  upload");
         // }
     };
 
@@ -42,18 +44,26 @@ class EditProduct extends Component {
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
-              values.category_name=this.props.record.category_name;
+                values.category_name = this.props.record.category_name;
 
-                console.log("Received values of form after adding attachments: ", values);
-                values.attachments=this.state.attachments;
-
-                
+                console.log(
+                    "Received values of form after adding attachments: ",
+                    values
+                );
+                values.attachments = this.state.attachments;
 
                 axios
-                    .post("api/products/" + this.state.record.id, values)
+                    .post(
+                        "https://api.pulsespace.com/products/" +
+                            this.state.record.id,
+                        values
+                    )
                     .then(res => {
                         const data = res.data;
-                        console.log('response from server after editing product',data);
+                        console.log(
+                            "response from server after editing product",
+                            data
+                        );
                         this.props.handleOk();
                         message.success("DONE");
                     })
@@ -79,8 +89,7 @@ class EditProduct extends Component {
         const descriptionError =
             isFieldTouched("description") && getFieldError("description");
         const pictureError =
-            isFieldTouched("attachments") &&
-            getFieldError("attachments");
+            isFieldTouched("attachments") && getFieldError("attachments");
         const categoryError =
             isFieldTouched("category_id") && getFieldError("category_id");
         const priceError = isFieldTouched("price") && getFieldError("price");
@@ -177,7 +186,7 @@ class EditProduct extends Component {
                         ]
                     })(
                         <Upload
-                            action="/api/attachment/products"
+                            action="https://api.pulsespace.com/attachment/products"
                             onChange={this.handleUpload}
                             listType="picture"
                             name="image"

@@ -10,22 +10,20 @@ class UserReviews extends Component {
     };
 
     componentDidMount() {
-        if (this.props.reviews){
-            this.setState({reviews:this.props.reviews})
-
-        }else{
-            axios.get("/api/reviews/shops").then(res => {
-            const reviewsData = res.data;
-            console.log(reviewsData);
-            this.setState({ reviews: reviewsData });
-        });
+        if (this.props.reviews) {
+            this.setState({ reviews: this.props.reviews });
+        } else {
+            axios.get("https://api.pulsespace.com/reviews/shops").then(res => {
+                const reviewsData = res.data;
+                console.log(reviewsData);
+                this.setState({ reviews: reviewsData });
+            });
         }
-        
     }
 
     render() {
         return (
-            <div >
+            <div>
                 <Col
                     xs={{ offset: 6, span: 18 }}
                     sm={{ offset: 6, span: 18 }}
@@ -47,7 +45,7 @@ class UserReviews extends Component {
                                         {" "}
                                         <Avatar size={64} icon="user" />
                                         {/* <span > */}
-                                            {element.username}
+                                        {element.username}
                                         {/* </span> */}
                                     </h3>
                                 }

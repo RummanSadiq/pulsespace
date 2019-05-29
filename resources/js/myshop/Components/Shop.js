@@ -46,7 +46,7 @@ class Shop extends Component {
     };
 
     componentDidMount() {
-        axios.get("/api/myshop").then(res => {
+        axios.get("https://api.pulsespace.com/myshop").then(res => {
             const storedata = res.data;
             console.log("SHOP.JS", storedata.attachments);
             this.setState({ store: storedata }, () => {});
@@ -62,7 +62,7 @@ class Shop extends Component {
     };
 
     handleStateChange = () => {
-        axios.get("/api/myshop").then(res => {
+        axios.get("https://api.pulsespace.com/myshop").then(res => {
             const storedata = res.data;
             // console.log(storedata);
             this.setState({ store: storedata, show: false });
@@ -206,15 +206,10 @@ class Shop extends Component {
                                 </Col>
                                 <Col span={12} className="infoColumns">
                                     {this.state.store.wifi > 0 && (
-                                        <span>
-                                            Store has Wifi
-                                        </span>
+                                        <span>Store has Wifi</span>
                                     )}
                                     {!this.state.store.wifi > 0 && (
-                                        <span>
-                                           
-                                            Store does not have Wifi
-                                        </span>
+                                        <span>Store does not have Wifi</span>
                                     )}
                                 </Col>
                             </Row>
