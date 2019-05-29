@@ -107,15 +107,16 @@ class Head extends Component {
         console.log("here");
 
         axios
-            .post("http://api.pulsespace.com/register", {
+            .post("https://api.pulsespace.com/register", {
                 name: "Rumman",
                 email: "rummansadiq@gmail.com",
                 password: "12345678"
             })
             .then(res => {
                 console.log(res);
-                cookies.set("access_token", res.data.token);
-                localStorage.setItem("access_token", res.data.token);
+                cookies.set("access_token", res.data.token, {
+                    domain: ".pulsespace.test"
+                });
                 window.location.reload();
             })
             .catch(res => {
@@ -127,7 +128,7 @@ class Head extends Component {
         console.log("login");
 
         axios
-            .post("http://api.pulsespace.com/login", {
+            .post("https://api.pulsespace.com/login", {
                 email: "rumman@gmail.com",
                 password: "12345678"
             })
@@ -136,7 +137,6 @@ class Head extends Component {
                 cookies.set("access_token", res.data.token, {
                     domain: ".pulsespace.test"
                 });
-                localStorage.setItem("access_token", res.data.token);
                 window.location.reload();
             });
     };
@@ -173,7 +173,7 @@ class Head extends Component {
 
         axios.get("http://api.pulsespace.com/logout").then(res => {
             console.log(res);
-            localStorage.removeItem("access_token");
+            cookies.remove("access_token");
             window.location.reload();
         });
     };
@@ -251,7 +251,7 @@ class Head extends Component {
                                 </Menu.Item>
                             )}
                             <Menu.Item key="2">
-                                <a href="https://myshop.pulsespace.test">
+                                <a href="http://myshop.pulsespace.test">
                                     My Shop
                                 </a>
                             </Menu.Item>
