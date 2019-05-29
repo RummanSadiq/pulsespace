@@ -19,7 +19,7 @@ class ReviewForm extends Component {
                 }
                 if (this.props.type == "shop") {
                     axios
-                        .post("/api/reviews/shops", values)
+                        .post("https://api.pulsespace.com/reviews/shops", values)
                         .then(response => {
                             console.log("review added", response);
                             message.success("Review added successfully");
@@ -34,7 +34,7 @@ class ReviewForm extends Component {
                         });
                 } else {
                     axios
-                        .post("/api/reviews/products", values)
+                        .post("https://api.pulsespace.com/reviews/products", values)
                         .then(response => {
                             console.log("review added", response);
                             message.success("Review added successfully");
@@ -65,7 +65,7 @@ class ReviewForm extends Component {
 
         return (
             <div>
-                <Form onSubmit={this.handleSubmit} className="login-form">
+                <Form onSubmit={this.handleSubmit} >
                     <Form.Item>
                         {getFieldDecorator("description", {
                             rules: [

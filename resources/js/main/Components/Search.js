@@ -53,7 +53,7 @@ class SearchComponent extends Component {
         }
 
         console.log("Search is", search);
-        Axios.get("/api/products").then(res => {
+        Axios.get("https://api.pulsespace.com/products").then(res => {
             const products = res.data;
             console.log("products data is", products);
             this.setState({ products: products });

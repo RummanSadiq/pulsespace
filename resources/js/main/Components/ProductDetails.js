@@ -10,7 +10,7 @@ class ProductDetails extends Component {
         // product: {}
     };
     componentDidMount() {
-        Axios.get("/api/products/" + this.props.match.params.id).then(res => {
+        Axios.get("https://api.pulsespace.com/products/" + this.props.match.params.id).then(res => {
             const product = res.data;
             console.log("product data is", product);
             this.setState({ product: product });
@@ -19,7 +19,7 @@ class ProductDetails extends Component {
     }
 
     getReviews(){
-        Axios.get("/api/reviews/products/" + this.props.match.params.id).then(res => {
+        Axios.get("https://api.pulsespace.com/reviews/products/" + this.props.match.params.id).then(res => {
             const product = res.data;
             console.log("product reviews are", product);
             this.setState({ Reviews: product });

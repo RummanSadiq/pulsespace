@@ -16,7 +16,7 @@ class StoreInfo extends Component {
     handleFollow(id) {
         console.log("handle follow", id);
         axios
-            .get("/api/follow/" + id)
+            .get("https://api.pulsespace.com/follow/" + id)
             .then(res => {
                 this.getFollowed();
             })
@@ -46,7 +46,7 @@ class StoreInfo extends Component {
         }
     }
     getFollowed() {
-        axios.get("/api/followed").then(res => {
+        axios.get("https://api.pulsespace.com/followed").then(res => {
             const followedData = res.data;
             console.log("followed data is", followedData);
             this.setState({ followed: followedData }, () => {

@@ -35,7 +35,7 @@ class HomeComponents extends Component {
         this.getallPosts();
     }
     getProducts() {
-        Axios.get("/api/products").then(res => {
+        Axios.get("https://api.pulsespace.com/products").then(res => {
             const products = res.data;
             console.log("products data is", products);
             this.setState({ products: products });
@@ -47,14 +47,14 @@ class HomeComponents extends Component {
     };
 
     getStores() {
-        Axios.get("/api/shops").then(res => {
+        Axios.get("https://api.pulsespace.com/shops").then(res => {
             const shops = res.data;
             console.log("Shops are", shops);
             this.setState({ shops: shops });
         });
     }
     getallPosts() {
-        Axios.get("/api/posts").then(res => {
+        Axios.get("https://api.pulsespace.com/posts").then(res => {
             const postsData = res.data;
             console.log("Posts of stores are", postsData);
             this.setState({ posts: postsData });

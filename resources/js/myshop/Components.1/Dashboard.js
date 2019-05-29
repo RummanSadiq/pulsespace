@@ -12,8 +12,6 @@ import EPForm from "./EditProduct";
 import ViewProducts from "./View Products";
 import Promote from './Promote';
 import Shop from "./Shop";
-import Login from './Login';
-import SignUp from './SignUp';
 class Dashboard extends Component {
     render() {
         return (
@@ -31,9 +29,6 @@ class Dashboard extends Component {
                         <Route path="/Edit" component={EPForm} />
                         <Route path="/Shop" component={Shop} />
                         <Route path='/promote' component={Promote}/>
-                        <Route path='/login' component={login}/>
-                        <Route path='/register' component={SignUp}/>
-
                         {/* <Route
                             path="/logout"
                             component={() => {

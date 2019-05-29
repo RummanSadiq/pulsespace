@@ -70,75 +70,51 @@ class Head extends Component {
     };
 
     componentWillMount() {
-        axios
-            .get("http://api.pulsespace.com/user")
-            .then(res => {
-                const user = res.data;
-                console.log("user is ", user);
-                this.setState({ logged: user }, () => {
-                    if (this.state.logged.id) {
-                        //function call to get notifications
-                        var notify = [
-                            {
-                                title: "Title of notification",
-                                message:
-                                    "You have received a particular type of notiification that will be showed up here",
-                                link: "/product/2",
-                                read: true
-                            },
-                            {
-                                title: "Title of notification",
-                                message:
-                                    "You have received a particular type of notiification that will be showed up here",
-                                link: "/product/2",
-                                read: false
-                            }
-                        ];
-                        this.setState({ notifications: notify });
-                    }
-                });
-            })
-            .catch(res => {
-                console.log(res);
-            });
+       this.handleLogin();
     }
 
     handleRegister = () => {
         console.log("here");
 
-        axios
-            .post("https://api.pulsespace.com/register", {
-                name: "Rumman",
-                email: "rummansadiq@gmail.com",
-                password: "12345678"
-            })
-            .then(res => {
-                console.log(res);
-                cookies.set("access_token", res.data.token, {
-                    domain: ".pulsespace.test"
-                });
-                window.location.reload();
-            })
-            .catch(res => {
-                console.log(res);
-            });
+     
     };
 
     handleLogin = () => {
         console.log("login");
 
         axios
-            .post("https://api.pulsespace.com/login", {
-                email: "rumman@gmail.com",
-                password: "12345678"
-            })
-            .then(res => {
-                console.log(res);
-                cookies.set("access_token", res.data.token, {
-                    domain: ".pulsespace.test"
-                });
-                window.location.reload();
+        .get("http://api.pulsespace.com/user")
+        .then(res => {
+            const user = res.data;
+            console.log("user is ", user);
+            this.setState({ logged: user }, () => {
+                if (this.state.logged.id) {
+                    //function call to get notifications
+                    var notify = [
+                        {
+                            title: "Title of notification",
+                            message:
+                                "You have received a particular type of notiification that will be showed up here",
+                            link: "/product/2",
+                            read: true
+                        },
+                        {
+                            title: "Title of notification",
+                            message:
+                                "You have received a particular type of notiification that will be showed up here",
+                            link: "/product/2",
+                            read: false
+                        }
+                    ];
+                    this.setState({ notifications: notify });
+                }
             });
+        })
+        .catch(res => {
+            console.log('catched error in handling user api result',res);
+        });
+
+       
     };
 
     showModal = () => {
@@ -158,6 +134,8 @@ class Head extends Component {
 
         this.setState({
             visibleLogin: false
+        },()=>{
+            this.handleLogin();
         });
     };
 
@@ -386,20 +364,20 @@ class Head extends Component {
                     <Modal
                         title="Create an account"
                         visible={this.state.visible}
-                        handleOk={this.handleRegister}
+                        // handleOk={this.handleRegister}
                         footer={null}
                         onCancel={this.handleOk}
                     >
-                        <Register_Form done={this.handleRegister} />
+                        <Register_Form done={this.handleOk} />
                     </Modal>
                     <Modal
                         title="Login"
                         visible={this.state.visibleLogin}
-                        handleOk={this.handleLogin}
+                        // handleOk={this.handleLogin}
                         footer={null}
                         onCancel={this.handleOk}
                     >
-                        <Login_Form done={this.handleLogin} />
+                        <Login_Form done={this.handleOk} />
                     </Modal>
                 </div>
             </BrowserRouter>
