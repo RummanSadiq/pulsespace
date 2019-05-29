@@ -10,29 +10,42 @@ import UserReviews from "./UserReviews";
 import AddProduct from "./Add Product";
 import EPForm from "./EditProduct";
 import ViewProducts from "./View Products";
-import Promote from './Promote';
+import Promote from "./Promote";
 import Shop from "./Shop";
-import Login from './Login';
-import SignUp from './SignUp';
+
 class Dashboard extends Component {
+    state = {
+        logged: 0
+    };
+    changeState = () => {
+        console.log('change state called')
+        this.setState({ logged: true });
+    };
     render() {
         return (
             <div>
                 <BrowserRouter>
                     <div>
-                        <Route path="" component={Sidemenu} />
-                        <Route exact path="" component={Shop} />
-                        <Route path="/Messages" component={Chat} />
-                        <Route path="/Faqs" component={Faqs} />
-                        <Route path="/Reviews" component={UserReviews} />
-                        <Route path="/Posts" component={Posts} />
-                        <Route path="/Add" component={AddProduct} />
-                        <Route path="/ViewProduct" component={ViewProducts} />
-                        <Route path="/Edit" component={EPForm} />
-                        <Route path="/Shop" component={Shop} />
-                        <Route path='/promote' component={Promote}/>
-                        <Route path='/login' component={login}/>
-                        <Route path='/register' component={SignUp}/>
+                            <div>
+                                <Route path="" component={Sidemenu} />
+                                <Route exact path="" component={Shop} />
+                                <Route path="/Messages" component={Chat} />
+                                <Route path="/Faqs" component={Faqs} />
+                                <Route
+                                    path="/Reviews"
+                                    component={UserReviews}
+                                />
+                                <Route path="/Posts" component={Posts} />
+                                <Route path="/Add" component={AddProduct} />
+                                <Route
+                                    path="/ViewProduct"
+                                    component={ViewProducts}
+                                />
+                                <Route path="/Edit" component={EPForm} />
+                                <Route path="/Shop" component={Shop} />
+                                <Route path="/promote" component={Promote} />
+                            </div>
+                       
 
                         {/* <Route
                             path="/logout"

@@ -18,14 +18,12 @@ class SignUp extends Component {
     };
     render() {
         return (
-            <Row>
-                <Col span={12} style={{textAlign:'center'}}>
-                    <h1>Welcome to PulseSpace</h1>
+            <Row style={{textAlign:'center',marginTop:'10%'}}>
+                <Col span={12} >
+                    <h1>Welcome to PulseSpace, create an account to start benefitting</h1>
                 </Col>
                 <Col span={8}>
-                    <Card>
-                        <Register_Form />
-                    </Card>
+                        <Register_Form changeState={this.props.changeState} changeAuth={this.props.changeAuth}/>
                 </Col>
             </Row>
             // <div>

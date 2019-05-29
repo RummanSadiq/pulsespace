@@ -12,7 +12,7 @@ class FAQs extends Component {
     };
 
     componentDidMount() {
-        axios.get("/api/faqs/shop/" + this.props.id).then(res => {
+        axios.get("http://api.pulsespace.com/faqs/shop/" + this.props.id).then(res => {
             const faqsData = res.data;
             console.log(faqsData);
             this.setState({ faqs: faqsData });

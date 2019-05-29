@@ -38,7 +38,7 @@ class Store extends Component {
     };
     componentDidMount() {
         console.log("params received in props", this.state.id);
-        axios.get("/api/shops/" + this.state.id).then(res => {
+        axios.get("http://api.pulsespace.com/shops/" + this.state.id).then(res => {
             const storedata = res.data;
             console.log("store information is", storedata);
             this.setState({ store: storedata });

@@ -72,7 +72,7 @@ class StoreInfo extends Component {
                                     backgroundColor: "#F57224",
                                     color: "white"
                                 }}
-                                onClick={() => this.handleFollow(this.state.id)}
+                                onClick={() => this.handleFollow(this.state.store.id)}
                                 
                             >
                                 Following
@@ -87,7 +87,7 @@ class StoreInfo extends Component {
                                     backgroundColor: "#F57224",
                                     color: "white"
                                 }}
-                                onClick={() => this.handleFollow(this.state.id)}
+                                onClick={() => this.handleFollow(this.state.store.id)}
                             >
                                 Follow
                             </Button>
