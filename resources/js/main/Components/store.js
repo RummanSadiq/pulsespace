@@ -38,27 +38,34 @@ class Store extends Component {
     };
     componentDidMount() {
         console.log("params received in props", this.state.id);
-        axios.get("http://api.pulsespace.com/shops/" + this.state.id).then(res => {
-            const storedata = res.data;
-            console.log("store information is", storedata);
-            this.setState({ store: storedata });
-        });
+        axios
+            .get("https://api.pulsespace.com/shops/" + this.state.id)
+            .then(res => {
+                const storedata = res.data;
+                console.log("store information is", storedata);
+                this.setState({ store: storedata });
+            });
         this.getProducts();
         this.getReviews();
         this.getPosts();
     }
 
     getProducts() {
-        axios.get("https://api.pulsespace.com/products/shop/" + this.state.id).then(res => {
-            const productsData = res.data;
-            console.log("Products of store are", productsData);
-            this.setState({ products: productsData });
-        });
+        axios
+            .get("https://api.pulsespace.com/products/shop/" + this.state.id)
+            .then(res => {
+                const productsData = res.data;
+                console.log("Products of store are", productsData);
+                this.setState({ products: productsData });
+            });
     }
 
     getReviews() {
         axios
-            .get("https://api.pulsespace.com/reviews/shops/" + this.props.match.params.id)
+            .get(
+                "https://api.pulsespace.com/reviews/shops/" +
+                    this.props.match.params.id
+            )
             .then(res => {
                 const reviewsData = res.data;
                 console.log("Reviews  are", reviewsData);
@@ -70,34 +77,36 @@ class Store extends Component {
             });
     }
     getPosts() {
-        axios.get("https://api.pulsespace.com/posts/shop/" + this.state.id).then(res => {
-            const postsData = res.data;
-            console.log("Posts of this store are", postsData);
-            this.setState({ posts: postsData });
-        });
+        axios
+            .get("https://api.pulsespace.com/posts/shop/" + this.state.id)
+            .then(res => {
+                const postsData = res.data;
+                console.log("Posts of this store are", postsData);
+                this.setState({ posts: postsData });
+            });
     }
 
     render() {
         return (
             <div>
-                 {this.state.store &&
-                 <Row>
-                    <Col>
-                        <Carousel>
-                            {this.state.store.attachments.map(image => (
-                                <div>
-                                    <img
-                                        src={image.url}
-                                        width="100%"
-                                        height="100%"
-                                        alt="image"
-                                    />
-                                </div>
-                            ))}
-                            
-                        </Carousel>
-                    </Col>
-                </Row> }
+                {this.state.store && (
+                    <Row>
+                        <Col>
+                            <Carousel>
+                                {this.state.store.attachments.map(image => (
+                                    <div>
+                                        <img
+                                            src={image.url}
+                                            width="100%"
+                                            height="100%"
+                                            alt="image"
+                                        />
+                                    </div>
+                                ))}
+                            </Carousel>
+                        </Col>
+                    </Row>
+                )}
                 {!this.state.store && <Skeleton />}
 
                 {this.state.store && <StoreInfo store={this.state.store} />}
@@ -134,7 +143,6 @@ class Store extends Component {
                                         type="shop"
                                         // lift={this.getReviews}
                                         user_id={this.state.store.user_id}
-
                                     />
                                 )}
                             </Col>

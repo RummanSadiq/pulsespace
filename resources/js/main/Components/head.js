@@ -70,46 +70,43 @@ class Head extends Component {
     };
 
     componentWillMount() {
-       this.handleLogin();
+        this.handleLogin();
     }
-
 
     handleLogin = () => {
         console.log("login");
 
         axios
-        .get("http://api.pulsespace.com/user")
-        .then(res => {
-            const user = res.data;
-            console.log("user is ", user);
-            this.setState({ logged: user }, () => {
-                if (this.state.logged.id) {
-                    //function call to get notifications
-                    var notify = [
-                        {
-                            title: "Title of notification",
-                            message:
-                                "You have received a particular type of notiification that will be showed up here",
-                            link: "/product/2",
-                            read: true
-                        },
-                        {
-                            title: "Title of notification",
-                            message:
-                                "You have received a particular type of notiification that will be showed up here",
-                            link: "/product/2",
-                            read: false
-                        }
-                    ];
-                    this.setState({ notifications: notify });
-                }
+            .get("https://api.pulsespace.com/user")
+            .then(res => {
+                const user = res.data;
+                console.log("user is ", user);
+                this.setState({ logged: user }, () => {
+                    if (this.state.logged.id) {
+                        //function call to get notifications
+                        var notify = [
+                            {
+                                title: "Title of notification",
+                                message:
+                                    "You have received a particular type of notiification that will be showed up here",
+                                link: "/product/2",
+                                read: true
+                            },
+                            {
+                                title: "Title of notification",
+                                message:
+                                    "You have received a particular type of notiification that will be showed up here",
+                                link: "/product/2",
+                                read: false
+                            }
+                        ];
+                        this.setState({ notifications: notify });
+                    }
+                });
+            })
+            .catch(res => {
+                console.log("catched error in handling user api result", res);
             });
-        })
-        .catch(res => {
-            console.log('catched error in handling user api result',res);
-        });
-
-       
     };
 
     showModal = () => {
@@ -127,11 +124,14 @@ class Head extends Component {
     handleOk = e => {
         console.log(e);
 
-        this.setState({
-            visibleLogin: false
-        },()=>{
-            this.handleLogin();
-        });
+        this.setState(
+            {
+                visibleLogin: false
+            },
+            () => {
+                this.handleLogin();
+            }
+        );
     };
 
     handleSearch = e => {
@@ -144,7 +144,7 @@ class Head extends Component {
 
         console.log("Logout");
 
-        axios.get("http://api.pulsespace.com/logout").then(res => {
+        axios.get("https://api.pulsespace.com/logout").then(res => {
             console.log(res);
             cookies.remove("access_token");
             window.location.reload();

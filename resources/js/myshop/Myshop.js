@@ -30,17 +30,15 @@ class Myshop extends Component {
         auth: "login"
     };
 
-    componentDidMount(){
-        axios
-        .get("http://api.pulsespace.com/user").then(res=>{
-            console.log('user received in response is', res.data);
-            if (res.data.id){
+    componentDidMount() {
+        axios.get("https://api.pulsespace.com/user").then(res => {
+            console.log("user received in response is", res.data);
+            if (res.data.id) {
                 this.getShop();
+            } else {
+                this.setState({ shop: 0 });
             }
-            else{
-                this.setState({shop:0});
-            }
-        })
+        });
     }
     changeState = () => {
         console.log("changing the state, it must redirect");
@@ -56,17 +54,20 @@ class Myshop extends Component {
         }
     };
 
-    getShop=()=>{
+    getShop = () => {
         axios
-        .get("https://api.pulsespace.com/users/shop")
-        .then(res => {
-            console.log("Shop data is", res.data);
-            this.setState({ shop: res.data.shop });
-        })
-        .catch(err => {
-            console.log("api to see if store exists or not cannot be accessed", err);
-        });
-    }
+            .get("https://api.pulsespace.com/users/shop")
+            .then(res => {
+                console.log("Shop data is", res.data);
+                this.setState({ shop: res.data.shop });
+            })
+            .catch(err => {
+                console.log(
+                    "api to see if store exists or not cannot be accessed",
+                    err
+                );
+            });
+    };
     render() {
         return (
             <div>
