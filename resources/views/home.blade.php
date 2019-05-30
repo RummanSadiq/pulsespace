@@ -15,7 +15,7 @@
 
 <body>
     <div id="app">
-        <script type="text/jsx" src="{{ asset('js/App.js') }}"></script>
+        <script src="{{ asset('js/App.js') }}"></script>
     </div>
 </body>
 

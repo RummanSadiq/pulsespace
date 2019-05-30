@@ -15,7 +15,7 @@
 
 <body style="background-color: #E4E5E6">
     <div id="app">
-        <script type="text/jsx" src="{{ asset('js/Myshop.js') }}"></script>
+        <script src="{{ asset('js/Myshop.js') }}"></script>
 
     </div>
 </body>
