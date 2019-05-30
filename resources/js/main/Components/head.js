@@ -33,6 +33,9 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
+const host = window.location.hostname;
+const myDomain = host.substring(host.lastIndexOf("."));
+
 const category = (
     <Menu>
         <MenuItem>Women's Fashion</MenuItem>
@@ -224,7 +227,7 @@ class Head extends Component {
                                 </Menu.Item>
                             )}
                             <Menu.Item key="2">
-                                <a href="http://myshop.pulsespace.test">
+                                <a href={"http://myshop.pulsespace" + myDomain}>
                                     My Shop
                                 </a>
                             </Menu.Item>
