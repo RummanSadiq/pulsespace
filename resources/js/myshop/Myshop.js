@@ -55,6 +55,9 @@ class Myshop extends Component {
     };
 
     getShop = () => {
+        axios.defaults.headers = {
+            Authorization: "Bearer " + cookies.get("access_token")
+        };
         axios
             .get("https://api.pulsespace.com/users/shop")
             .then(res => {
