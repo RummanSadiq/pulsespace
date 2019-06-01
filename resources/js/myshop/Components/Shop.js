@@ -48,7 +48,7 @@ class Shop extends Component {
     componentDidMount() {
         axios.get("https://api.pulsespace.com/myshop").then(res => {
             const storedata = res.data;
-            console.log("SHOP.JS", storedata.attachments);
+            console.log("SHOP.JS", storedata);
             this.setState({ store: storedata }, () => {});
         });
     }

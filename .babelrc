@@ -1,5 +1,13 @@
 {
     "plugins": [
+        [
+            "import",
+            {
+                "libraryName": "antd",
+                "libraryDirectory": "lib"
+            },
+            "ant"
+        ],
         "transform-class-properties",
         "@babel/plugin-proposal-class-properties"
     ],

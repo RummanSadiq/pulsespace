@@ -19,6 +19,7 @@ class SubPage extends Component {
                 <Switch>
                     <Route path="/store/:id" component={Store} />
                     <Route exact path="/" component={HomeComponents} />
+                    <Redirect from="*" to="/" />
                     <Route
                         exact
                         path="/product/:id"
