@@ -40,7 +40,6 @@ class Stores extends Component {
             this.setState({ followed: followedData });
         });
     }
-
     handleFollow(id) {
         Axios.get("https://api.pulsespace.com/follow/" + id)
             .then(res => {
@@ -108,16 +107,24 @@ class Stores extends Component {
                                             <img
                                                 src={element.attachments[0].url}
                                                 alt="Store Image"
-                                                width={'100%'}
+                                                width={"100%"}
                                                 height={200}
                                             />
-                                           
                                         </NavLink>
                                     }
                                 >
                                     <Meta
                                         title={element.name}
-                                        description={<div style={{color:'#72BEFC', marginBottom:'1%'}}>{element.contact}</div>}
+                                        description={
+                                            <div
+                                                style={{
+                                                    color: "#72BEFC",
+                                                    marginBottom: "1%"
+                                                }}
+                                            >
+                                                {element.contact}
+                                            </div>
+                                        }
                                     />
                                     <List.Item.Meta
                                         description={
