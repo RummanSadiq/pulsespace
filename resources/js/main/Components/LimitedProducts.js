@@ -42,11 +42,11 @@ class Products extends Component {
             <div>
                 <Card
                     title={<h2>{this.state.title}</h2>}
-                    extra={
-                        <div>
-                            {this.props.all && <Button icon="plus">All</Button>}
-                        </div>
-                    }
+                    // extra={
+                    //     <div>
+                    //         {this.props.all && <Button icon="plus">All</Button>}
+                    //     </div>
+                    // }
                     bordered={false}
                     style={{ background: "#ECECEC", textAlign: "center" }}
                 >
@@ -75,8 +75,9 @@ class Products extends Component {
                                     cover={
                                         <div>
                                             <NavLink
-                                                to={"product/" + element.id}
+                                                to={"/product/" + element.id}
                                             >
+                                            {/* <a href={"product/" + element.id}> */}
                                                 <img
                                                     alt="example"
                                                     src={
@@ -90,6 +91,7 @@ class Products extends Component {
                                                         // padding: "5%"
                                                     }}
                                                 />
+                                            {/* </a> */}
                                             </NavLink>
                                         </div>
                                     }
@@ -101,7 +103,15 @@ class Products extends Component {
                                     }}
                                 >
                                     <Meta
-                                        title={element.name}
+                                        title={
+                                            <div>
+                                                <NavLink
+                                                    to={"product/" + element.id}
+                                                >
+                                                    {element.name}
+                                                </NavLink>
+                                            </div>
+                                        }
                                         description={element.category}
                                     />{" "}
                                     <List.Item.Meta

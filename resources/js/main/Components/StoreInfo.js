@@ -105,7 +105,7 @@ class StoreInfo extends Component {
                             Message
                         </Button>
                         <div>
-                            <h4>Number of Followers: {this.state.store.numberofFollowers ? this.state.this.state.store.numberofFollowers: "0"}</h4>
+                            <h4>Number of Followers: {this.state.store.total_followers ? this.state.store.total_followers: "0"}</h4>
                             
                             {" "}
                             <span>

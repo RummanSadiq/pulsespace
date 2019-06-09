@@ -1,14 +1,16 @@
 import React, { Component } from "react";
-import { Form, Icon, Input, Button, Rate, Upload, message } from "antd";
+import { Form, Icon, Input, Button, Rate, Upload, message, Spin } from "antd";
 import axios from "axios";
 const { TextArea } = Input;
 class ReviewForm extends Component {
     state = {
-        images: []
+        images: [],
+        loading: false
     };
 
     handleSubmit = e => {
         e.preventDefault();
+        this.setState({loading:true});
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 if (this.props.item_id) {
@@ -24,6 +26,8 @@ class ReviewForm extends Component {
                             console.log("review added", response);
                             message.success("Review added successfully");
                             this.props.handleok();
+                            this.setState({loading:false});
+
                         })
                         .catch(err => {
                             console.log(
@@ -31,6 +35,9 @@ class ReviewForm extends Component {
                                 err
                             );
                             message.error("No response from server");
+                            this.setState({loading:false});
+                            
+
                         });
                 } else {
                     axios
@@ -39,6 +46,8 @@ class ReviewForm extends Component {
                             console.log("review added", response);
                             message.success("Review added successfully");
                             this.props.handleok();
+                            this.setState({loading:false});
+
                         })
                         .catch(err => {
                             console.log(
@@ -46,6 +55,7 @@ class ReviewForm extends Component {
                                 err
                             );
                             message.error("No response from server");
+                            this.setState({loading:false});
                         });
                 }
 
@@ -113,6 +123,8 @@ class ReviewForm extends Component {
                         <Button type="primary" htmlType="submit">
                             Done
                         </Button>
+                        <Spin spinning={this.state.loading}/>
+
                     </Form.Item>
                 </Form>
             </div>

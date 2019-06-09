@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Icon, Input, Button, Checkbox } from "antd";
+import { Form, Icon, Input, Button, Checkbox, message } from "antd";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
@@ -21,10 +21,13 @@ class RegisterForm extends React.Component {
                         cookies.set("access_token", res.data.token, {
                             domain: ".pulsespace" + myDomain
                         });
+                        message.success('Registered Successfullys');
+
                         this.props.done();
                     })
                     .catch(res => {
-                        console.log(res);
+                        console.log('Caught an error from registerform',res);
+                        message.error('Couldnt register user');
                     });
             }
         });

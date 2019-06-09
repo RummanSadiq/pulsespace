@@ -35,6 +35,7 @@ const cookies = new Cookies();
 
 const host = window.location.hostname;
 const myDomain = host.substring(host.lastIndexOf("."));
+const Search = Input.Search;
 
 const category = (
     <Menu>
@@ -286,23 +287,45 @@ class Head extends Component {
                         </Menu>
                     </div>
                     <Row style={{ backgroundColor: "white" }}>
-                        <Col offset={4}>
-                            <div
-                                style={{
-                                    paddingRight: "50px",
-                                    padding: "1%",
-                                    position: "relative"
-                                }}
-                            >
-                                <a href="/">
-                                    <img
-                                        src={logo}
-                                        alt="Shopx"
-                                        width="8%"
-                                        height="8%"
+                        {/* <Col offset={4}>
+                            <Row
+                            // style={{
+                            //     paddingRight: "50px",
+                            //     padding: "1%",
+                            //     position: "relative"
+                            // }}
+                            > */}
+                                <Col span={4} offset={2}>
+                                    <a href="/">
+                                        <img
+                                            src={logo}
+                                            alt="Shopx"
+                                            width="50%"
+                                            height="30%"
+                                        />
+                                    </a>
+                                </Col>
+                                <Col span={12}>
+                                    <Search
+                                        placeholder="input search text"
+                                        enterButton={
+                                            <a
+                                                href={
+                                                    "/search/" +
+                                                    this.state.value
+                                                }
+                                                style={{ color: "white" }}
+                                            >
+                                                Search
+                                            </a>
+                                        }
+                                        size="large"
+                                        onChange={this.handleSearch}
+                                        onSearch={value => console.log(value)}
                                     />
-                                </a>
-                                <Input
+                                </Col>
+
+                                {/* <Input
                                     onChange={this.handleSearch}
                                     size="large"
                                     style={{ width: "50%" }}
@@ -322,14 +345,16 @@ class Head extends Component {
                                             </Button>
                                         </a>
                                     }
-                                />
-                                <a href="/mylist">
-                                    <Icon
-                                        type="shopping-cart"
-                                        style={{ fontSize: "50px" }}
-                                    />
-                                </a>
-                            </div>
+                                /> */}
+                                <Col span={6}>
+                                    <a href="/mylist">
+                                        <Icon
+                                            type="shopping-cart"
+                                            style={{ fontSize: "50px" }}
+                                        />
+                                    </a>
+                                {/* </Col>
+                            </Row> */}
                         </Col>
                     </Row>{" "}
                     <div

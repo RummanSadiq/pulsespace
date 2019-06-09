@@ -107,8 +107,7 @@ class Store extends Component {
                         </Col>
                     </Row>
                 )}
-                {!this.state.store && <Skeleton />}
-
+                +{!this.state.store && <Skeleton />}
                 {this.state.store && <StoreInfo store={this.state.store} />}
                 <Tabs
                     defaultActiveKey="1"
@@ -133,8 +132,10 @@ class Store extends Component {
                     <TabPane tab="Reviews" key="2">
                         <Row>
                             <Col lg={16} offset={4}>
-                                {!this.state.Reviews && <Skeleton active />}
-                                {this.state.Reviews && (
+                                {!this.state.store && !this.state.Reviews && (
+                                    <Skeleton active />
+                                )}
+                                {this.state.store && this.state.Reviews && (
                                     <Reviews
                                         id={this.props.match.params.id}
                                         Reviews={this.state.Reviews}

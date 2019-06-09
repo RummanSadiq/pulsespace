@@ -26,46 +26,49 @@ class Reviews extends Component {
     state = {
         Reviews: [],
         visible: false,
-        user:''
+        user: ""
     };
 
     componentDidMount() {
-        axios.get("/api/user").then(res => {
+        axios.get("https://api.pulsespace.com/user").then(res => {
             const user = res.data;
-            console.log("Logged in user is", user);
-            this.setState({ user: user });
+            console.log(
+                "calling from inside Reviews.js Logged in user is",
+                user
+            );
+            this.setState({ user: res.data });
         });
     }
     showModal = () => {
-        if (this.state.user.id == this.props.user_id){
-            message.error('You cannot add review to your own store.');
-        }else{
-          this.setState({
-            visible: true
-        });  
+        console.log(
+            "From inside Reviews.js: User id from props is",
+            this.props.user_id
+        );
+        if (this.state.user.id == this.props.user_id) {
+            message.error("You cannot add review to your own store.");
+        } else {
+            this.setState({
+                visible: true
+            });
         }
-        
     };
     handleCancel = e => {
-        console.log(e);
+        console.log("handle Cancel called from Reviews.js");
         this.setState({
             visible: false
         });
         // this.props.lift();
     };
 
+    report = id => {
+        // axios.post("https://api.pulsespace.com/reports/reviews"+id).then(res => {
+        //     const user = res.data;
+        //     console.log("calling from inside Reviews.js Logged in user is", user);
+        //     this.setState({ user: res.data });
+        // });
+        console.log("Reporting review", id);
+    };
     render() {
-        const IconText = ({ type, text }) => (
-            <span>
-                <Icon
-                    type={type}
-                    style={{ marginRight: 8, fontSize: "20px" }}
-                    theme="twoTone"
-                />
-                {text}
-            </span>
-        );
-
         return (
             <div>
                 <Card
@@ -92,8 +95,45 @@ class Reviews extends Component {
                             <List.Item
                                 key={item.id}
                                 actions={[
-                                    <IconText type="like" text="156" />,
-                                    <IconText type="dislike" text="156" />
+                                    <span>
+                                        <Icon
+                                            type="like"
+                                            theme="twoTone"
+                                            style={{
+                                                marginRight: 8,
+                                                fontSize: "20px"
+                                            }}
+                                        />{" "}
+                                        156
+                                    </span>,
+                                    <span>
+                                        <Icon
+                                            type="dislike"
+                                            theme="twoTone"
+                                            style={{
+                                                marginRight: 8,
+                                                fontSize: "20px"
+                                            }}
+                                        />{" "}
+                                        121
+                                    </span>,
+
+                                    <span>
+                                        <Icon
+                                            type="exclamation-circle"
+                                            theme="twoTone"
+                                            onClick={() => {
+                                                this.report(item.id);
+                                            }}
+                                            style={{
+                                                marginRight: 8,
+                                                fontSize: "20px"
+                                            }}
+                                        />{" "}
+                                        Report
+                                    </span>
+                                    // <IconText type="exclamation-circle" text="Report" onClick={()=>{this.report(item.id)}}/>
+                                    // <Icon type="exclamation" />
                                 ]}
                                 style={{ background: "white", padding: "2%" }}
                             >

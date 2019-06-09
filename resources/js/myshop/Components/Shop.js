@@ -5,15 +5,9 @@ import {
     Card,
     Row,
     Button,
-    Form,
-    Select,
-    message,
-    Input,
     Carousel,
-    TimePicker,
     Statistic,
     Icon,
-    Upload,
     Modal
 } from "antd";
 import axios from "axios";
@@ -127,15 +121,15 @@ class Shop extends Component {
                             <Row>
                                 <Col span={20}>
                                     <Statistic
-                                        title="Feedback"
-                                        value={1128}
+                                        title="Followers"
+                                        value={this.state.store.total_followers}
                                         prefix={<Icon type="like" />}
                                     />
                                 </Col>
                                 <Col>
                                     <Statistic
                                         title="Views"
-                                        value={93}
+                                        value={this.state.store.total_views}
                                         prefix={<Icon type="eye" />}
                                     />
                                 </Col>
