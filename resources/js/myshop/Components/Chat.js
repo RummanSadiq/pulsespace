@@ -83,17 +83,12 @@ class Chat extends Component {
                 conversation_id: this.state.conversation_id
             };
 
-            axios
-                .post("https://api.pulsespace.com/messages/shop", str)
-                .then(res => {
-                    //Refresh the messages
-                    this.getMessages(
-                        this.state.conversation_id,
-                        this.state.title
-                    );
-                    this.getConversations();
-                    this.setState({ newreply: "" });
-                });
+            axios.post("https://api.pulsespace.com/messages", str).then(res => {
+                //Refresh the messages
+                this.getMessages(this.state.conversation_id, this.state.title);
+                this.getConversations();
+                this.setState({ newreply: "" });
+            });
         }
     }
 
