@@ -27,14 +27,19 @@ class SubPage extends Component {
                     />
                     <Route
                         exact
+                        path="/store/product/:id"
+                        component={ProductDetails}
+                    />
+                    <Route
+                        exact
                         path="/search/:value"
                         component={SearchComponent}
                     />
                     <Route exact path="/categories" component={Categories} />
                     {/* <Route exact path="/mylist" component={MyList} /> */}
                     <Route exact path="/profile" component={Profile} />
-                    <Route exact path="/signin" component={Login} />
-                    <Route exact path="/up" component={SignUp} />
+                    {/* <Route exact path="/signin" component={Login} />
+                    <Route exact path="/up" component={SignUp} /> */}
                 </Switch>
             </BrowserRouter>
         );

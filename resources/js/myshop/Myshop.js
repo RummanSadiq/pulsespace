@@ -18,6 +18,7 @@ axios.defaults.headers = {
 };
 
 import { BrowserRouter, Route } from "react-router-dom";
+import { runInThisContext } from "vm";
 
 var shop;
 class Myshop extends Component {
@@ -26,8 +27,8 @@ class Myshop extends Component {
     }
 
     state = {
-        shop: 0,
-        auth: "login"
+        shop: '',
+        auth: ""
     };
 
     componentDidMount() {
@@ -36,7 +37,8 @@ class Myshop extends Component {
             if (res.data.id) {
                 this.getShop();
             } else {
-                this.setState({ shop: 0 });
+                this.setState({ shop: 0});
+                this.setState({auth:"login"});
             }
         });
     }
@@ -74,6 +76,7 @@ class Myshop extends Component {
     render() {
         return (
             <div>
+                {/* {!this.state.shop} */}
                 {this.state.shop > 0 && <Dashboard />}
                 {this.state.shop == 0 && (
                     <BrowserRouter>
@@ -93,13 +96,9 @@ class Myshop extends Component {
                         </div>
                     </BrowserRouter>
                 )
-                //
+                
                 }
                 {this.state.shop < 0 && <ShopCreate lift={this.changeState} />}
-
-                {/* {!this.state.logged>0 && (
-                           
-                        )} */}
             </div>
         );
     }

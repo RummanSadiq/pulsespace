@@ -76,7 +76,7 @@ class Stores extends Component {
             <div>
                 <Card
                     title={<h2>{this.state.title}</h2>}
-                    extra={<Button icon="plus">All</Button>}
+                    // extra={<Button icon="plus">All</Button>}
                     bordered={false}
                     style={{ background: "#ECECEC" }}
                 >
