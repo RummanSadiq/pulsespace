@@ -73,7 +73,7 @@ class Head extends Component {
         visibleLogin: false
     };
 
-    componentWillMount() {
+    componentDidMount() {
         this.handleLogin();
     }
 
@@ -295,37 +295,34 @@ class Head extends Component {
                             //     position: "relative"
                             // }}
                             > */}
-                                <Col span={4} offset={2}>
-                                    <a href="/">
-                                        <img
-                                            src={logo}
-                                            alt="Shopx"
-                                            width="50%"
-                                            height="30%"
-                                        />
+                        <Col span={4} offset={2}>
+                            <a href="/">
+                                <img
+                                    src={logo}
+                                    alt="Shopx"
+                                    width="50%"
+                                    height="30%"
+                                />
+                            </a>
+                        </Col>
+                        <Col span={12}>
+                            <Search
+                                placeholder="input search text"
+                                enterButton={
+                                    <a
+                                        href={"/search/" + this.state.value}
+                                        style={{ color: "white" }}
+                                    >
+                                        Search
                                     </a>
-                                </Col>
-                                <Col span={12}>
-                                    <Search
-                                        placeholder="input search text"
-                                        enterButton={
-                                            <a
-                                                href={
-                                                    "/search/" +
-                                                    this.state.value
-                                                }
-                                                style={{ color: "white" }}
-                                            >
-                                                Search
-                                            </a>
-                                        }
-                                        size="large"
-                                        onChange={this.handleSearch}
-                                        onSearch={value => console.log(value)}
-                                    />
-                                </Col>
+                                }
+                                size="large"
+                                onChange={this.handleSearch}
+                                onSearch={value => console.log(value)}
+                            />
+                        </Col>
 
-                                {/* <Input
+                        {/* <Input
                                     onChange={this.handleSearch}
                                     size="large"
                                     style={{ width: "50%" }}
@@ -346,14 +343,14 @@ class Head extends Component {
                                         </a>
                                     }
                                 /> */}
-                                <Col span={6}>
-                                    <a href="/mylist">
-                                        <Icon
-                                            type="shopping-cart"
-                                            style={{ fontSize: "50px" }}
-                                        />
-                                    </a>
-                                {/* </Col>
+                        <Col span={6}>
+                            <a href="/mylist">
+                                <Icon
+                                    type="shopping-cart"
+                                    style={{ fontSize: "50px" }}
+                                />
+                            </a>
+                            {/* </Col>
                             </Row> */}
                         </Col>
                     </Row>{" "}

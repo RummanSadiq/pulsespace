@@ -19,7 +19,6 @@ class SubPage extends Component {
                 <Switch>
                     <Route path="/store/:id" component={Store} />
                     <Route exact path="/" component={HomeComponents} />
-                    <Redirect from="*" to="/" />
                     <Route
                         exact
                         path="/product/:id"
@@ -40,6 +39,7 @@ class SubPage extends Component {
                     <Route exact path="/profile" component={Profile} />
                     {/* <Route exact path="/signin" component={Login} />
                     <Route exact path="/up" component={SignUp} /> */}
+                    <Redirect from="*" to="/" />
                 </Switch>
             </BrowserRouter>
         );
