@@ -13,8 +13,8 @@ import {
 import Products from "./LimitedProducts";
 import AllPosts from "./AllPosts";
 import Stores from "./LimitedStores";
+import Footer from './Footer';
 import cimage from "../Images/img1.jpg";
-import pimage from "../Images/pimg.png";
 import Axios from "axios";
 
 const { TabPane } = Tabs;
@@ -65,7 +65,7 @@ class HomeComponents extends Component {
             <div>
                 <Row>
                     <Col>
-                        <Carousel>
+                        <Carousel autoplay>
                             <div>
                                 <img
                                     src={cimage}
@@ -156,6 +156,10 @@ class HomeComponents extends Component {
                         </TabPane>
                     </Tabs>
                 </Col>
+                <br/>
+                <br/>
+                <br/>
+                <Footer/>
             </div>
         );
     }
