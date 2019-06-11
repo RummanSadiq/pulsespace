@@ -34,6 +34,9 @@ class SubPage extends Component {
                         path="/search/:value"
                         component={SearchComponent}
                     />
+
+                    <Route path="/Messages" component={Chat} />
+
                     <Route exact path="/categories" component={Categories} />
                     {/* <Route exact path="/mylist" component={MyList} /> */}
                     <Route exact path="/profile" component={Profile} />

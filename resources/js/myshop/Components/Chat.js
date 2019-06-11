@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-
+import Pusher from "pusher-js";
 import {
     Layout,
     Row,
@@ -17,6 +17,17 @@ import { timingSafeEqual } from "crypto";
 const Search = Input.Search;
 const { TextArea } = Input;
 const { Header, Content } = Layout;
+Pusher.logToConsole = true;
+
+var pusher = new Pusher("d4b9af39550bd7832778", {
+    cluster: "ap2",
+    forceTLS: true
+});
+
+var channel = pusher.subscribe("my-channel");
+channel.bind("my-event", function(data) {
+    alert(JSON.stringify(data));
+});
 
 class Chat extends Component {
     constructor(props) {
@@ -67,7 +78,7 @@ class Chat extends Component {
 
         axios.get("https://api.pulsespace.com/messages/" + id).then(res => {
             this.setState({ chat: res.data });
-            console.log(this.myChat);
+            console.log(this.state.chat);
             this.myChat.current.scrollTop = this.myChat.current.scrollHeight;
         });
     }
