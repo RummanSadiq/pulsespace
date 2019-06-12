@@ -110,7 +110,6 @@ class RegisterForm extends React.Component {
                         Register
                     </Button>
                     <br />
-                    Or <a href="/login">Login</a>
                 </Form.Item>
             </Form>
         );
