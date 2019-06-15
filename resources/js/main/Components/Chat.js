@@ -18,6 +18,29 @@ const Search = Input.Search;
 const { TextArea } = Input;
 const { Header, Content } = Layout;
 
+import Echo from "laravel-echo";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
+
+const options = {
+    broadcaster: "pusher",
+    key: "d4b9af39550bd7832778",
+    cluster: "ap2",
+    forceTLS: true,
+    //authEndpoint is your apiUrl + /broadcasting/auth
+    authEndpoint: "https://api.pulsespace.com/broadcasting/auth",
+    // As I'm using JWT tokens, I need to manually set up the headers.
+    auth: {
+        headers: {
+            Authorization: "Bearer " + cookies.get("access_token"),
+            Accept: "application/json"
+        }
+    }
+};
+
+const echo = new Echo(options);
+
 class Chat extends Component {
     constructor(props) {
         super(props);
@@ -60,6 +83,11 @@ class Chat extends Component {
     }
 
     getMessages(id, username) {
+        console.log("Rumman" + id);
+        echo.private("messages" + id).listen(".chat", data => {
+            console.log("rumman");
+            console.log(data);
+        });
         this.setState({ title: username });
 
         if (id != this.state.conversation_id) {

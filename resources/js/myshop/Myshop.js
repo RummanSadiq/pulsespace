@@ -27,7 +27,7 @@ class Myshop extends Component {
     }
 
     state = {
-        shop: '',
+        shop: "",
         auth: ""
     };
 
@@ -37,8 +37,8 @@ class Myshop extends Component {
             if (res.data.id) {
                 this.getShop();
             } else {
-                this.setState({ shop: 0});
-                this.setState({auth:"login"});
+                this.setState({ shop: 0 });
+                this.setState({ auth: "login" });
             }
         });
     }
@@ -95,9 +95,7 @@ class Myshop extends Component {
                             )}
                         </div>
                     </BrowserRouter>
-                )
-                
-                }
+                )}
                 {this.state.shop < 0 && <ShopCreate lift={this.changeState} />}
             </div>
         );
