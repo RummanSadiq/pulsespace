@@ -13,7 +13,6 @@ import {
 import Products from "./LimitedProducts";
 import AllPosts from "./AllPosts";
 import Stores from "./LimitedStores";
-import Footer from './Footer';
 import cimage from "../Images/img1.jpg";
 import Axios from "axios";
 
@@ -159,7 +158,7 @@ class HomeComponents extends Component {
                 <br/>
                 <br/>
                 <br/>
-                <Footer/>
+                
             </div>
         );
     }

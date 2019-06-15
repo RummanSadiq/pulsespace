@@ -138,6 +138,10 @@ class Head extends Component {
         );
     };
 
+    handleSignOk=()=>{
+        this.setState({visible:!this.state.visible})
+    }
+
     handleSearch = e => {
         console.log("search value is", e.target.value);
         this.setState({ value: e.target.value });
@@ -385,8 +389,11 @@ class Head extends Component {
                         title="Create an account"
                         visible={this.state.visible}
                         // handleOk={this.handleRegister}
-                        footer={null}
-                        onCancel={this.handleOk}
+                        // footer={null}
+                        okButtonProps={{ disabled: true }}
+                        onCancel={this.handleSignOk}
+                        closable={true}
+                        maskClosable={true}
                     >
                         <Register_Form done={this.handleOk} />
                     </Modal>
@@ -396,6 +403,8 @@ class Head extends Component {
                         // handleOk={this.handleLogin}
                         footer={null}
                         onCancel={this.handleOk}
+                        maskClosable={true}
+
                     >
                         <Login_Form done={this.handleOk} />
                     </Modal>
