@@ -15,6 +15,9 @@
 
 <body style="background-color: #E4E5E6">
     <div id="app">
+        <script>
+            var csrf_token = '<?php echo csrf_token(); ?>';
+        </script>
         <script src="{{ asset('js/myshop.js') }}"></script>
 
     </div>

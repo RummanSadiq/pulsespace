@@ -28,11 +28,13 @@ const options = {
     key: "d4b9af39550bd7832778",
     cluster: "ap2",
     forceTLS: true,
+    encrypted: false,
     //authEndpoint is your apiUrl + /broadcasting/auth
     authEndpoint: "https://api.pulsespace.com/broadcasting/auth",
     // As I'm using JWT tokens, I need to manually set up the headers.
     auth: {
         headers: {
+            "X-CSRF-TOKEN": csrf_token,
             Authorization: "Bearer " + cookies.get("access_token"),
             Accept: "application/json"
         }
@@ -81,9 +83,14 @@ class Chat extends Component {
     }
 
     getMessages(id, username) {
-        console.log("Rumman" + id);
-        echo.private("messages" + id).listen(".chat", data => {
-            console.log("rumman");
+        console.log("Rumman" + csrf_token);
+        echo.private("messages." + id).listen(".chat", data => {
+            console.log("messages.rumman");
+            console.log(data);
+        });
+
+        echo.private("private-messages." + id).listen(".chat", data => {
+            console.log("private-messages.rumman");
             console.log(data);
         });
 
