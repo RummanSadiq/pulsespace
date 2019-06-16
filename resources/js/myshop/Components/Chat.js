@@ -28,7 +28,7 @@ const options = {
     key: "d4b9af39550bd7832778",
     cluster: "ap2",
     forceTLS: true,
-    encrypted: false,
+    encrypted: true,
     //authEndpoint is your apiUrl + /broadcasting/auth
     authEndpoint: "https://api.pulsespace.com/broadcasting/auth",
     // As I'm using JWT tokens, I need to manually set up the headers.
