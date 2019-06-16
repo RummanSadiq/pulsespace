@@ -103,6 +103,7 @@ class Chat extends Component {
             this.setState(prevState => ({
                 chat: [...prevState.chat, data.message]
             }));
+            this.setState({chat:this.state.chat});
         });
     }
 
