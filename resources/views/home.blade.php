@@ -15,6 +15,9 @@
 
 <body>
     <div id="app">
+        <script>
+            var csrf_token = '<?php echo csrf_token(); ?>';
+        </script>
         <script src="{{ asset('js/app.js') }}"></script>
     </div>
 </body>

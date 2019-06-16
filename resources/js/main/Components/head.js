@@ -85,28 +85,34 @@ class Head extends Component {
             .then(res => {
                 const user = res.data;
                 console.log("user is ", user);
-                this.setState({ logged: user }, () => {
-                    if (this.state.logged.id) {
-                        //function call to get notifications
-                        var notify = [
-                            {
-                                title: "Title of notification",
-                                message:
-                                    "You have received a particular type of notiification that will be showed up here",
-                                link: "/product/2",
-                                read: true
-                            },
-                            {
-                                title: "Title of notification",
-                                message:
-                                    "You have received a particular type of notiification that will be showed up here",
-                                link: "/product/2",
-                                read: false
-                            }
-                        ];
-                        this.setState({ notifications: notify });
-                    }
-                });
+                if (res.data.id) {
+                    cookies.set("auth_id", res.data.id, {
+                        domain: ".pulsespace" + myDomain
+                    });
+
+                    this.setState({ logged: user }, () => {
+                        if (this.state.logged.id) {
+                            //function call to get notifications
+                            var notify = [
+                                {
+                                    title: "Title of notification",
+                                    message:
+                                        "You have received a particular type of notiification that will be showed up here",
+                                    link: "/product/2",
+                                    read: true
+                                },
+                                {
+                                    title: "Title of notification",
+                                    message:
+                                        "You have received a particular type of notiification that will be showed up here",
+                                    link: "/product/2",
+                                    read: false
+                                }
+                            ];
+                            this.setState({ notifications: notify });
+                        }
+                    });
+                }
             })
             .catch(res => {
                 console.log("catched error in handling user api result", res);
@@ -138,9 +144,9 @@ class Head extends Component {
         );
     };
 
-    handleSignOk=()=>{
-        this.setState({visible:!this.state.visible})
-    }
+    handleSignOk = () => {
+        this.setState({ visible: !this.state.visible });
+    };
 
     handleSearch = e => {
         console.log("search value is", e.target.value);
@@ -404,7 +410,6 @@ class Head extends Component {
                         footer={null}
                         onCancel={this.handleOk}
                         maskClosable={true}
-
                     >
                         <Login_Form done={this.handleOk} />
                     </Modal>

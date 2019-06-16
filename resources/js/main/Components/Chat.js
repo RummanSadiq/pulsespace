@@ -18,29 +18,25 @@ const Search = Input.Search;
 const { TextArea } = Input;
 const { Header, Content } = Layout;
 
-import Echo from "laravel-echo";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
-const options = {
-    broadcaster: "pusher",
-    key: "d4b9af39550bd7832778",
+Pusher.logToConsole = true;
+
+var pusher = new Pusher("d4b9af39550bd7832778", {
     cluster: "ap2",
     forceTLS: true,
-    encrypted: false,
-    //authEndpoint is your apiUrl + /broadcasting/auth
     authEndpoint: "https://api.pulsespace.com/broadcasting/auth",
     // As I'm using JWT tokens, I need to manually set up the headers.
     auth: {
         headers: {
+            "X-CSRF-TOKEN": csrf_token,
             Authorization: "Bearer " + cookies.get("access_token"),
             Accept: "application/json"
         }
     }
-};
-
-const echo = new Echo(options);
+});
 
 class Chat extends Component {
     constructor(props) {
@@ -84,11 +80,12 @@ class Chat extends Component {
     }
 
     getMessages(id, username) {
-        console.log("Rumman" + id);
-        echo.private("messages." + id).listen(".chat", data => {
-            console.log("rumman");
-            console.log(data);
-        });
+        console.log("Rumman" + cookies.get("auth_id"));
+
+        var channel = pusher.subscribe(
+            "private-messages.customer." + cookies.get("auth_id")
+        );
+
         this.setState({ title: username });
 
         if (id != this.state.conversation_id) {
@@ -100,6 +97,12 @@ class Chat extends Component {
             this.setState({ chat: res.data });
             console.log(this.state.chat);
             this.myChat.current.scrollTop = this.myChat.current.scrollHeight;
+        });
+
+        channel.bind("chat", data => {
+            this.setState(prevState => ({
+                chat: [...prevState.chat, data.message]
+            }));
         });
     }
 
@@ -116,7 +119,7 @@ class Chat extends Component {
 
             axios.post("https://api.pulsespace.com/messages", str).then(res => {
                 //Refresh the messages
-                this.getMessages(this.state.conversation_id, this.state.title);
+                // this.getMessages(this.state.conversation_id, this.state.title);
                 this.getConversations();
                 this.setState({ newreply: "" });
             });

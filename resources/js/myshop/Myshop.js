@@ -11,6 +11,9 @@ import axios from "axios";
 
 import Cookies from "universal-cookie";
 
+const host = window.location.hostname;
+const myDomain = host.substring(host.lastIndexOf("."));
+
 const cookies = new Cookies();
 
 axios.defaults.headers = {
@@ -34,8 +37,13 @@ class Myshop extends Component {
     componentDidMount() {
         axios.get("https://api.pulsespace.com/user").then(res => {
             console.log("user received in response is", res.data);
+
             if (res.data.id) {
                 this.getShop();
+
+                cookies.set("auth_id", res.data.id, {
+                    domain: ".pulsespace" + myDomain
+                });
             } else {
                 this.setState({ shop: 0 });
                 this.setState({ auth: "login" });
