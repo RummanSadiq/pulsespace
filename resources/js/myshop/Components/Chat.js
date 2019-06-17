@@ -109,6 +109,7 @@ class Chat extends Component {
             this.setState(prevState => ({
                 chat: [...prevState.chat, data.message]
             }));
+            this.myChat.current.scrollTop = this.myChat.current.scrollHeight;
         });
 
         this.setState({ title: username });
