@@ -5,7 +5,8 @@ class Footer extends Component {
     render() { 
         const d={
             background: '#154360', 
-            padding: '30px'
+            padding: '30px',
+            marginTop:'55%'
             
         }
         const c={

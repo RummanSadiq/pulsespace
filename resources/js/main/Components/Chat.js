@@ -21,6 +21,7 @@ const { Header, Content } = Layout;
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
+var today = new Date();
 
 Pusher.logToConsole = true;
 
@@ -61,6 +62,11 @@ class Chat extends Component {
 
     componentDidMount() {
         this.getConversations();
+        if (this.props.match.params.id){
+            console.log('id received', this.props.match.params.id);
+        }else{
+            console.log('Did not receive id');
+        }
     }
 
     getConversations() {
@@ -103,20 +109,40 @@ class Chat extends Component {
             this.setState(prevState => ({
                 chat: [...prevState.chat, data.message]
             }));
-            this.setState({chat:this.state.chat});
+            this.myChat.current.scrollTop = this.myChat.current.scrollHeight;
         });
     }
 
     handleSubmit(event) {
-        // var today = new Date();
-        // var tdate = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear() ;
-        // var ttime= today.toLocaleTimeString();
+        var date =
+            today.getFullYear() +
+            "-" +
+            (today.getMonth() + 1) +
+            "-" +
+            today.getDate();
+        var time =
+            today.getHours() +
+            ":" +
+            today.getMinutes() +
+            ":" +
+            today.getSeconds();
+        var dateTime = date + " " + time;
 
         if (this.state.newreply != "") {
             var str = {
                 text: this.state.newreply,
                 conversation_id: this.state.conversation_id
             };
+
+            var message = this.state.chat[this.state.chat.length - 1];
+            message["text"] = this.state.newreply;
+            message["sender"] = true;
+            message["receiver"] = false;
+            message["updated_at"] = dateTime;
+            message["created_at"] = dateTime;
+
+            var newChat = this.state.chat.concat(message);
+            this.setState({ chat: newChat });
 
             axios.post("https://api.pulsespace.com/messages", str).then(res => {
                 //Refresh the messages

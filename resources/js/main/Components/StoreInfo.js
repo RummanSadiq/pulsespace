@@ -1,15 +1,43 @@
 import React, { Component } from "react";
-import { Row, Col, Icon, Button, Rate, Carousel } from "antd";
+import { Row, Col, Icon, Button, Rate, Carousel, Modal,Input } from "antd";
+import { NavLink } from "react-router-dom";
 import axios from "axios";
+
+const { TextArea } = Input;
+
 class StoreInfo extends Component {
     constructor(props) {
         super(props);
         this.state.store = this.props.store;
     }
     state = {
-        store: {}
-        // f:''
+        store: {},
+        visible: false
     };
+    showModal = () => {
+        this.setState({
+          visible: true,
+        });
+      };
+      handleOk = e => {
+        console.log(e);
+        console.log('Sending your message', this.state.message);
+        this.setState({
+          visible: false,
+        });
+      };
+    
+      handleCancel = e => {
+        console.log(e);
+        this.setState({
+          visible: false,
+        });
+      };
+
+      messageChange= (event)=>{
+          this.setState({message:event.target.value});
+
+      }
     componentDidMount() {
         this.getFollowed();
     }
@@ -61,7 +89,6 @@ class StoreInfo extends Component {
         return (
             <Row style={{ marginTop: "3%" }}>
                 <Col span={12} offset={6}>
-                  
                     <div>
                         {this.state.f && (
                             <Button
@@ -72,8 +99,9 @@ class StoreInfo extends Component {
                                     backgroundColor: "#F57224",
                                     color: "white"
                                 }}
-                                onClick={() => this.handleFollow(this.state.store.id)}
-                                
+                                onClick={() =>
+                                    this.handleFollow(this.state.store.id)
+                                }
                             >
                                 Following
                             </Button>
@@ -87,29 +115,41 @@ class StoreInfo extends Component {
                                     backgroundColor: "#F57224",
                                     color: "white"
                                 }}
-                                onClick={() => this.handleFollow(this.state.store.id)}
+                                onClick={() =>
+                                    this.handleFollow(this.state.store.id)
+                                }
                             >
                                 Follow
                             </Button>
                         )}
 
-                        <Button
-                            icon="message"
-                            size="large"
-                            shape="round"
-                            style={{
-                                backgroundColor: "#F57224",
-                                color: "white"
-                            }}
-                        >
-                            Message
-                        </Button>
-                        <div>
-                            <h4>Number of Followers: {this.state.store.total_followers ? this.state.store.total_followers: "0"}</h4>
-                            
+                        
                             {" "}
+                            <Button
+                                icon="message"
+                                size="large"
+                                shape="round"
+                                style={{
+                                    backgroundColor: "#F57224",
+                                    color: "white"
+                                }}
+                                onClick={this.showModal}
+                            >
+                                Message
+                            </Button>
+
+                        <div>
+                            <h4>
+                                Number of Followers:{" "}
+                                {this.state.store.total_followers
+                                    ? this.state.store.total_followers
+                                    : "0"}
+                            </h4>{" "}
                             <span>
-                                <Rate disabled defaultValue={this.state.store.avg_rating} />
+                                <Rate
+                                    disabled
+                                    defaultValue={this.state.store.avg_rating}
+                                />
                             </span>
                         </div>
                     </div>
@@ -125,7 +165,7 @@ class StoreInfo extends Component {
                                 fontSize: 16
                             }}
                         >
-                            <Icon type="phone" theme='twoTone'/>
+                            <Icon type="phone" theme="twoTone" />
                             {this.state.store.contact}
                         </Col>
                         <Col
@@ -136,7 +176,7 @@ class StoreInfo extends Component {
                                 fontSize: 16
                             }}
                         >
-                            <Icon type="info" theme='twoTone'/>
+                            <Icon type="info" theme="twoTone" />
                             {this.state.store.address.place}
                         </Col>
                         <Col
@@ -146,7 +186,8 @@ class StoreInfo extends Component {
                                 fontSize: 16
                             }}
                         >
-                            <Icon type="info" theme='twoTone'/> Store City: Lahore
+                            <Icon type="info" theme="twoTone" /> Store City:
+                            Lahore
                         </Col>
                     </Row>
                     <hr />
@@ -167,7 +208,11 @@ class StoreInfo extends Component {
                                 height: "100%"
                             }}
                         >
-                            <Icon type="bars" style={{ fontSize: 20 }} theme='twoTone'/>{" "}
+                            <Icon
+                                type="bars"
+                                style={{ fontSize: 20 }}
+                                theme="twoTone"
+                            />{" "}
                             {this.state.store.shop_type.name} type
                         </Col>
 
@@ -185,7 +230,7 @@ class StoreInfo extends Component {
                             <Icon
                                 type="clock-circle"
                                 style={{ fontSize: 20 }}
-                                theme='twoTone'
+                                theme="twoTone"
                             />{" "}
                             <h3 style={{ display: "inline" }}>Opens at:</h3>{" "}
                             {this.state.store.open_at}
@@ -193,7 +238,7 @@ class StoreInfo extends Component {
                             <Icon
                                 type="clock-circle"
                                 style={{ fontSize: 20 }}
-                                theme='twoTone'
+                                theme="twoTone"
                             />{" "}
                             <h3 style={{ display: "inline" }}>Closes at:</h3>{" "}
                             {this.state.store.close_at}
@@ -212,7 +257,7 @@ class StoreInfo extends Component {
                             <Icon
                                 type="step-forward"
                                 style={{ fontSize: 20 }}
-                                theme='twoTone'
+                                theme="twoTone"
                             />{" "}
                             <h3 style={{ display: "inline" }}>Delivery:</h3>{" "}
                             {/* {this.state.delivery > 0 && "Yes"} */}
@@ -230,7 +275,11 @@ class StoreInfo extends Component {
                                 height: "100"
                             }}
                         >
-                            <Icon type="wifi" style={{ fontSize: 20 }} theme='twoTone' />{" "}
+                            <Icon
+                                type="wifi"
+                                style={{ fontSize: 20 }}
+                                theme="twoTone"
+                            />{" "}
                             <h3 style={{ display: "inline" }}>Wifi</h3>{" "}
                             {this.state.wifi > 0 && "Yes"}
                             {!this.state.wifi > 0 && "No"}
@@ -242,13 +291,26 @@ class StoreInfo extends Component {
                                 fontSize: 14
                             }}
                         >
-                            <Icon type="credit-card" style={{ fontSize: 20 }} theme='twoTone'/>{" "}
+                            <Icon
+                                type="credit-card"
+                                style={{ fontSize: 20 }}
+                                theme="twoTone"
+                            />{" "}
                             <h3 style={{ display: "inline" }}>Card:</h3>{" "}
                             {this.state.card_payment && "Yes"}
                             {!this.state.card_payment && "No"}
                         </Col>
                     </Row>
                 </Col>
+                <Modal
+          title="Basic Modal"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+              <TextArea placeholder="Enter your message" onChange={this.messageChange} />
+
+        </Modal>
             </Row>
         );
     }
