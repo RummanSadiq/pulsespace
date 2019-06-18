@@ -62,10 +62,10 @@ class Chat extends Component {
 
     componentDidMount() {
         this.getConversations();
-        if (this.props.match.params.id){
-            console.log('id received', this.props.match.params.id);
-        }else{
-            console.log('Did not receive id');
+        if (this.props.match.params.id) {
+            console.log("id received", this.props.match.params.id);
+        } else {
+            console.log("Did not receive id");
         }
     }
 
@@ -134,15 +134,27 @@ class Chat extends Component {
                 conversation_id: this.state.conversation_id
             };
 
-            var message = this.state.chat[this.state.chat.length - 1];
-            message["text"] = this.state.newreply;
-            message["sender"] = true;
-            message["receiver"] = false;
-            message["updated_at"] = dateTime;
-            message["created_at"] = dateTime;
+            var message = {
+                text: this.state.newreply,
+                sender: "true",
+                created_at: dateTime
+            };
 
-            var newChat = this.state.chat.concat(message);
+            // this.setState(prevState => ({
+            //     chat: [...prevState.chat, message]
+            // }));
+
+            const newChat = this.state.chat;
+            newChat.push(message);
             this.setState({ chat: newChat });
+
+            // this.state.chat.push(message);
+            this.myChat.current.scrollTop = this.myChat.current.scrollHeight;
+            // this.setState({ chat: newChat });
+
+            console.log("new chat");
+            console.log(this.state.chat);
+            console.log(message);
 
             axios.post("https://api.pulsespace.com/messages", str).then(res => {
                 //Refresh the messages
