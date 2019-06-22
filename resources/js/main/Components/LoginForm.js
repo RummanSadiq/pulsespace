@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Icon, Input, Button, Checkbox } from "antd";
+import { Form, Icon, Input, Button, Checkbox, message } from "antd";
 
 import axios from "axios";
 
@@ -23,11 +23,21 @@ class LoginForm extends React.Component {
                     .post("https://api.pulsespace.com/login", values)
                     .then(res => {
                         console.log("response from login api is", res);
-                        cookies.set("access_token", res.data.token, {
+                        if (res.data.token){
+                            cookies.set("access_token", res.data.token, {
                             domain: ".pulsespace" + myDomain
                         });
                         this.props.done();
-                        window.location.reload();
+                        window.location.reload(); 
+                        }
+                        else{
+                            message.error('User not found!');
+                        }
+                       
+                    }).catch(error=>{
+                        console.log('Error occurred while login', error);
+                        message.error('User not found!');
+
                     });
 
                 //to close modal
