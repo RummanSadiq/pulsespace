@@ -88,7 +88,7 @@ class StoreInfo extends Component {
     render() {
         return (
             <Row style={{ marginTop: "3%" }}>
-                <Col span={12} offset={6}>
+                <Col>
                     <div>
                         {this.state.f && (
                             <Button
@@ -170,7 +170,7 @@ class StoreInfo extends Component {
                         </Col>
                         <Col
                             span={8}
-                            offset={2}
+                            // offset={2}
                             style={{
                                 textAlign: "center",
                                 fontSize: 16

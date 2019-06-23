@@ -32,7 +32,14 @@ class ProductDetails extends Component {
                 {this.state.product && (
                     <div>
                         <Row>
-                            <Col span={8} offset={4}>
+                            <Col
+                            //  span={8} offset={4}
+                             xs={{  span: 16 }}
+                             sm={{  span: 12 }}
+                             md={{ offset: 2, span: 12 }}
+                             lg={{ offset: 2, span: 12   }}
+                             xl={{ offset: 2, span: 12 }}
+                             >
                                 
                                 <Carousel
                                     style={{ background: "white", padding:'1%' }}
@@ -55,15 +62,24 @@ class ProductDetails extends Component {
                                     )}
                                 </Carousel>
                             </Col>
-                            <Col span={8}>
+                            <Col
+                             xs={{ span: 8 }}
+                             sm={{  span: 12 }}
+                             md={{  span: 8 }}
+                             lg={{  span: 10 }}
+                             xl={{  span: 10 }}
+                            >
                                 <h1>{this.state.product.name}</h1>
                                 <h4>{this.state.product.description}</h4>
                                 <Rate disabled allowHalf defaultValue={3.5} />
                                 <span>47 reviews</span>
                                 <span>
-                                    <a href="javascript;;">
+                                    {this.state.product ? <a href="javascript;;">
                                         {this.state.product.shop.name}
-                                    </a>
+                                    </a>: ""}
+                                    {/* <a href="javascript;;">
+                                        {this.state.product.shop.name}
+                                    </a> */}
                                 </span>
                                 <h2>
                                     {this.state.product.sale_price > 0 && (
@@ -93,9 +109,12 @@ class ProductDetails extends Component {
                                 </Button>
                                 <div>
                                     <h4>
-                                        {this.state.product.shop.delivery > 0
+                                        {this.state.product ?  this.state.product.shop.delivery > 0
                                             ? "Store Provides delivery"
-                                            : "Store Does not provide delivery"}
+                                            : "Store Does not provide delivery": "Delivery"}
+                                        {/* {this.state.product.shop.delivery > 0
+                                            ? "Store Provides delivery"
+                                            : "Store Does not provide delivery"} */}
                                     </h4>
                                 </div>
                             </Col>
@@ -111,8 +130,8 @@ class ProductDetails extends Component {
                     <TabPane tab="Reviews" key="1">
                         <Row>
                             <Col lg={16} offset={4}>
-                                {!this.state.Reviews && <Skeleton active />}
-                                {this.state.Reviews && (
+                                {!this.state.Reviews && !this.state.products && <Skeleton active />}
+                                {this.state.Reviews && this.state.products && (
                                     <Reviews
                                         title="Product Reviews"
                                         size={3}

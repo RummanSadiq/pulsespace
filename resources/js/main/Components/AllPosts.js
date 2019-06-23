@@ -17,6 +17,15 @@ class AllPosts extends Component {
     componentDidMount() {
        console.log('Posts received are ', this.props.posts);
     }
+
+    report = id => {
+        // axios.post("https://api.pulsespace.com/reports/reviews"+id).then(res => {
+        //     const user = res.data;
+        //     console.log("calling from inside Reviews.js Logged in user is", user);
+        //     this.setState({ user: res.data });
+        // });
+        console.log("Reporting review", id);
+    };
     render() {
         return (
             <div>
@@ -50,8 +59,29 @@ class AllPosts extends Component {
                                 <List.Item
                                     key={element.id}
                                     style={{ textAlign: "left" }}
+                                    actions={[
+                                       
+    
+                                        <span>
+                                            <Icon
+                                                type="exclamation-circle"
+                                                theme="twoTone"
+                                                onClick={() => {
+                                                    this.report(item.id);
+                                                }}
+                                                style={{
+                                                    marginRight: 8,
+                                                    fontSize: "20px"
+                                                }}
+                                            />{" "}
+                                            Report
+                                        </span>
+                                        // <IconText type="exclamation-circle" text="Report" onClick={()=>{this.report(item.id)}}/>
+                                        // <Icon type="exclamation" />
+                                    ]}
                                 >
                                     <List.Item.Meta
+
                                         avatar={
                                             <Avatar
                                                 
