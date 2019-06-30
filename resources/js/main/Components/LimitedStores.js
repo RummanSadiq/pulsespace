@@ -143,6 +143,8 @@ class Stores extends Component {
                                                         )
                                                     }
                                                 >
+
+                                                    
                                                     {this.checkFollow(
                                                         element.id
                                                     ) && "Following"}

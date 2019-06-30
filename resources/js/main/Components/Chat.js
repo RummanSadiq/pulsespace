@@ -62,11 +62,7 @@ class Chat extends Component {
 
     componentDidMount() {
         this.getConversations();
-        if (this.props.match.params.id) {
-            console.log("id received", this.props.match.params.id);
-        } else {
-            console.log("Did not receive id");
-        }
+        
     }
 
     getConversations() {

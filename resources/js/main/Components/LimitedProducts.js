@@ -6,11 +6,13 @@ import {
     Button,
     Carousel,
     List,
+    message,
     Badge,
     Avatar,
     Icon,
     Skeleton
 } from "antd";
+import axios from 'axios';
 import { NavLink, Route, Redirect } from "react-router-dom";
 const { Meta } = Card;
 class Products extends Component {
@@ -22,7 +24,8 @@ class Products extends Component {
     }
     state = {
         // products: [],
-        redirect: false
+        redirect: false,
+        followed:[]
     };
     renderRedirect = id => {
         if (this.state.redirect) {
@@ -36,6 +39,68 @@ class Products extends Component {
     };
     componentDidMount() {
         console.log("received props are", this.props.products);
+        this.getFollowed();
+    }
+
+    getFollowed() {
+        axios.get("https://api.pulsespace.com/shoppinglist").then(res => {
+            const followedData = res.data;
+            console.log("shoppinglist data is", followedData);
+            // if (res.data.length>0){
+                this.setState({ followed: followedData });
+            // }
+            
+        });
+    }
+    handleFollow(id) {
+        if (this.checkFollow(id)){
+            axios.post("https://api.pulsespace.com/shoppinglist/remove/" + id)
+            .then(res => {
+                // message.success("following store");
+                this.getFollowed();
+                this.getStores();
+            })
+            .catch(err => {
+                console.log(
+                    "Error occured, cannot make api call to add product to list",
+                    err
+                );
+                message.error("please login");
+            });
+        }
+        else{
+           axios.post("https://api.pulsespace.com/shoppinglist/add/" + id)
+            .then(res => {
+                // message.success("following store");
+                this.getFollowed();
+                this.getStores();
+            })
+            .catch(err => {
+                console.log(
+                    "Error occured, cannot make api call to add product to list",
+                    err
+                );
+                message.error("please login");
+            }); 
+        }
+        
+    }
+
+    checkFollow(id) {
+
+        if (this.state.followed.length>0) {
+            console.log("productlist found");
+            const result = this.state.followed.find(
+                element => element.shop_id === id
+            );
+            console.log('Result of find is', result);
+            if (result) {
+                console.log("returning true result is", result);
+                return true;
+            }
+        }
+        return false;
+        
     }
     render() {
         return (
@@ -168,8 +233,19 @@ class Products extends Component {
                                                             "#F57224",
                                                         color: "white"
                                                     }}
+                                                    onClick={() =>
+                                                        this.handleFollow(
+                                                            element.id
+                                                        )
+                                                    }
                                                 >
-                                                    Add to List
+                                                    {this.checkFollow(element.id) ? "Removes":"Add to list"}
+                                                    {/* {this.checkFollow(
+                                                        element.id
+                                                    ) && "Add to List"}
+                                                    {!this.checkFollow(
+                                                        element.id
+                                                    ) && "Remove from List"} */}
                                                 </Button>
                                             </div>
                                         }

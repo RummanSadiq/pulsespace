@@ -3,11 +3,41 @@ import { Row, Col, Card, Icon, Avatar, Badge, Tabs, Skeleton } from "antd";
 import Chat from "./Chat";
 import Stores from "./LimitedStores";
 import Products from "./LimitedProducts";
-
+import axios from 'axios';
 const { TabPane } = Tabs;
 
 class Profile extends Component {
     state = {};
+    componentDidMount(){
+        axios.get("https://api.pulsespace.com/user").then(res=>{
+
+        console.log('User foudn is', res.data);
+        this.setState({user:res.data});
+        });
+
+        this.getProducts();
+        this.getStores();
+        
+    }
+
+    getProducts(){
+        axios.get("https://api.pulsespace.com/shoppinglist").then(res => {
+            const listData = res.data;
+            console.log("shoppinglist data is", listData);
+            // if (res.data.length>0){
+                this.setState({ list: listData });
+            // }
+            
+        });
+    }
+
+    getStores() {
+        Axios.get("https://api.pulsespace.com/followed").then(res => {
+            const followedData = res.data;
+            console.log("followed data is", followedData);
+            this.setState({ stores: followedData });
+        });
+    }
     render() {
         const { Meta } = Card;
         const gridStyle = {
@@ -17,7 +47,7 @@ class Profile extends Component {
         return (
             <div>
                 <div style={{ background: "#ECECEC", padding: "30px" }}>
-                    <Row style={{}}>
+                    <Row >
                         <Col span={6}>
                             <Card
                                 style={{ width: 300 }}
@@ -35,10 +65,10 @@ class Profile extends Component {
                                 bordered={false}
                                 style={{ width: 300, background: "#ECECEC" }}
                             >
-                                <h2>Hamza Ejaz</h2>
-                                <h3>923228879475</h3>
-                                <h3>iamhamza@gmail</h3>
-                                <h2 />
+                                {this.state.user ? <div><h2>{this.state.user.name}</h2>
+                                {this.state.user.phone_no ? <h3>{this.state.user.phone_no}</h3>: <h3>No verified Phone number</h3>}
+                                <h3>{this.state.user.email}</h3></div>:<Skeleton/>}
+                                
                             </Card>
                         </Col>
                     </Row>

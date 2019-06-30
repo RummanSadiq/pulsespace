@@ -118,7 +118,7 @@ class HomeComponents extends Component {
                         <TabPane tab="Browse" key="1">
                             <Row>
                                 <Col lg={16} offset={4}>
-                                    {this.state.shops && (
+                                    {/* {this.state.shops && (
                                         <Stores
                                             shops={this.state.shops}
                                             title="Explore Stores"
@@ -126,7 +126,7 @@ class HomeComponents extends Component {
                                             getShops={this.getStores}
                                         />
                                     )}
-                                    {!this.state.shops && <Skeleton />}
+                                    {!this.state.shops && <Skeleton />} */}
 
                                     {!this.state.products && <Skeleton />}
                                     {this.state.products && (
