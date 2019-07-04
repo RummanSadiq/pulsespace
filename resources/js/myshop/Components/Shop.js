@@ -185,6 +185,9 @@ class Shop extends Component {
                                 <Col span={12} className="infoColumns">
                                     <span>Closing Time</span>
                                     {this.state.store.close_at}
+                                    {/* <span>{moment
+                    .utc(this.state.store.close_at)
+                    .format("HH:mm:ss")}</span> */}
                                 </Col>
                             </Row>
                             <Row>

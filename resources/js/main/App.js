@@ -13,7 +13,6 @@ class App extends Component {
             <div style={{ backgroundColor: "#F5F5F5" }}>
                 <Head />
                 <SubPage />
-                <br/>
                 <Footer/>
 
             </div>

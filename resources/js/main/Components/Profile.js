@@ -3,6 +3,7 @@ import { Row, Col, Card, Icon, Avatar, Badge, Tabs, Skeleton } from "antd";
 import Chat from "./Chat";
 import Stores from "./LimitedStores";
 import Products from "./LimitedProducts";
+import Reviews from './Reviews';
 import axios from 'axios';
 const { TabPane } = Tabs;
 
@@ -32,10 +33,10 @@ class Profile extends Component {
     }
 
     getStores() {
-        Axios.get("https://api.pulsespace.com/followed").then(res => {
+        axios.get("https://api.pulsespace.com/followed").then(res => {
             const followedData = res.data;
             console.log("followed data is", followedData);
-            this.setState({ stores: followedData });
+            this.setState({ shops: followedData });
         });
     }
     render() {
@@ -84,7 +85,7 @@ class Profile extends Component {
                                 {this.state.shops && (
                                     <Stores
                                         shops={this.state.shops}
-                                        title="Explore Stores"
+                                        title="Followed Stores"
                                         size={6}
                                         getShops={this.getStores}
                                     />
@@ -96,26 +97,30 @@ class Profile extends Component {
                     <TabPane tab="My Shopping List" key="2">
                         <Row>
                             <Col lg={16} offset={4}>
-                                {this.state.posts && (
-                                    <AllPosts
-                                        posts={this.state.posts}
-                                        title="Explore activities from Different Stores"
-                                    />
+                            {this.state.list && (
+                                   <Products
+                                   products={this.state.products}
+                                   title="Shopping List"
+                                   size={8}
+                                   all={false}
+                               />
                                 )}
-                                {!this.state.posts && <Skeleton />}
+                                {!this.state.list && <Skeleton />}
                             </Col>
                         </Row>
                     </TabPane>
                     <TabPane tab="My Reviews" key="3">
                         <Row>
                             <Col lg={16} offset={4}>
-                                {this.state.posts && (
-                                    <AllPosts
-                                        posts={this.state.posts}
-                                        title="Explore activities from Different Stores"
-                                    />
+                                {this.state.list && (
+                                   <Products
+                                   products={this.state.products}
+                                   title="Products List"
+                                   size={8}
+                                   all={false}
+                               />
                                 )}
-                                {!this.state.posts && <Skeleton />}
+                                {!this.state.list && <Skeleton />}
                             </Col>
                         </Row>
                     </TabPane>
@@ -127,51 +132,7 @@ class Profile extends Component {
                         </Row>
                     </TabPane>
                 </Tabs>
-                {/* <Row>
-                    <Card.Grid style={gridStyle}>
-                        {" "}
-                        <Icon
-                            type="home"
-                            theme="filled"
-                            style={{ fontSize: 20 }}
-                        />{" "}
-                        <a href="#">
-                            <Badge
-                                count={109}
-                                style={{ backgroundColor: "#52c41a" }}
-                            />
-                        </a>
-                        , <h3>My Stores</h3>{" "}
-                    </Card.Grid>
-                    <Card.Grid style={gridStyle}>
-                        {" "}
-                        <Icon
-                            type="ordered-list"
-                            style={{ fontSize: 20 }}
-                        />{" "}
-                        <a href="#">
-                            <Badge
-                                count={4}
-                                style={{ backgroundColor: "#52c41a" }}
-                            />
-                        </a>
-                        ,<h3> My Shopping Lists</h3>{" "}
-                    </Card.Grid>
-                    <Card.Grid style={gridStyle}>Reviews</Card.Grid>
-                    <Card.Grid style={gridStyle}>Feedbacks</Card.Grid>
-                    <Card.Grid style={gridStyle}>
-                        {" "}
-                        <Icon
-                            type="message"
-                            theme="filled"
-                            style={{ fontSize: 20 }}
-                        />{" "}
-                        <Badge count={0} showZero>
-                            <a href="#" className="head-example" />
-                        </Badge>{" "}
-                        <h3> Messages</h3>
-                    </Card.Grid>
-                </Row> */}
+               
             </div>
         );
     }

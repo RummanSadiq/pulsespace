@@ -23,9 +23,9 @@ class Products extends Component {
         this.state.size = this.props.size;
     }
     state = {
-        // products: [],
+        products: [],
         redirect: false,
-        followed:[]
+        list:[]
     };
     renderRedirect = id => {
         if (this.state.redirect) {
@@ -39,26 +39,22 @@ class Products extends Component {
     };
     componentDidMount() {
         console.log("received props are", this.props.products);
-        this.getFollowed();
+        this.getList();
     }
 
-    getFollowed() {
+    getList() {
         axios.get("https://api.pulsespace.com/shoppinglist").then(res => {
-            const followedData = res.data;
-            console.log("shoppinglist data is", followedData);
-            // if (res.data.length>0){
-                this.setState({ followed: followedData });
-            // }
-            
+            console.log("shoppinglist data is", res.data);
+                this.setState({ list: res.data });            
         });
     }
-    handleFollow(id) {
-        if (this.checkFollow(id)){
-            axios.post("https://api.pulsespace.com/shoppinglist/remove/" + id)
+    handleList(id) {
+        
+            axios.post("https://api.pulsespace.com/shoppinglist/toggle/{id}" + id)
             .then(res => {
                 // message.success("following store");
-                this.getFollowed();
-                this.getStores();
+                this.getList();
+                this.props.getProducts();
             })
             .catch(err => {
                 console.log(
@@ -67,40 +63,23 @@ class Products extends Component {
                 );
                 message.error("please login");
             });
-        }
-        else{
-           axios.post("https://api.pulsespace.com/shoppinglist/add/" + id)
-            .then(res => {
-                // message.success("following store");
-                this.getFollowed();
-                this.getStores();
-            })
-            .catch(err => {
-                console.log(
-                    "Error occured, cannot make api call to add product to list",
-                    err
-                );
-                message.error("please login");
-            }); 
-        }
         
     }
 
-    checkFollow(id) {
+    checkList(id) {
 
-        if (this.state.followed.length>0) {
+        if (this.state.list.length>0) {
             console.log("productlist found");
-            const result = this.state.followed.find(
+            const result = this.state.list.find(
                 element => element.shop_id === id
             );
             console.log('Result of find is', result);
             if (result) {
                 console.log("returning true result is", result);
                 return true;
-            }
+            }else return false;
         }
-        return false;
-        
+        else return false;
     }
     render() {
         return (
@@ -132,7 +111,7 @@ class Products extends Component {
                             },
                             pageSize: this.state.size
                         }}
-                        dataSource={this.props.products}
+                        dataSource={this.state.products}
                         renderItem={element => (
                             <List.Item>
                                 <Card
@@ -143,6 +122,7 @@ class Products extends Component {
                                                 to={"/product/" + element.id}
                                             >
                                             {/* <a href={"product/" + element.id}> */}
+                                                {element.attachments.length>0 &&
                                                 <img
                                                     alt="example"
                                                     src={
@@ -153,9 +133,8 @@ class Products extends Component {
                                                     style={{
                                                         width: 290,
                                                         height: 250
-                                                        // padding: "5%"
                                                     }}
-                                                />
+                                                />}
                                             {/* </a> */}
                                             </NavLink>
                                         </div>
@@ -234,18 +213,18 @@ class Products extends Component {
                                                         color: "white"
                                                     }}
                                                     onClick={() =>
-                                                        this.handleFollow(
+                                                        this.handleList(
                                                             element.id
                                                         )
                                                     }
                                                 >
-                                                    {this.checkFollow(element.id) ? "Removes":"Add to list"}
-                                                    {/* {this.checkFollow(
+                                                    {/* {this.checkList(element.id) ? "Remove": "Add to list"} */}
+                                                    {this.checkList(
                                                         element.id
                                                     ) && "Add to List"}
-                                                    {!this.checkFollow(
+                                                    {!this.checkList(
                                                         element.id
-                                                    ) && "Remove from List"} */}
+                                                    ) && "Remove from List"}
                                                 </Button>
                                             </div>
                                         }

@@ -2,12 +2,8 @@ import React, { Component } from "react";
 import {
     Row,
     Col,
-    Card,
-    Button,
     Carousel,
-    List,
     Tabs,
-    Icon,
     Skeleton
 } from "antd";
 import Products from "./LimitedProducts";
@@ -33,11 +29,10 @@ class HomeComponents extends Component {
         this.getStores();
         this.getallPosts();
     }
-    getProducts() {
+    getProducts=()=> {
         Axios.get("https://api.pulsespace.com/products").then(res => {
-            const products = res.data;
-            console.log("products data is", products);
-            this.setState({ products: products });
+            console.log("products data is", res.data);
+            this.setState({ products: res.data });
         });
     }
     goSearch = () => {
@@ -118,7 +113,7 @@ class HomeComponents extends Component {
                         <TabPane tab="Browse" key="1">
                             <Row>
                                 <Col lg={16} offset={4}>
-                                    {/* {this.state.shops && (
+                                    {this.state.shops && (
                                         <Stores
                                             shops={this.state.shops}
                                             title="Explore Stores"
@@ -126,13 +121,14 @@ class HomeComponents extends Component {
                                             getShops={this.getStores}
                                         />
                                     )}
-                                    {!this.state.shops && <Skeleton />} */}
+                                    {!this.state.shops && <Skeleton />}
 
                                     {!this.state.products && <Skeleton />}
                                     {this.state.products && (
                                         <Products
                                             products={this.state.products}
                                             title="Explore Products"
+                                            getProducts={this.getProducts}
                                             size={8}
                                             all={true}
                                         />
@@ -155,9 +151,6 @@ class HomeComponents extends Component {
                         </TabPane>
                     </Tabs>
                 </Col>
-                <br/>
-                <br/>
-                <br/>
                 
             </div>
         );

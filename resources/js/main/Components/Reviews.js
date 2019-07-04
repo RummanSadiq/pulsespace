@@ -2,16 +2,15 @@ import React, { Component } from "react";
 import {
     Col,
     Card,
-    Row,
     Carousel,
     Button,
-    Layout,
     List,
     Avatar,
     Rate,
     Modal,
     Icon,
-    message
+    message,
+    
 } from "antd";
 import axios from "axios";
 import AddReviewForm from "./ReviewForm";
@@ -61,11 +60,11 @@ class Reviews extends Component {
     };
 
     report = id => {
-        // axios.post("https://api.pulsespace.com/reports/reviews"+id).then(res => {
-        //     const user = res.data;
-        //     console.log("calling from inside Reviews.js Logged in user is", user);
-        //     this.setState({ user: res.data });
-        // });
+        axios.post("https://api.pulsespace.com/reports/reviews/"+id).then(res => {
+            const user = res.data;
+            console.log("calling from inside Reviews.js Logged in user is", user);
+            this.setState({ user: res.data });
+        });
         console.log("Reporting review", id);
     };
     render() {

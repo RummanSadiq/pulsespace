@@ -93,23 +93,10 @@ class Head extends Component {
                     this.setState({ logged: user }, () => {
                         if (this.state.logged.id) {
                             //function call to get notifications
-                            var notify = [
-                                {
-                                    title: "Title of notification",
-                                    message:
-                                        "You have received a particular type of notiification that will be showed up here",
-                                    link: "/product/2",
-                                    read: true
-                                },
-                                {
-                                    title: "Title of notification",
-                                    message:
-                                        "You have received a particular type of notiification that will be showed up here",
-                                    link: "/product/2",
-                                    read: false
-                                }
-                            ];
-                            this.setState({ notifications: notify });
+                           axios.get('https://api.pulsespace.com/notifications/user').then(res=>{
+                               console.log('notifications received are', res.data);
+                               this.setState({notifications:res.data});
+                           });
                         }
                     });
                 }
@@ -170,6 +157,12 @@ class Head extends Component {
             <List
                 itemLayout="horizontal"
                 dataSource={this.state.notifications}
+                pagination={{
+                    onChange: page => {
+                        console.log(page);
+                    },
+                    pageSize:4 
+                }}
                 renderItem={item => (
                     <List.Item>
                         {item.read && (
@@ -180,14 +173,14 @@ class Head extends Component {
                                         <span>
                                             <Icon type="bell" />
                                         </span>{" "}
-                                        {item.title}
+                                        {item.parent_type}
                                     </div>
                                 }
                                 style={{ backgroundColor: "#E0D7D7" }}
                             >
-                                <a href={item.link}>
+                                <a href={item.url}>
                                     <List.Item.Meta
-                                        description={item.message}
+                                        description={item.description}
                                     />
                                 </a>
                             </Card>
@@ -200,16 +193,16 @@ class Head extends Component {
                                         <span>
                                             <Icon type="bell" />
                                         </span>{" "}
-                                        {item.title}
+                                        {item.parent_type}
                                     </div>
                                 }
                                 // style={{backgroundColor:'green'}}
                             >
-                                <a href={item.link}>
+                                <a href={item.url}>
                                     <List.Item.Meta
                                         // avatar={<Icon type="bell" />}
                                         // title={item.title}
-                                        description={item.message}
+                                        description={item.description}
                                     />
                                 </a>
                             </Card>

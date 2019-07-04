@@ -62,7 +62,6 @@ class Chat extends Component {
 
     componentDidMount() {
         this.getConversations();
-        
     }
 
     getConversations() {
@@ -169,7 +168,7 @@ class Chat extends Component {
                 md={{ offset: 6, span: 18 }}
                 lg={{ offset: 6, span: 18 }}
                 xl={{ offset: 3, span: 20 }}
-                style={{ marginTop: "2em" }}
+                style={{ marginTop: "2em", marginBottom:20 }}
             >
                 <Header style={{ backgroundColor: "#f5f5f5" }}>
                     <div style={{ textAlign: "center" }}>
