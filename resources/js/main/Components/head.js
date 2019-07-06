@@ -347,12 +347,16 @@ class Head extends Component {
                                     }
                                 /> */}
                         <Col span={6}>
-                            <a href="/mylist">
+                           {this.state.logged ?  <a href="/mylist">
                                 <Icon
                                     type="shopping-cart"
                                     style={{ fontSize: "50px" }}
                                 />
-                            </a>
+                            </a> : <Icon
+                                    type="shopping-cart"
+                                    style={{ fontSize: "50px" , color:'#2a9cf9' }}
+                                    onClick={()=>message.error('you mus tbe logged in to see your list')}
+                                />}
                             {/* </Col>
                             </Row> */}
                         </Col>

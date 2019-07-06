@@ -15,12 +15,10 @@ import {
 import axios from 'axios';
 import { NavLink, Route, Redirect } from "react-router-dom";
 const { Meta } = Card;
-class Products extends Component {
+class ShoppingList extends Component {
     constructor(props) {
         super(props);
-        this.state.products = this.props.products;
-        this.state.title = this.props.title;
-        this.state.size = this.props.size;
+      
     }
     state = {
         products: [],
@@ -38,7 +36,6 @@ class Products extends Component {
         });
     };
     componentDidMount() {
-        console.log("received props are", this.props.products);
         this.getList();
     }
 
@@ -54,7 +51,6 @@ class Products extends Component {
             .then(res => {
                 // message.success("following store");
                 this.getList();
-                this.props.getProducts();
             })
             .catch(err => {
                 console.log(
@@ -68,24 +64,24 @@ class Products extends Component {
 
     checkList(id) {
 
-        // if (this.state.list.length>0) {
+        if (this.state.list.length>0) {
             console.log("productlist found");
             const result = this.state.list.find(
                 element => element.shop_id === id
             );
+            console.log('Result of find is', result);
             if (result) {
-                console.log('Result of find is', result);
                 console.log("returning true result is", result);
                 return true;
             }else return false;
-        // }
-        // else return false;
+        }
+        else return false;
     }
     render() {
         return (
             <div>
                 <Card
-                    title={<h2>{this.state.title}</h2>}
+                    title={<h2>List</h2>}
                     // extra={
                     //     <div>
                     //         {this.props.all && <Button icon="plus">All</Button>}
@@ -109,9 +105,9 @@ class Products extends Component {
                             onChange: page => {
                                 console.log(page);
                             },
-                            pageSize: this.state.size
+                            pageSize:10
                         }}
-                        dataSource={this.state.products}
+                        dataSource={this.state.list}
                         renderItem={element => (
                             <List.Item>
                                 <Card
@@ -122,7 +118,7 @@ class Products extends Component {
                                                 to={"/product/" + element.id}
                                             >
                                             {/* <a href={"product/" + element.id}> */}
-                                                {element.attachments.length>0 &&
+                                                {element.attachments &&
                                                 <img
                                                     alt="example"
                                                     src={
@@ -218,7 +214,7 @@ class Products extends Component {
                                                         )
                                                     }
                                                 >
-                                                    {this.checkList(element.id) ? "Remove": "Add to List"}
+                                                    {this.checkList(element.id) ? "Remove": "Add to list"}
                                                     {/* {this.checkList(
                                                         element.id
                                                     ) && "Remove from List"}
@@ -239,4 +235,4 @@ class Products extends Component {
     }
 }
 
-export default Products;
+export default ShoppingList;

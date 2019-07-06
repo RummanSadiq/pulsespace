@@ -4,6 +4,7 @@ import Chat from "./Chat";
 import Stores from "./LimitedStores";
 import Products from "./LimitedProducts";
 import Reviews from './Reviews';
+import ShoppingList from './ShoppingList';
 import axios from 'axios';
 const { TabPane } = Tabs;
 
@@ -22,14 +23,14 @@ class Profile extends Component {
     }
 
     getProducts(){
-        axios.get("https://api.pulsespace.com/shoppinglist").then(res => {
-            const listData = res.data;
-            console.log("shoppinglist data is", listData);
-            // if (res.data.length>0){
-                this.setState({ list: listData });
-            // }
+        // axios.get("https://api.pulsespace.com/shoppinglist").then(res => {
+        //     const listData = res.data;
+        //     console.log("shoppinglist data is", listData);
+        //     // if (res.data.length>0){
+        //         this.setState({ list: listData });
+        //     // }
             
-        });
+        // });
     }
 
     getStores() {
@@ -98,12 +99,7 @@ class Profile extends Component {
                         <Row>
                             <Col lg={16} offset={4}>
                             {this.state.list && (
-                                   <Products
-                                   products={this.state.products}
-                                   title="Shopping List"
-                                   size={8}
-                                   all={false}
-                               />
+                                  <ShoppingList/>
                                 )}
                                 {!this.state.list && <Skeleton />}
                             </Col>

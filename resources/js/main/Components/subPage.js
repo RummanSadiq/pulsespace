@@ -7,9 +7,9 @@ import Profile from "./Profile";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import ProductDetails from "./ProductDetails";
 // import MyList from "./myList";
+import ShoppingList from './ShoppingList';
 import HomeComponents from "./HomeComponents";
-import Login from "./Login";
-import SignUp from "./SignUp";
+
 
 class SubPage extends Component {
     state = {};
@@ -40,7 +40,7 @@ class SubPage extends Component {
 
 
                     <Route exact path="/categories" component={Categories} />
-                    {/* <Route exact path="/mylist" component={MyList} /> */}
+                    <Route exact path="/mylist" component={ShoppingList} />
                     <Route exact path="/profile" component={Profile} />
                     {/* <Route exact path="/signin" component={Login} />
                     <Route exact path="/up" component={SignUp} /> */}

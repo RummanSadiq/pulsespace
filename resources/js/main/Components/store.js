@@ -107,7 +107,7 @@ class Store extends Component {
                         </Col>
                     </Row>
                 )}
-                +{!this.state.store && <Skeleton />}
+                {!this.state.store && <Skeleton />}
                 {this.state.store && <StoreInfo store={this.state.store} />}
                 <Tabs
                     defaultActiveKey="1"

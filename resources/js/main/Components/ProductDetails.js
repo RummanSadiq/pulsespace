@@ -110,8 +110,7 @@ class ProductDetails extends Component {
                                 <div>
                                     <h4>
                                         {this.state.product ?  this.state.product.shop.delivery > 0
-                                            ? "Store Provides delivery"
-                                            : "Store Does not provide delivery": "Delivery"}
+                                            ? "Store Provides delivery" : "Store Does not provide delivery": "Delivery"}
                                         {/* {this.state.product.shop.delivery > 0
                                             ? "Store Provides delivery"
                                             : "Store Does not provide delivery"} */}
@@ -130,8 +129,8 @@ class ProductDetails extends Component {
                     <TabPane tab="Reviews" key="1">
                         <Row>
                             <Col lg={16} offset={4}>
-                                {!this.state.Reviews && !this.state.products && <Skeleton active />}
-                                {this.state.Reviews && this.state.products && (
+                                {!this.state.Reviews && !this.state.product && <Skeleton active />}
+                                {this.state.Reviews && this.state.product && (
                                     <Reviews
                                         title="Product Reviews"
                                         size={3}
@@ -141,7 +140,7 @@ class ProductDetails extends Component {
                                         // lift={this.getReviews}
                                         user_id={this.state.product.shop.user_id}
                                     />
-                                )}
+                                 )} 
                             </Col>
                         </Row>
                     </TabPane>

@@ -37,6 +37,8 @@ class Reviews extends Component {
             );
             this.setState({ user: res.data });
         });
+
+        console.log('Inside Reviews componentDidMount');
     }
     showModal = () => {
         console.log(
