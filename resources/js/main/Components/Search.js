@@ -18,24 +18,30 @@ class SearchComponent extends Component {
         this.getProducts();
         // this.getStores();
     }
-    getLocation =()=> {
-        const location = window.navigator && window.navigator.geolocation
-        
+    getLocation = () => {
+        const location = window.navigator && window.navigator.geolocation;
+
         if (location) {
-          location.getCurrentPosition((position) => {
-              console.log('Latitude is'+position.coords.latitude+'Longitude is'+position.coords.longitude);
-            this.setState({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            })
-          }, (error) => {
-            // this.setState({ latitude: 'err-latitude', longitude: 'err-longitude' })
-            console.log('Error getting lat long inside search', error);
-          })
+            location.getCurrentPosition(
+                position => {
+                    console.log(
+                        "Lati tude is" +
+                            position.coords.latitude +
+                            "Longitude is" +
+                            position.coords.longitude
+                    );
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    });
+                },
+                error => {
+                    // this.setState({ latitude: 'err-latitude', longitude: 'err-longitude' })
+                    console.log("Error getting lat long inside search", error);
+                }
+            );
         }
-    
-      }
-    
+    };
 
     getProducts = input => {
         var search = {
