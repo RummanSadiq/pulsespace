@@ -25,7 +25,10 @@ const cardStyle = `
 
 class Shop extends Component {
     state = {
-        store: {},
+        store: {
+            shop_type: {},
+            address: {}
+        },
         edit: false,
         show: false
     };
@@ -37,6 +40,7 @@ class Shop extends Component {
             this.setState({ store: storedata }, () => {});
 
             if (storedata.address.latitude == null) {
+                console.log("getting coordinates");
                 this.getLocation();
             }
         });
