@@ -275,7 +275,7 @@ class ShopForm extends React.Component {
                     </Form.Item>
                     <Form.Item label="Address:">
                         {getFieldDecorator("address", {
-                            initialValue: this.state.store.address,
+                            initialValue: this.state.store.address.place,
 
                             rules: [
                                 { required: true, message: "Store address" }

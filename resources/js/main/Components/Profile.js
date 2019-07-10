@@ -13,7 +13,7 @@ class Profile extends Component {
     componentDidMount(){
         axios.get("https://api.pulsespace.com/user").then(res=>{
 
-        console.log('User foudn is', res.data);
+        console.log('User found is', res.data);
         this.setState({user:res.data});
         });
 
@@ -23,14 +23,14 @@ class Profile extends Component {
     }
 
     getProducts(){
-        // axios.get("https://api.pulsespace.com/shoppinglist").then(res => {
-        //     const listData = res.data;
-        //     console.log("shoppinglist data is", listData);
-        //     // if (res.data.length>0){
-        //         this.setState({ list: listData });
-        //     // }
+        axios.get("https://api.pulsespace.com/shoppinglist").then(res => {
+            const listData = res.data;
+            console.log("shoppinglist data is", listData);
+            // if (res.data.length>0){
+                this.setState({ list: listData });
+            // }
             
-        // });
+        });
     }
 
     getStores() {
@@ -117,13 +117,6 @@ class Profile extends Component {
                                />
                                 )}
                                 {!this.state.list && <Skeleton />}
-                            </Col>
-                        </Row>
-                    </TabPane>
-                    <TabPane tab="Messages" key="4">
-                        <Row>
-                            <Col lg={16} offset={4}>
-                                <Chat />
                             </Col>
                         </Row>
                     </TabPane>

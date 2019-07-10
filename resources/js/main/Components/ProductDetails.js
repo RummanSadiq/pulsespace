@@ -7,7 +7,7 @@ import Axios from "axios";
 const { TabPane } = Tabs;
 class ProductDetails extends Component {
     state = {
-        // product: {}
+        // products: {}
     };
     componentDidMount() {
         Axios.get("https://api.pulsespace.com/products/" + this.props.match.params.id).then(res => {
@@ -16,8 +16,15 @@ class ProductDetails extends Component {
             this.setState({ product: product });
         });
         this.getReviews();
+        this.getProducts();
     }
 
+    getProducts=()=> {
+        Axios.get("https://api.pulsespace.com/products").then(res => {
+            console.log("products data is", res.data);
+            this.setState({ products: res.data });
+        });
+    }
     getReviews(){
         Axios.get("https://api.pulsespace.com/reviews/products/" + this.props.match.params.id).then(res => {
             const product = res.data;

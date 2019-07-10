@@ -351,7 +351,7 @@ class Head extends Component {
                     </Modal>
 
                     <Drawer
-          title="Basic Drawer"
+          title="Notifications"
           placement="right"
           closable={true}
           onClose={this.onCloseDrawer}

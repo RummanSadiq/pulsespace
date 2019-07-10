@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Icon, Button, Rate, Carousel, Modal,Input } from "antd";
+import { Row, Col, Icon, Button, Rate, Carousel, Modal, Input, Divider } from "antd";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 
@@ -16,28 +16,27 @@ class StoreInfo extends Component {
     };
     showModal = () => {
         this.setState({
-          visible: true,
+            visible: true
         });
-      };
-      handleOk = e => {
+    };
+    handleOk = e => {
         console.log(e);
-        console.log('Sending your message', this.state.message);
+        console.log("Sending your message", this.state.message);
         this.setState({
-          visible: false,
+            visible: false
         });
-      };
-    
-      handleCancel = e => {
+    };
+
+    handleCancel = e => {
         console.log(e);
         this.setState({
-          visible: false,
+            visible: false
         });
-      };
+    };
 
-      messageChange= (event)=>{
-          this.setState({message:event.target.value});
-
-      }
+    messageChange = event => {
+        this.setState({ message: event.target.value });
+    };
     componentDidMount() {
         this.getFollowed();
     }
@@ -89,7 +88,7 @@ class StoreInfo extends Component {
         return (
             <Row style={{ marginTop: "3%" }}>
                 <Col>
-                    <div>
+                    <Col span={12} offset={8}>
                         {this.state.f && (
                             <Button
                                 icon="check"
@@ -121,23 +120,19 @@ class StoreInfo extends Component {
                             >
                                 Follow
                             </Button>
-                        )}
-
-                        
-                            {" "}
-                            <Button
-                                icon="message"
-                                size="large"
-                                shape="round"
-                                style={{
-                                    backgroundColor: "#F57224",
-                                    color: "white"
-                                }}
-                                onClick={this.showModal}
-                            >
-                                Message
-                            </Button>
-
+                        )}{" "}
+                        <Button
+                            icon="message"
+                            size="large"
+                            shape="round"
+                            style={{
+                                backgroundColor: "#F57224",
+                                color: "white"
+                            }}
+                            onClick={this.showModal}
+                        >
+                            Message
+                        </Button>
                         <div>
                             <h4>
                                 Number of Followers:{" "}
@@ -152,7 +147,8 @@ class StoreInfo extends Component {
                                 />
                             </span>
                         </div>
-                    </div>
+                    </Col>
+                    <Divider/>
                     <div style={{ textAlign: "center" }}>
                         <h1>{this.props.store.name}</h1>
                     </div>
@@ -303,14 +299,16 @@ class StoreInfo extends Component {
                     </Row>
                 </Col>
                 <Modal
-          title="Basic Modal"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-        >
-              <TextArea placeholder="Enter your message" onChange={this.messageChange} />
-
-        </Modal>
+                    title="Basic Modal"
+                    visible={this.state.visible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                >
+                    <TextArea
+                        placeholder="Enter your message"
+                        onChange={this.messageChange}
+                    />
+                </Modal>
             </Row>
         );
     }
