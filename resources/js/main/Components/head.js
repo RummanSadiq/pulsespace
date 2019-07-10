@@ -11,7 +11,8 @@ import {
     Dropdown,
     Divider,
     Badge,
-    Modal
+    Modal,
+    Drawer
 } from "antd";
 import {
     BrowserRouter,
@@ -58,6 +59,8 @@ axios.defaults.headers = {
     Authorization: "Bearer " + cookies.get("access_token")
 };
 
+
+
 class Head extends Component {
     constructor(props) {
         super(props);
@@ -70,13 +73,24 @@ class Head extends Component {
         notifications: [],
         unread: true,
         visible: false,
-        visibleLogin: false
+        visibleLogin: false,
+        Drawervisible: false
     };
 
     componentDidMount() {
         this.handleLogin();
     }
-
+    showDrawer = () => {
+        this.setState({
+          Drawervisible: true,
+        });
+      };
+    
+      onCloseDrawer = () => {
+        this.setState({
+          Drawervisible: false,
+        });
+      };
     handleLogin = () => {
         console.log("login");
 
@@ -93,10 +107,17 @@ class Head extends Component {
                     this.setState({ logged: user }, () => {
                         if (this.state.logged.id) {
                             //function call to get notifications
-                           axios.get('https://api.pulsespace.com/notifications/user').then(res=>{
-                               console.log('notifications received are', res.data);
-                               this.setState({notifications:res.data});
-                           });
+                            axios
+                                .get(
+                                    "https://api.pulsespace.com/notifications/user"
+                                )
+                                .then(res => {
+                                    console.log(
+                                        "notifications received are",
+                                        res.data
+                                    );
+                                    this.setState({ notifications: res.data });
+                                });
                         }
                     });
                 }
@@ -153,64 +174,7 @@ class Head extends Component {
     };
 
     render() {
-        var menu = (
-            <List
-                itemLayout="horizontal"
-                dataSource={this.state.notifications}
-                pagination={{
-                    onChange: page => {
-                        console.log(page);
-                    },
-                    pageSize:4 
-                }}
-                renderItem={item => (
-                    <List.Item>
-                        {item.read && (
-                            <Card
-                                hoverable
-                                title={
-                                    <div>
-                                        <span>
-                                            <Icon type="bell" />
-                                        </span>{" "}
-                                        {item.parent_type}
-                                    </div>
-                                }
-                                style={{ backgroundColor: "#E0D7D7" }}
-                            >
-                                <a href={item.url}>
-                                    <List.Item.Meta
-                                        description={item.description}
-                                    />
-                                </a>
-                            </Card>
-                        )}
-                        {!item.read && (
-                            <Card
-                                hoverable
-                                title={
-                                    <div>
-                                        <span>
-                                            <Icon type="bell" />
-                                        </span>{" "}
-                                        {item.parent_type}
-                                    </div>
-                                }
-                                // style={{backgroundColor:'green'}}
-                            >
-                                <a href={item.url}>
-                                    <List.Item.Meta
-                                        // avatar={<Icon type="bell" />}
-                                        // title={item.title}
-                                        description={item.description}
-                                    />
-                                </a>
-                            </Card>
-                        )}
-                    </List.Item>
-                )}
-            />
-        );
+       
 
         return (
             <BrowserRouter style={{ backgroundColor: "white" }}>
@@ -221,7 +185,6 @@ class Head extends Component {
                             mode="horizontal"
                             style={{
                                 lineHeight: "50px",
-                                // marginLeft: "70%",
                                 backgroundColor: "#F5F5F5"
                             }}
                         >
@@ -249,7 +212,6 @@ class Head extends Component {
                             {!this.state.logged.id && (
                                 <Menu.Item key="4">
                                     <a
-                                        // href="/login"
                                         onClick={this.showModalLogin}
                                     >
                                         Login
@@ -264,7 +226,6 @@ class Head extends Component {
                             {!this.state.logged.id && (
                                 <Menu.Item key="6">
                                     <a
-                                        // href="/register"
                                         onClick={this.showModal}
                                     >
                                         Signup
@@ -272,11 +233,11 @@ class Head extends Component {
                                 </Menu.Item>
                             )}
                             {this.state.logged.id && (
-                                <Menu.Item key="7">
-                                    <Dropdown overlay={menu}>
+                                <Menu.Item key="7" onClick={this.showDrawer}>
+                                    {/* <Dropdown overlay={menu}> */}
                                         <div>
                                             {this.state.unread && (
-                                                <Badge count={1}>
+                                                <Badge dot>
                                                     <Icon type="bell" />
                                                 </Badge>
                                             )}
@@ -284,20 +245,12 @@ class Head extends Component {
                                                 <Icon type="bell" />
                                             )}
                                         </div>
-                                    </Dropdown>
+                                    {/* </Dropdown> */}
                                 </Menu.Item>
                             )}
                         </Menu>
                     </div>
                     <Row style={{ backgroundColor: "white" }}>
-                        {/* <Col offset={4}>
-                            <Row
-                            // style={{
-                            //     paddingRight: "50px",
-                            //     padding: "1%",
-                            //     position: "relative"
-                            // }}
-                            > */}
                         <Col span={4} offset={2}>
                             <a href="/">
                                 <img
@@ -324,41 +277,29 @@ class Head extends Component {
                                 onSearch={value => console.log(value)}
                             />
                         </Col>
-
-                        {/* <Input
-                                    onChange={this.handleSearch}
-                                    size="large"
-                                    style={{ width: "50%" }}
-                                    addonAfter={
-                                        <a
-                                            href={"/search/" + this.state.value}
-                                            style={{ color: "white" }}
-                                        >
-                                            {" "}
-                                            <Button
-                                                type="primary"
-                                                size="large"
-                                                icon="search"
-                                                rounded="true"
-                                            >
-                                                Search
-                                            </Button>
-                                        </a>
-                                    }
-                                /> */}
                         <Col span={6}>
-                           {this.state.logged ?  <a href="/mylist">
+                            {this.state.logged ? (
+                                <a href="/mylist">
+                                    <Icon
+                                        type="shopping-cart"
+                                        style={{ fontSize: "50px" }}
+                                    />
+                                </a>
+                            ) : (
                                 <Icon
                                     type="shopping-cart"
-                                    style={{ fontSize: "50px" }}
+                                    style={{
+                                        fontSize: "50px",
+                                        color: "#2a9cf9"
+                                    }}
+                                    onClick={() =>
+                                        message.error(
+                                            "you mus tbe logged in to see your list"
+                                        )
+                                    }
                                 />
-                            </a> : <Icon
-                                    type="shopping-cart"
-                                    style={{ fontSize: "50px" , color:'#2a9cf9' }}
-                                    onClick={()=>message.error('you mus tbe logged in to see your list')}
-                                />}
-                            {/* </Col>
-                            </Row> */}
+                            )}
+                           
                         </Col>
                     </Row>{" "}
                     <div
@@ -391,8 +332,7 @@ class Head extends Component {
                     <Modal
                         title="Create an account"
                         visible={this.state.visible}
-                        // handleOk={this.handleRegister}
-                        // footer={null}
+                       
                         okButtonProps={{ disabled: true }}
                         onCancel={this.handleSignOk}
                         closable={true}
@@ -403,13 +343,54 @@ class Head extends Component {
                     <Modal
                         title="Login"
                         visible={this.state.visibleLogin}
-                        // handleOk={this.handleLogin}
                         footer={null}
                         onCancel={this.handleOk}
                         maskClosable={true}
                     >
                         <Login_Form done={this.handleOk} />
                     </Modal>
+
+                    <Drawer
+          title="Basic Drawer"
+          placement="right"
+          closable={true}
+          onClose={this.onCloseDrawer}
+          visible={this.state.Drawervisible}
+        >
+           <List
+                itemLayout="horizontal"
+                dataSource={this.state.notifications}
+                pagination={{
+                    onChange: page => {
+                        console.log(page);
+                    },
+                    pageSize: 3
+                }}
+                renderItem={item => (
+                    <div>
+                        <Card
+                            hoverable
+                            title={
+                                <div>
+                                    {/* <span>
+                                        <Icon type="bell" />
+                                    </span> */}
+                                    <span>
+                                      <h2>{item.parent_type}</h2>  
+                                    </span>
+                                    
+                                    
+                                </div>
+                            }
+                        >
+                            <a href={item.url}>
+                                    <h3>{item.description}</h3>   
+                            </a>
+                        </Card>
+                    </div>
+                )}
+            />
+        </Drawer>
                 </div>
             </BrowserRouter>
         );

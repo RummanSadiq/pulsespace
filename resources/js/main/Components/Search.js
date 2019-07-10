@@ -50,6 +50,11 @@ class SearchComponent extends Component {
         }
         if (input === "Low") {
             search.low_price = "Low";
+            Axios.get("https://api.pulsespace.com/search/",this.state.value,"/sort/price_low").then(res => {
+            const products = res.data;
+            console.log("low priced products are", products);
+            this.setState({ products: products });
+        }); 
         }
 
         console.log("Search is", search);
