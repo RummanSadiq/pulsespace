@@ -11,11 +11,13 @@ class SearchComponent extends Component {
     }
 
     componentDidMount() {
-        Axios.get("https://api.pulsespace.com/search/",this.state.value).then(res => {
-            const products = res.data;
-            console.log(" search products data is", products);
-            this.setState({ products: products });
-        });
+        Axios.get("https://api.pulsespace.com/search/" + this.state.value).then(
+            res => {
+                const products = res.data;
+                console.log(" search products data is", products);
+                this.setState({ products: products });
+            }
+        );
     }
     getLocation = () => {
         const location = window.navigator && window.navigator.geolocation;
@@ -52,19 +54,41 @@ class SearchComponent extends Component {
 
         if (input === "High") {
             search.high_price = "High";
-            Axios.get("https://api.pulsespace.com/search/",this.state.value,"/sort/price_high").then(res => {
+            Axios.get(
+                "https://api.pulsespace.com/search/" +
+                    this.state.value +
+                    "/sort/price_high"
+            ).then(res => {
+                const products = res.data;
+                console.log("high priced products are", products);
+            });
+        } else if (input === "Low") {
+            search.low_price = "Low";
+            Axios.get(
+                "https://api.pulsespace.com/search/" +
+                    this.state.value +
+                    "/sort/price_low"
+            ).then(res => {
                 const products = res.data;
                 console.log("low priced products are", products);
                 this.setState({ products: products });
-            }); 
-        }
-        if (input === "Low") {
-            search.low_price = "Low";
-            Axios.get("https://api.pulsespace.com/search/",this.state.value,"/sort/price_low").then(res => {
-            const products = res.data;
-            console.log("low priced products are", products);
-            this.setState({ products: products });
-        }); 
+            });
+        } else if (input === "Location") {
+            if (this.state.latitude) {
+                Axios.post(
+                    "https://api.pulsespace.com/search/" +
+                        this.state.value +
+                        "/sort/nearby",
+                    {
+                        latitude: this.state.latitude,
+                        longitude: this.state.longitude
+                    }
+                ).then(res => {
+                    const products = res.data;
+                    console.log("nearby products are", products);
+                    this.setState({ products: products });
+                });
+            }
         }
     };
     getStores() {
@@ -108,7 +132,7 @@ class SearchComponent extends Component {
                                                             Location
                                                         </Menu.Item>
                                                     )}
-                                                    <Menu.Item
+                                                    {/* <Menu.Item
                                                         key="2"
                                                         onClick={() => {
                                                             this.getProducts(
@@ -118,7 +142,7 @@ class SearchComponent extends Component {
                                                     >
                                                         <Icon type="arrow-up" />
                                                         Trending
-                                                    </Menu.Item>
+                                                    </Menu.Item> */}
                                                     <Menu.Item
                                                         key="3"
                                                         onClick={() => {
