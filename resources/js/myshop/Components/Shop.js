@@ -1,15 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
-import {
-    Col,
-    Card,
-    Row,
-    Button,
-    Carousel,
-    Statistic,
-    Icon,
-    Modal
-} from "antd";
+import { Col, Card, Row, Button, Carousel, Statistic, Icon, Modal } from "antd";
 import axios from "axios";
 import SHForm from "./ShopForm";
 // import '../Myshop.css';
@@ -34,7 +25,10 @@ const cardStyle = `
 
 class Shop extends Component {
     state = {
-        store: {},
+        store: {
+            shop_type: {},
+            address: {}
+        },
         edit: false,
         show: false
     };
@@ -44,8 +38,43 @@ class Shop extends Component {
             const storedata = res.data;
             console.log("SHOP.JS", storedata);
             this.setState({ store: storedata }, () => {});
+
+            if (storedata.address.latitude == null) {
+                console.log("getting coordinates");
+                this.getLocation();
+            }
         });
     }
+
+    getLocation = () => {
+        const location = window.navigator && window.navigator.geolocation;
+
+        if (location) {
+            location.getCurrentPosition(
+                position => {
+                    console.log(
+                        "Lati tude is" +
+                            position.coords.latitude +
+                            "Longitude is" +
+                            position.coords.longitude
+                    );
+
+                    axios
+                        .post("https://api.pulsespace.com/add/location", {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        })
+                        .then(res => {
+                            console.log("Coordinates Updated!");
+                        });
+                },
+                error => {
+                    // this.setState({ latitude: 'err-latitude', longitude: 'err-longitude' })
+                    console.log("Error getting lat long inside search", error);
+                }
+            );
+        }
+    };
 
     handleCancel = () => {
         this.setState({ show: false });
@@ -137,7 +166,7 @@ class Shop extends Component {
                             <Row style={{ marginTop: "2em" }}>
                                 <Col span={12} className="infoColumns">
                                     <span>Shop Type: </span>
-                                    {this.state.store.shop_type}
+                                    {this.state.store.shop_type.name}
                                 </Col>
 
                                 <Col span={12} className="infoColumns">
@@ -150,7 +179,7 @@ class Shop extends Component {
                             <Row>
                                 <Col span={12} className="infoColumns">
                                     <span>Store Address: </span>
-                                    {this.state.store.address}
+                                    {this.state.store.address.place}
                                 </Col>
                                 <Col span={12} className="infoColumns">
                                     {" "}

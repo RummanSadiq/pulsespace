@@ -11,31 +11,36 @@ class SearchComponent extends Component {
     }
 
     componentDidMount() {
-        console.log(
-            "Lets see if props got here for search value",
-            this.props.match.params.value
-        );
-        this.getProducts();
-        // this.getStores();
+        Axios.get("https://api.pulsespace.com/search/",this.state.value).then(res => {
+            const products = res.data;
+            console.log(" search products data is", products);
+            this.setState({ products: products });
+        });
     }
-    getLocation =()=> {
-        const location = window.navigator && window.navigator.geolocation
-        
+    getLocation = () => {
+        const location = window.navigator && window.navigator.geolocation;
+
         if (location) {
-          location.getCurrentPosition((position) => {
-              console.log('Latitude is'+position.coords.latitude+'Longitude is'+position.coords.longitude);
-            this.setState({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            })
-          }, (error) => {
-            // this.setState({ latitude: 'err-latitude', longitude: 'err-longitude' })
-            console.log('Error getting lat long inside search', error);
-          })
+            location.getCurrentPosition(
+                position => {
+                    console.log(
+                        "Lati tude is" +
+                            position.coords.latitude +
+                            "Longitude is" +
+                            position.coords.longitude
+                    );
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    });
+                },
+                error => {
+                    // this.setState({ latitude: 'err-latitude', longitude: 'err-longitude' })
+                    console.log("Error getting lat long inside search", error);
+                }
+            );
         }
-    
-      }
-    
+    };
 
     getProducts = input => {
         var search = {
@@ -47,6 +52,11 @@ class SearchComponent extends Component {
 
         if (input === "High") {
             search.high_price = "High";
+            Axios.get("https://api.pulsespace.com/search/",this.state.value,"/sort/price_high").then(res => {
+                const products = res.data;
+                console.log("low priced products are", products);
+                this.setState({ products: products });
+            }); 
         }
         if (input === "Low") {
             search.low_price = "Low";
@@ -56,13 +66,6 @@ class SearchComponent extends Component {
             this.setState({ products: products });
         }); 
         }
-
-        console.log("Search is", search);
-        Axios.get("https://api.pulsespace.com/products").then(res => {
-            const products = res.data;
-            console.log("products data is", products);
-            this.setState({ products: products });
-        });
     };
     getStores() {
         Axios.get("/api/shops").then(res => {
@@ -92,17 +95,19 @@ class SearchComponent extends Component {
                                         <Dropdown
                                             overlay={
                                                 <Menu>
-                                                    <Menu.Item
-                                                        key="1"
-                                                        onClick={() => {
-                                                            this.getProducts(
-                                                                "Location"
-                                                            );
-                                                        }}
-                                                    >
-                                                        <Icon type="pushpin" />
-                                                        Location
-                                                    </Menu.Item>
+                                                    {this.state.latitude && (
+                                                        <Menu.Item
+                                                            key="1"
+                                                            onClick={() => {
+                                                                this.getProducts(
+                                                                    "Location"
+                                                                );
+                                                            }}
+                                                        >
+                                                            <Icon type="pushpin" />
+                                                            Location
+                                                        </Menu.Item>
+                                                    )}
                                                     <Menu.Item
                                                         key="2"
                                                         onClick={() => {
