@@ -93,17 +93,19 @@ class SearchComponent extends Component {
                                         <Dropdown
                                             overlay={
                                                 <Menu>
-                                                    <Menu.Item
-                                                        key="1"
-                                                        onClick={() => {
-                                                            this.getProducts(
-                                                                "Location"
-                                                            );
-                                                        }}
-                                                    >
-                                                        <Icon type="pushpin" />
-                                                        Location
-                                                    </Menu.Item>
+                                                    {this.state.latitude && (
+                                                        <Menu.Item
+                                                            key="1"
+                                                            onClick={() => {
+                                                                this.getProducts(
+                                                                    "Location"
+                                                                );
+                                                            }}
+                                                        >
+                                                            <Icon type="pushpin" />
+                                                            Location
+                                                        </Menu.Item>
+                                                    )}
                                                     <Menu.Item
                                                         key="2"
                                                         onClick={() => {
