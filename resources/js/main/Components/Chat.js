@@ -65,19 +65,20 @@ class Chat extends Component {
     }
 
     getConversations() {
-        axios
-            .get("https://api.pulsespace.com/conversations/customer")
-            .then(res => {
-                this.setState({ conversations: res.data });
+        var api = "https://api.pulsespace.com/conversations/customer";
+        var local_api = "api.spaceapi.test/conversations/customer";
 
-                if (this.state.initial_screen) {
-                    this.getMessages(
-                        this.state.conversations[0].id,
-                        this.state.conversations[0].username
-                    );
-                    this.setState({ initial_screen: false });
-                }
-            });
+        axios.get(api).then(res => {
+            this.setState({ conversations: res.data });
+
+            if (this.state.initial_screen) {
+                this.getMessages(
+                    this.state.conversations[0].id,
+                    this.state.conversations[0].username
+                );
+                this.setState({ initial_screen: false });
+            }
+        });
     }
 
     getMessages(id, username) {
@@ -168,7 +169,7 @@ class Chat extends Component {
                 md={{ offset: 6, span: 18 }}
                 lg={{ offset: 6, span: 18 }}
                 xl={{ offset: 3, span: 20 }}
-                style={{ marginTop: "2em", marginBottom:20 }}
+                style={{ marginTop: "2em", marginBottom: 20 }}
             >
                 <Header style={{ backgroundColor: "#f5f5f5" }}>
                     <div style={{ textAlign: "center" }}>

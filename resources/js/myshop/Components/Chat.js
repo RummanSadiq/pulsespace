@@ -22,6 +22,7 @@ import Pusher from "pusher-js";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
+var today = new Date();
 
 // const options = {
 //     broadcaster: "pusher",
@@ -127,15 +128,47 @@ class Chat extends Component {
     }
 
     handleSubmit(event) {
-        // var today = new Date();
-        // var tdate = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear() ;
-        // var ttime= today.toLocaleTimeString();
+        var date =
+            today.getFullYear() +
+            "-" +
+            (today.getMonth() + 1) +
+            "-" +
+            today.getDate();
+        var time =
+            today.getHours() +
+            ":" +
+            today.getMinutes() +
+            ":" +
+            today.getSeconds();
+        var dateTime = date + " " + time;
 
         if (this.state.newreply != "") {
             var str = {
                 text: this.state.newreply,
                 conversation_id: this.state.conversation_id
             };
+
+            var message = {
+                text: this.state.newreply,
+                sender: "true",
+                created_at: dateTime
+            };
+
+            // this.setState(prevState => ({
+            //     chat: [...prevState.chat, message]
+            // }));
+
+            const newChat = this.state.chat;
+            newChat.push(message);
+            this.setState({ chat: newChat });
+
+            // this.state.chat.push(message);
+            this.myChat.current.scrollTop = this.myChat.current.scrollHeight;
+            // this.setState({ chat: newChat });
+
+            console.log("new chat");
+            console.log(this.state.chat);
+            console.log(message);
 
             axios.post("https://api.pulsespace.com/messages", str).then(res => {
                 //Refresh the messages

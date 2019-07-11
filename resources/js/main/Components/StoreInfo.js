@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Row, Col, Icon, Button, Rate, Carousel, Modal, Input, Divider } from "antd";
+import {
+    Row,
+    Col,
+    Icon,
+    Button,
+    Rate,
+    Carousel,
+    Modal,
+    Input,
+    Divider
+} from "antd";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 
@@ -22,9 +32,21 @@ class StoreInfo extends Component {
     handleOk = e => {
         console.log(e);
         console.log("Sending your message", this.state.message);
-        this.setState({
-            visible: false
-        });
+
+        axios
+            .post("https://api.pulsespace.com/messages/new", {
+                shop_owner_id: this.state.store.user.id,
+                text: this.state.message
+            })
+            .then(res => {
+                console.log(res);
+                this.setState({
+                    visible: false
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
     };
 
     handleCancel = e => {
@@ -148,7 +170,7 @@ class StoreInfo extends Component {
                             </span>
                         </div>
                     </Col>
-                    <Divider/>
+                    <Divider />
                     <div style={{ textAlign: "center" }}>
                         <h1>{this.props.store.name}</h1>
                     </div>
